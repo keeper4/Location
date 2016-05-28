@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ACStartViewController.h
 //  Location
 //
 //  Created by Oleksandr Chyzh on 27/5/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface ACStartViewController : UIViewController
 
 @end
-

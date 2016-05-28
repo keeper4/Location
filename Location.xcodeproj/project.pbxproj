@@ -7,25 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B8721FA406FDBEB52879BEAE /* libPods-Location.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD319E9E92901CB99C8F66 /* libPods-Location.a */; };
 		DEE07C6C1CF8B0EC0021E5C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C6B1CF8B0EC0021E5C1 /* main.m */; };
 		DEE07C6F1CF8B0EC0021E5C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */; };
-		DEE07C721CF8B0EC0021E5C1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C711CF8B0EC0021E5C1 /* ViewController.m */; };
 		DEE07C751CF8B0EC0021E5C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C731CF8B0EC0021E5C1 /* Main.storyboard */; };
 		DEE07C771CF8B0EC0021E5C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */; };
 		DEE07C7A1CF8B0EC0021E5C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C781CF8B0EC0021E5C1 /* LaunchScreen.storyboard */; };
+		DEE07C831CF8BA290021E5C1 /* ACStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C821CF8BA290021E5C1 /* ACStartViewController.m */; };
+		DEE07C861CF8D0660021E5C1 /* ACCoreTelephony.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C851CF8D0660021E5C1 /* ACCoreTelephony.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B63A3BF2F0750C8D17CA1E8 /* Pods-Location.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location.release.xcconfig"; path = "Pods/Target Support Files/Pods-Location/Pods-Location.release.xcconfig"; sourceTree = "<group>"; };
+		518FD85217F6CFDE8186E958 /* Pods-Location.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Location/Pods-Location.debug.xcconfig"; sourceTree = "<group>"; };
 		DEE07C671CF8B0EC0021E5C1 /* Location.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Location.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEE07C6B1CF8B0EC0021E5C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DEE07C6D1CF8B0EC0021E5C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DEE07C701CF8B0EC0021E5C1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		DEE07C711CF8B0EC0021E5C1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		DEE07C741CF8B0EC0021E5C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEE07C791CF8B0EC0021E5C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DEE07C7B1CF8B0EC0021E5C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEE07C811CF8BA290021E5C1 /* ACStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACStartViewController.h; sourceTree = "<group>"; };
+		DEE07C821CF8BA290021E5C1 /* ACStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACStartViewController.m; sourceTree = "<group>"; };
+		DEE07C841CF8D0660021E5C1 /* ACCoreTelephony.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACCoreTelephony.h; sourceTree = "<group>"; };
+		DEE07C851CF8D0660021E5C1 /* ACCoreTelephony.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACCoreTelephony.m; sourceTree = "<group>"; };
+		F3FD319E9E92901CB99C8F66 /* libPods-Location.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Location.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +40,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8721FA406FDBEB52879BEAE /* libPods-Location.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7406399FE145686F79AF3854 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				518FD85217F6CFDE8186E958 /* Pods-Location.debug.xcconfig */,
+				0B63A3BF2F0750C8D17CA1E8 /* Pods-Location.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		DEE07C5E1CF8B0EC0021E5C1 = {
 			isa = PBXGroup;
 			children = (
 				DEE07C691CF8B0EC0021E5C1 /* Location */,
 				DEE07C681CF8B0EC0021E5C1 /* Products */,
+				7406399FE145686F79AF3854 /* Pods */,
+				EF4D20047390C386433A33A1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,8 +79,10 @@
 			children = (
 				DEE07C6D1CF8B0EC0021E5C1 /* AppDelegate.h */,
 				DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */,
-				DEE07C701CF8B0EC0021E5C1 /* ViewController.h */,
-				DEE07C711CF8B0EC0021E5C1 /* ViewController.m */,
+				DEE07C811CF8BA290021E5C1 /* ACStartViewController.h */,
+				DEE07C821CF8BA290021E5C1 /* ACStartViewController.m */,
+				DEE07C841CF8D0660021E5C1 /* ACCoreTelephony.h */,
+				DEE07C851CF8D0660021E5C1 /* ACCoreTelephony.m */,
 				DEE07C731CF8B0EC0021E5C1 /* Main.storyboard */,
 				DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */,
 				DEE07C781CF8B0EC0021E5C1 /* LaunchScreen.storyboard */,
@@ -79,6 +100,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		EF4D20047390C386433A33A1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F3FD319E9E92901CB99C8F66 /* libPods-Location.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -86,9 +115,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DEE07C7E1CF8B0EC0021E5C1 /* Build configuration list for PBXNativeTarget "Location" */;
 			buildPhases = (
+				AF4E3BEF63D64C08AF7E2D22 /* Check Pods Manifest.lock */,
 				DEE07C631CF8B0EC0021E5C1 /* Sources */,
 				DEE07C641CF8B0EC0021E5C1 /* Frameworks */,
 				DEE07C651CF8B0EC0021E5C1 /* Resources */,
+				AFCCF63A742F153AAD3A45BF /* Embed Pods Frameworks */,
+				CD2759964C46FE3BCC6A6E96 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -145,14 +177,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		AF4E3BEF63D64C08AF7E2D22 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		AFCCF63A742F153AAD3A45BF /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Location/Pods-Location-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CD2759964C46FE3BCC6A6E96 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Location/Pods-Location-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		DEE07C631CF8B0EC0021E5C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEE07C721CF8B0EC0021E5C1 /* ViewController.m in Sources */,
 				DEE07C6F1CF8B0EC0021E5C1 /* AppDelegate.m in Sources */,
+				DEE07C831CF8BA290021E5C1 /* ACStartViewController.m in Sources */,
 				DEE07C6C1CF8B0EC0021E5C1 /* main.m in Sources */,
+				DEE07C861CF8D0660021E5C1 /* ACCoreTelephony.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,8 +343,10 @@
 		};
 		DEE07C7F1CF8B0EC0021E5C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 518FD85217F6CFDE8186E958 /* Pods-Location.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Location/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.oleksandrchyzh.Location;
@@ -273,8 +356,10 @@
 		};
 		DEE07C801CF8B0EC0021E5C1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0B63A3BF2F0750C8D17CA1E8 /* Pods-Location.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Location/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.oleksandrchyzh.Location;
@@ -301,6 +386,7 @@
 				DEE07C801CF8B0EC0021E5C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
