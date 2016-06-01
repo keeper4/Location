@@ -7,46 +7,77 @@
 //
 
 #import "ACStartViewController.h"
-#import "ACCoreTelephony.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface ACStartViewController ()
+typedef void(^locationHandler)(CLLocation *location);
 
+@interface ACStartViewController () <CLLocationManagerDelegate>
+
+
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (nonatomic, copy) locationHandler locationUpdatedInForeground;
+@property (nonatomic, copy) locationHandler locationUpdatedInBackground;
+
+@property (strong, nonatomic) CLCircularRegion *region;
 @end
 
 @implementation ACStartViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+//    self.locationManager = [[CLLocationManager alloc] init];
+//    self.locationManager.delegate = self;
+//    self.locationManager.distanceFilter  = kCLDistanceFilterNone;
+//    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    self.locationManager.pausesLocationUpdatesAutomatically = false;
 //    
-//    CTTelephonyNetworkInfo *telephonyInfo = [CTTelephonyNetworkInfo new];
-//    NSString *carrierNetwork = telephonyInfo.currentRadioAccessTechnology;
-//    NSLog(@"Mobile Network): %@", carrierNetwork);
+//    CLLocationCoordinate2D coordinate;
 //    
-//    CTCarrier *carrier = [telephonyInfo subscriberCellularProvider];
+//    coordinate.latitude  = 50.444202;
+//    coordinate.longitude = 30.443606;
 //    
-//    NSString *mobileCountryCode = [carrier mobileCountryCode];
-//    NSLog(@"Mobile Country Code (MCC): %@", mobileCountryCode);
+//    [self.locationManager requestAlwaysAuthorization];
 //    
-//    NSString *mobileNetworkCode = [carrier mobileNetworkCode];
-//    NSLog(@"Mobile Network Code (MNC): %@", mobileNetworkCode);
 //    
-//    CTCall *call = [[CTCall alloc] init];
+//    CLLocationDistance radius = 100.00;
 //    
-//    NSString *callId = [call callID];
-//    NSString *callState = [call callState];
-//    NSLog(@"(callId): %@ , %@", callId, callState);
-    
-    
-    //[[ACCoreTelephony sharedInstance] startMonitoring];
-    //[[ACCoreTelephony sharedInstance] stopMonitoring];
-    
-   // ACCoreTelephony *mobileData = [[ACCoreTelephony alloc] init_true];
-    
-    
-    
-    
-
-   
+//    CLLocationCoordinate2D location2D = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude);
+//    
+//    self.region = [[CLCircularRegion alloc] initWithCenter:location2D
+//                                                    radius:radius
+//                                                identifier:@"theRegion"];
+//    self.region.notifyOnEntry = true;
+//    
+//   // [self.locationManager startMonitoringForRegion:self.region];
+//    
+//    [self.locationManager startMonitoringSignificantLocationChanges];
+//    [self.locationManager startMonitoringForRegion:self.region];
+// 
+//    
 }
+
+- (void)startUpdatingLocation {
+    
+}
+
+- (void)stopUpdatingLocation {
+    
+}
+
+- (void)endBackgroundTask {
+    
+}
+
+
+
+
+
+
+
+
+
+
+
 
 @end

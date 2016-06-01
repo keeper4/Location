@@ -8,18 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		B8721FA406FDBEB52879BEAE /* libPods-Location.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD319E9E92901CB99C8F66 /* libPods-Location.a */; };
+		DECFDFEA1CFEC761006C6F4A /* ACMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DECFDFE91CFEC761006C6F4A /* ACMapController.m */; };
+		DECFDFEC1CFED5EF006C6F4A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECFDFEB1CFED5EF006C6F4A /* MapKit.framework */; };
 		DEE07C6C1CF8B0EC0021E5C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C6B1CF8B0EC0021E5C1 /* main.m */; };
 		DEE07C6F1CF8B0EC0021E5C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */; };
 		DEE07C751CF8B0EC0021E5C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C731CF8B0EC0021E5C1 /* Main.storyboard */; };
 		DEE07C771CF8B0EC0021E5C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */; };
 		DEE07C7A1CF8B0EC0021E5C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C781CF8B0EC0021E5C1 /* LaunchScreen.storyboard */; };
 		DEE07C831CF8BA290021E5C1 /* ACStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C821CF8BA290021E5C1 /* ACStartViewController.m */; };
-		DEE07C861CF8D0660021E5C1 /* ACCoreTelephony.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C851CF8D0660021E5C1 /* ACCoreTelephony.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0B63A3BF2F0750C8D17CA1E8 /* Pods-Location.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location.release.xcconfig"; path = "Pods/Target Support Files/Pods-Location/Pods-Location.release.xcconfig"; sourceTree = "<group>"; };
 		518FD85217F6CFDE8186E958 /* Pods-Location.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Location/Pods-Location.debug.xcconfig"; sourceTree = "<group>"; };
+		DECFDFE81CFEC761006C6F4A /* ACMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACMapController.h; sourceTree = "<group>"; };
+		DECFDFE91CFEC761006C6F4A /* ACMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACMapController.m; sourceTree = "<group>"; };
+		DECFDFEB1CFED5EF006C6F4A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DEE07C671CF8B0EC0021E5C1 /* Location.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Location.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEE07C6B1CF8B0EC0021E5C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DEE07C6D1CF8B0EC0021E5C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -30,8 +34,6 @@
 		DEE07C7B1CF8B0EC0021E5C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DEE07C811CF8BA290021E5C1 /* ACStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACStartViewController.h; sourceTree = "<group>"; };
 		DEE07C821CF8BA290021E5C1 /* ACStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACStartViewController.m; sourceTree = "<group>"; };
-		DEE07C841CF8D0660021E5C1 /* ACCoreTelephony.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACCoreTelephony.h; sourceTree = "<group>"; };
-		DEE07C851CF8D0660021E5C1 /* ACCoreTelephony.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACCoreTelephony.m; sourceTree = "<group>"; };
 		F3FD319E9E92901CB99C8F66 /* libPods-Location.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Location.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -40,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DECFDFEC1CFED5EF006C6F4A /* MapKit.framework in Frameworks */,
 				B8721FA406FDBEB52879BEAE /* libPods-Location.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,8 +84,8 @@
 				DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */,
 				DEE07C811CF8BA290021E5C1 /* ACStartViewController.h */,
 				DEE07C821CF8BA290021E5C1 /* ACStartViewController.m */,
-				DEE07C841CF8D0660021E5C1 /* ACCoreTelephony.h */,
-				DEE07C851CF8D0660021E5C1 /* ACCoreTelephony.m */,
+				DECFDFE81CFEC761006C6F4A /* ACMapController.h */,
+				DECFDFE91CFEC761006C6F4A /* ACMapController.m */,
 				DEE07C731CF8B0EC0021E5C1 /* Main.storyboard */,
 				DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */,
 				DEE07C781CF8B0EC0021E5C1 /* LaunchScreen.storyboard */,
@@ -103,6 +106,7 @@
 		EF4D20047390C386433A33A1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DECFDFEB1CFED5EF006C6F4A /* MapKit.framework */,
 				F3FD319E9E92901CB99C8F66 /* libPods-Location.a */,
 			);
 			name = Frameworks;
@@ -230,10 +234,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DECFDFEA1CFEC761006C6F4A /* ACMapController.m in Sources */,
 				DEE07C6F1CF8B0EC0021E5C1 /* AppDelegate.m in Sources */,
 				DEE07C831CF8BA290021E5C1 /* ACStartViewController.m in Sources */,
 				DEE07C6C1CF8B0EC0021E5C1 /* main.m in Sources */,
-				DEE07C861CF8D0660021E5C1 /* ACCoreTelephony.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +281,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -299,6 +304,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -321,6 +327,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -336,6 +343,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -349,7 +357,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Location/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.oleksandrchyzh.Location;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oleksandrchyzh.myLocation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -362,7 +370,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Location/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.oleksandrchyzh.Location;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oleksandrchyzh.myLocation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
