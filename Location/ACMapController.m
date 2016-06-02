@@ -56,10 +56,8 @@ static NSUInteger filterMetrs = 50;
                                                 name:UIApplicationWillEnterForegroundNotification
                                               object:nil];
     
-  
+    
 }
-
-
 
 #pragma mark - private Methods
 
@@ -67,29 +65,12 @@ static NSUInteger filterMetrs = 50;
     
     [self.locationManager stopUpdatingLocation];
     
-    self.locationManager.distanceFilter  = kCLDistanceFilterNone;
-    
     [self.locationManager startMonitoringSignificantLocationChanges];
-    
-    [[UIApplication sharedApplication]cancelAllLocalNotifications];
-    
-    UILocalNotification *notification = [[UILocalNotification alloc]init];
-    
-    notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-    notification.timeZone = [NSTimeZone defaultTimeZone];
-    
-    notification.soundName = UILocalNotificationDefaultSoundName;
-    notification.alertAction = @"Let's do this";
-    notification.alertBody = @"didEnterRegion!!!";
-    
-    [[UIApplication sharedApplication]scheduleLocalNotification:notification];
 }
 
 - (void)WillEnterForeground {
     
     [self.locationManager stopMonitoringSignificantLocationChanges];
-    
-    self.locationManager.distanceFilter  = filterMetrs;
     
     [self.locationManager startUpdatingLocation];
     
@@ -127,14 +108,15 @@ static NSUInteger filterMetrs = 50;
 }
 
 #pragma mark - CLLocationManagerDelegate
+
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
     
     [self.locationManager stopMonitoringForRegion:self.region];
     [self.locationManager stopUpdatingLocation];
     
-    [[UIApplication sharedApplication]cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
-    UILocalNotification *notification = [[UILocalNotification alloc]init];
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
     
     notification.fireDate = [NSDate date];
     notification.timeZone = [NSTimeZone defaultTimeZone];
@@ -144,8 +126,8 @@ static NSUInteger filterMetrs = 50;
     notification.alertBody = @"didEnterRegion!!!";
     
     [[UIApplication sharedApplication]scheduleLocalNotification:notification];
-    
 }
+
 #pragma mark - Action
 
 - (IBAction)addButton:(UIBarButtonItem *)sender {
@@ -173,7 +155,7 @@ static NSUInteger filterMetrs = 50;
     
     [self.locationManager stopUpdatingLocation];
     [self.locationManager stopMonitoringForRegion:self.region];
-    [self.locationManager stopUpdatingLocation];
+    [self.locationManager stopMonitoringSignificantLocationChanges];
     
     exit(0);
     
