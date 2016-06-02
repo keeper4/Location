@@ -10,11 +10,11 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-@interface ACMapController () <CLLocationManagerDelegate, MKMapViewDelegate>
+@interface ACMapController () <CLLocationManagerDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
-@property (strong, nonatomic) MKPointAnnotation *annotation;
 @property (strong, nonatomic) CLCircularRegion *region;
+@property (strong, nonatomic) UILongPressGestureRecognizer *longPressGesture;
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
@@ -56,7 +56,11 @@ static NSUInteger filterMetrs = 50;
                                                 name:UIApplicationWillEnterForegroundNotification
                                               object:nil];
     
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                       action:@selector(handleLongPress:)];
+    lpgr.delegate = self;
     
+    [self.mapView addGestureRecognizer:lpgr];
 }
 
 #pragma mark - private Methods
@@ -73,31 +77,20 @@ static NSUInteger filterMetrs = 50;
     [self.locationManager stopMonitoringSignificantLocationChanges];
     
     [self.locationManager startUpdatingLocation];
-    
 }
 
-- (void) drawCircularOverlayCuestaCoordinate:(CLLocationCoordinate2D)cuestaCoordinate {
+- (void)drawCircularOverlayCuestaCoordinate:(CLLocationCoordinate2D)cuestaCoordinate {
     
     [self.mapView removeOverlays: [self.mapView overlays]];
     
-    MKCircle* outerCircle = [MKCircle circleWithCenterCoordinate: cuestaCoordinate radius: radius];
+    MKCircle *outerCircle = [MKCircle circleWithCenterCoordinate:cuestaCoordinate radius:radius];
     
     [self.mapView addOverlay: outerCircle];
-    
-    CLLocationCoordinate2D location2D =
-    CLLocationCoordinate2DMake(self.annotation.coordinate.latitude, self.annotation.coordinate.longitude);
-    
-    self.region = [[CLCircularRegion alloc] initWithCenter:location2D
-                                                    radius:radius
-                                                identifier:@"theRegion"];
-    
-    [self.locationManager startMonitoringForRegion:self.region];
 }
 
 #pragma mark - MKMapViewDelegate
 
-- (MKOverlayRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id <MKOverlay>)overlay
-{
+- (MKOverlayRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id <MKOverlay>)overlay {
     
     MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc]initWithCircle:overlay];
     circleRenderer.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.2];
@@ -105,6 +98,31 @@ static NSUInteger filterMetrs = 50;
     circleRenderer.lineWidth = 3;
     
     return circleRenderer;
+}
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray<MKAnnotationView *> *)views {
+    
+    if (mapView.overlays.count != 0) {
+        
+        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+        
+        for (id annotat in self.mapView.annotations) {
+            
+            if ([annotat isKindOfClass:[MKPointAnnotation class]]) {
+                
+                annotation = annotat;
+            }
+        }
+        
+        CLLocationCoordinate2D location2D =
+        CLLocationCoordinate2DMake(annotation.coordinate.latitude, annotation.coordinate.longitude);
+        
+        self.region = [[CLCircularRegion alloc] initWithCenter:location2D
+                                                        radius:radius
+                                                    identifier:@"theRegion"];
+        
+        [self.locationManager startMonitoringForRegion:self.region];
+    }
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -128,27 +146,56 @@ static NSUInteger filterMetrs = 50;
     [[UIApplication sharedApplication]scheduleLocalNotification:notification];
 }
 
+#pragma mark - UIGestureRecognizerDelegate
+
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        
+        [self.locationManager stopMonitoringForRegion:self.region];
+        
+        for (id annotat in self.mapView.annotations) {
+            
+            if ([annotat isKindOfClass:[MKPointAnnotation class]]) {
+                
+                [self.mapView removeAnnotation:annotat];
+            }
+        }
+        
+        CGPoint point = [gestureRecognizer locationInView:self.mapView];
+        CLLocationCoordinate2D locCoord = [self.mapView convertPoint:point toCoordinateFromView:self.mapView];
+        
+        MKPointAnnotation *dropPin = [[MKPointAnnotation alloc] init];
+        
+        dropPin.coordinate = locCoord;
+        
+        [self.mapView addAnnotation:dropPin];
+        
+        [self drawCircularOverlayCuestaCoordinate:locCoord];
+    }
+}
+
 #pragma mark - Action
 
 - (IBAction)addButton:(UIBarButtonItem *)sender {
     
-    if (self.annotation) {
-        
-        [self.locationManager stopMonitoringForRegion:self.region];
-        
-        for (MKPointAnnotation *anno in self.mapView.annotations) {
-            
-            [self.mapView removeAnnotation:anno];
-        }
-    }
-    
-    self.annotation = [[MKPointAnnotation alloc] init];
-    
-    self.annotation.coordinate = self.mapView.region.center;
-    
-    [self.mapView addAnnotation:self.annotation];
-    
-    [self drawCircularOverlayCuestaCoordinate:self.annotation.coordinate];
+    //    if (self.annotation) {
+    //
+    //        [self.locationManager stopMonitoringForRegion:self.region];
+    //
+    //        for (MKPointAnnotation *anno in self.mapView.annotations) {
+    //
+    //            [self.mapView removeAnnotation:anno];
+    //        }
+    //    }
+    //
+    //    self.annotation = [[MKPointAnnotation alloc] init];
+    //
+    //    self.annotation.coordinate = self.mapView.region.center;
+    //
+    //    [self.mapView addAnnotation:self.annotation];
+    //
+    //    [self drawCircularOverlayCuestaCoordinate:self.annotation.coordinate];
 }
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
@@ -158,6 +205,8 @@ static NSUInteger filterMetrs = 50;
     [self.locationManager stopMonitoringSignificantLocationChanges];
     
     exit(0);
-    
 }
+
+
+
 @end
