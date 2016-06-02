@@ -15,10 +15,12 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) MKPointAnnotation *annotation;
 @property (strong, nonatomic) CLCircularRegion *region;
+
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 - (IBAction)addButton:(UIBarButtonItem *)sender;
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender;
+
 @end
 
 @implementation ACMapController
@@ -40,8 +42,6 @@ static NSUInteger filterMetrs = 50;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     self.locationManager.allowsBackgroundLocationUpdates = true;
     
-    
-    
     [self.locationManager requestAlwaysAuthorization];
     
     [self.locationManager startUpdatingLocation];
@@ -56,19 +56,33 @@ static NSUInteger filterMetrs = 50;
                                                 name:UIApplicationWillEnterForegroundNotification
                                               object:nil];
     
+  
 }
+
+
+
+#pragma mark - private Methods
 
 - (void)DidEnterBackground {
     
-    
     [self.locationManager stopUpdatingLocation];
-   
-
+    
     self.locationManager.distanceFilter  = kCLDistanceFilterNone;
     
     [self.locationManager startMonitoringSignificantLocationChanges];
     
-     // NSLog(@"DidEnterBackground -%@, man -%f", self.region, self.locationManager.location.coordinate.longitude);
+    [[UIApplication sharedApplication]cancelAllLocalNotifications];
+    
+    UILocalNotification *notification = [[UILocalNotification alloc]init];
+    
+    notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    notification.alertAction = @"Let's do this";
+    notification.alertBody = @"didEnterRegion!!!";
+    
+    [[UIApplication sharedApplication]scheduleLocalNotification:notification];
 }
 
 - (void)WillEnterForeground {
@@ -79,27 +93,12 @@ static NSUInteger filterMetrs = 50;
     
     [self.locationManager startUpdatingLocation];
     
-    //  NSLog(@"DidBecomeActive -%@, man -%f", self.region, self.locationManager.location.coordinate.longitude);
 }
-#pragma mark - MKMapViewDelegate
-
-- (MKOverlayRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id <MKOverlay>)overlay
-{
-    
-    MKCircleRenderer * circleRenderer = [[MKCircleRenderer alloc]initWithCircle:overlay];
-    circleRenderer.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.2];
-    circleRenderer.strokeColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
-    circleRenderer.lineWidth = 3;
-    
-    return circleRenderer;
-}
-
-#pragma mark - private Methods
 
 - (void) drawCircularOverlayCuestaCoordinate:(CLLocationCoordinate2D)cuestaCoordinate {
-
+    
     [self.mapView removeOverlays: [self.mapView overlays]];
-
+    
     MKCircle* outerCircle = [MKCircle circleWithCenterCoordinate: cuestaCoordinate radius: radius];
     
     [self.mapView addOverlay: outerCircle];
@@ -112,9 +111,41 @@ static NSUInteger filterMetrs = 50;
                                                 identifier:@"theRegion"];
     
     [self.locationManager startMonitoringForRegion:self.region];
-
 }
 
+#pragma mark - MKMapViewDelegate
+
+- (MKOverlayRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id <MKOverlay>)overlay
+{
+    
+    MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc]initWithCircle:overlay];
+    circleRenderer.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.2];
+    circleRenderer.strokeColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+    circleRenderer.lineWidth = 3;
+    
+    return circleRenderer;
+}
+
+#pragma mark - CLLocationManagerDelegate
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    
+    [self.locationManager stopMonitoringForRegion:self.region];
+    [self.locationManager stopUpdatingLocation];
+    
+    [[UIApplication sharedApplication]cancelAllLocalNotifications];
+    
+    UILocalNotification *notification = [[UILocalNotification alloc]init];
+    
+    notification.fireDate = [NSDate date];
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    notification.alertAction = @"Let's do this";
+    notification.alertBody = @"didEnterRegion!!!";
+    
+    [[UIApplication sharedApplication]scheduleLocalNotification:notification];
+    
+}
 #pragma mark - Action
 
 - (IBAction)addButton:(UIBarButtonItem *)sender {
@@ -135,30 +166,8 @@ static NSUInteger filterMetrs = 50;
     
     [self.mapView addAnnotation:self.annotation];
     
-    
     [self drawCircularOverlayCuestaCoordinate:self.annotation.coordinate];
-    
-
 }
-
-- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-    
-    [self.locationManager stopMonitoringForRegion:self.region];
-    [self.locationManager stopUpdatingLocation];
-    
-    
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.fireDate = [NSDate date];
-    NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
-    notification.timeZone = timezone;
-    notification.alertBody = @"didEnterRegion!!!";
-    notification.alertAction = @"Show";
-    notification.soundName = UILocalNotificationDefaultSoundName;
-    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-
-}
-
-
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
     

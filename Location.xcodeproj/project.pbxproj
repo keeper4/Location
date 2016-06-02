@@ -15,7 +15,6 @@
 		DEE07C751CF8B0EC0021E5C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C731CF8B0EC0021E5C1 /* Main.storyboard */; };
 		DEE07C771CF8B0EC0021E5C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */; };
 		DEE07C7A1CF8B0EC0021E5C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C781CF8B0EC0021E5C1 /* LaunchScreen.storyboard */; };
-		DEE07C831CF8BA290021E5C1 /* ACStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C821CF8BA290021E5C1 /* ACStartViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +31,6 @@
 		DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEE07C791CF8B0EC0021E5C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DEE07C7B1CF8B0EC0021E5C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DEE07C811CF8BA290021E5C1 /* ACStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACStartViewController.h; sourceTree = "<group>"; };
-		DEE07C821CF8BA290021E5C1 /* ACStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACStartViewController.m; sourceTree = "<group>"; };
 		F3FD319E9E92901CB99C8F66 /* libPods-Location.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Location.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -82,8 +79,6 @@
 			children = (
 				DEE07C6D1CF8B0EC0021E5C1 /* AppDelegate.h */,
 				DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */,
-				DEE07C811CF8BA290021E5C1 /* ACStartViewController.h */,
-				DEE07C821CF8BA290021E5C1 /* ACStartViewController.m */,
 				DECFDFE81CFEC761006C6F4A /* ACMapController.h */,
 				DECFDFE91CFEC761006C6F4A /* ACMapController.m */,
 				DEE07C731CF8B0EC0021E5C1 /* Main.storyboard */,
@@ -236,7 +231,6 @@
 			files = (
 				DECFDFEA1CFEC761006C6F4A /* ACMapController.m in Sources */,
 				DEE07C6F1CF8B0EC0021E5C1 /* AppDelegate.m in Sources */,
-				DEE07C831CF8BA290021E5C1 /* ACStartViewController.m in Sources */,
 				DEE07C6C1CF8B0EC0021E5C1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
