@@ -18,7 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
-- (IBAction)addButton:(UIBarButtonItem *)sender;
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender;
 
 @end
@@ -26,7 +25,7 @@
 @implementation ACMapController
 
 static CLLocationDistance radius = 400;
-static NSUInteger filterMetrs = 50;
+//static NSUInteger filterMetrs = 50;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,7 +37,7 @@ static NSUInteger filterMetrs = 50;
     self.locationManager = [[CLLocationManager alloc] init];
     
     self.locationManager.delegate = self;
-    self.locationManager.distanceFilter  = filterMetrs;
+    self.locationManager.distanceFilter  = kCLHeadingFilterNone;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     self.locationManager.allowsBackgroundLocationUpdates = true;
     
@@ -88,6 +87,29 @@ static NSUInteger filterMetrs = 50;
     [self.mapView addOverlay: outerCircle];
 }
 
+- (double)distanceToPoint:(MKPointAnnotation *)finishPoint pointNow:(CLLocation *)pointNow{
+    
+    CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.coordinate.latitude longitude:finishPoint.coordinate.longitude];
+    
+    CLLocationDistance meters = [endPoint distanceFromLocation:pointNow];
+    
+    return meters;
+}
+
+- (MKPointAnnotation *)getAnnotationFromMapView:(MKMapView *)mapView {
+    
+    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+    
+    for (id annotat in mapView.annotations) {
+        
+        if ([annotat isKindOfClass:[MKPointAnnotation class]]) {
+            
+            annotation = annotat;
+        }
+    }
+    return annotation;
+}
+
 #pragma mark - MKMapViewDelegate
 
 - (MKOverlayRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id <MKOverlay>)overlay {
@@ -104,15 +126,7 @@ static NSUInteger filterMetrs = 50;
     
     if (mapView.overlays.count != 0) {
         
-        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-        
-        for (id annotat in self.mapView.annotations) {
-            
-            if ([annotat isKindOfClass:[MKPointAnnotation class]]) {
-                
-                annotation = annotat;
-            }
-        }
+        MKPointAnnotation *annotation = [self getAnnotationFromMapView:mapView];
         
         CLLocationCoordinate2D location2D =
         CLLocationCoordinate2DMake(annotation.coordinate.latitude, annotation.coordinate.longitude);
@@ -120,7 +134,7 @@ static NSUInteger filterMetrs = 50;
         self.region = [[CLCircularRegion alloc] initWithCenter:location2D
                                                         radius:radius
                                                     identifier:@"theRegion"];
-        
+      
         [self.locationManager startMonitoringForRegion:self.region];
     }
 }
@@ -130,7 +144,10 @@ static NSUInteger filterMetrs = 50;
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
     
     [self.locationManager stopMonitoringForRegion:self.region];
-    [self.locationManager stopUpdatingLocation];
+    
+    MKPointAnnotation *annotation = [self getAnnotationFromMapView:self.mapView];
+    
+    CLLocationDistance meters = [self distanceToPoint: annotation pointNow:manager.location];
     
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
@@ -141,7 +158,7 @@ static NSUInteger filterMetrs = 50;
     
     notification.soundName = UILocalNotificationDefaultSoundName;
     notification.alertAction = @"Let's do this";
-    notification.alertBody = @"didEnterRegion!!!";
+    notification.alertBody = [NSString stringWithFormat:@"Meters to Final Point %.0f", meters];
     
     [[UIApplication sharedApplication]scheduleLocalNotification:notification];
 }
@@ -177,27 +194,6 @@ static NSUInteger filterMetrs = 50;
 
 #pragma mark - Action
 
-- (IBAction)addButton:(UIBarButtonItem *)sender {
-    
-    //    if (self.annotation) {
-    //
-    //        [self.locationManager stopMonitoringForRegion:self.region];
-    //
-    //        for (MKPointAnnotation *anno in self.mapView.annotations) {
-    //
-    //            [self.mapView removeAnnotation:anno];
-    //        }
-    //    }
-    //
-    //    self.annotation = [[MKPointAnnotation alloc] init];
-    //
-    //    self.annotation.coordinate = self.mapView.region.center;
-    //
-    //    [self.mapView addAnnotation:self.annotation];
-    //
-    //    [self drawCircularOverlayCuestaCoordinate:self.annotation.coordinate];
-}
-
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
     
     [self.locationManager stopUpdatingLocation];
@@ -206,6 +202,8 @@ static NSUInteger filterMetrs = 50;
     
     exit(0);
 }
+
+
 
 
 

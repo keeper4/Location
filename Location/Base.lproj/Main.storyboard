@@ -24,16 +24,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="CUp-K0-YIp">
-                        <barButtonItem key="leftBarButtonItem" title="Exit" id="mGa-ol-6DT">
+                        <barButtonItem key="leftBarButtonItem" title="Stop" id="mGa-ol-6DT">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="actionExitBarButton:" destination="wUJ-2Z-bKu" id="I0c-Ix-bhh"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SdW-Zk-XrM">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="addButton:" destination="wUJ-2Z-bKu" id="Ceh-M2-pgh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
