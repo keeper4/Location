@@ -9,6 +9,7 @@
 #import "ACMapController.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import "LocationManager.h"
 
 @interface ACMapController () <CLLocationManagerDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate>
 
@@ -34,25 +35,21 @@ static CLLocationDistance radius = 400;
     self.mapView.userTrackingMode = MKUserTrackingModeFollow;
     self.mapView.delegate = self;
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    
-    self.locationManager.delegate = self;
-    self.locationManager.distanceFilter  = kCLHeadingFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    self.locationManager.allowsBackgroundLocationUpdates = true;
-    
-    [self.locationManager requestAlwaysAuthorization];
-    
-    [self.locationManager startUpdatingLocation];
+    [[LocationManager sharedInstance] startUpdatingLocation];
     
     [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(DidEnterBackground)
+                                            selector:@selector(didEnterBackground)
                                                 name:UIApplicationDidEnterBackgroundNotification
                                               object:nil];
     
     [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(WillEnterForeground)
+                                            selector:@selector(willEnterForeground)
                                                 name:UIApplicationWillEnterForegroundNotification
+                                              object:nil];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(youInRegionNotification)
+                                                name:invokeLocalNotification
                                               object:nil];
     
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
@@ -64,34 +61,46 @@ static CLLocationDistance radius = 400;
 
 #pragma mark - private Methods
 
-- (void)DidEnterBackground {
+- (void)didEnterBackground {
     
-    [self.locationManager stopUpdatingLocation];
+    [[LocationManager sharedInstance] stopUpdatingLocation];
     
-    [self.locationManager startMonitoringSignificantLocationChanges];
+    [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
 }
 
-- (void)WillEnterForeground {
+- (void)willEnterForeground {
     
-    [self.locationManager stopMonitoringSignificantLocationChanges];
+    [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     
-    [self.locationManager startUpdatingLocation];
+    [[LocationManager sharedInstance] startUpdatingLocation];
 }
 
-- (void)drawCircularOverlayCuestaCoordinate:(CLLocationCoordinate2D)cuestaCoordinate {
+- (void)youInRegionNotification {
     
-    [self.mapView removeOverlays: [self.mapView overlays]];
+    MKPointAnnotation *annotation = [self getAnnotationFromMapView:self.mapView];
     
-    MKCircle *outerCircle = [MKCircle circleWithCenterCoordinate:cuestaCoordinate radius:radius];
+    CLLocationDistance meters = [self distanceToPoint: annotation];
     
-    [self.mapView addOverlay: outerCircle];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    
+    notification.fireDate = [NSDate date];
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    notification.alertAction = @"Let's do this";
+    
+    notification.alertBody = [NSString stringWithFormat:@"Meters to Final Point %.0f", meters];
+    
+    [[UIApplication sharedApplication]scheduleLocalNotification:notification];
 }
 
-- (double)distanceToPoint:(MKPointAnnotation *)finishPoint pointNow:(CLLocation *)pointNow{
+- (double)distanceToPoint:(MKPointAnnotation *)finishPoint {
     
     CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.coordinate.latitude longitude:finishPoint.coordinate.longitude];
     
-    CLLocationDistance meters = [endPoint distanceFromLocation:pointNow];
+    CLLocationDistance meters = [endPoint distanceFromLocation:[[LocationManager sharedInstance] currentLocation]];
     
     return meters;
 }
@@ -108,6 +117,15 @@ static CLLocationDistance radius = 400;
         }
     }
     return annotation;
+}
+
+- (void)drawCircularOverlayCuestaCoordinate:(CLLocationCoordinate2D)cuestaCoordinate {
+    
+    [self.mapView removeOverlays: [self.mapView overlays]];
+    
+    MKCircle *outerCircle = [MKCircle circleWithCenterCoordinate:cuestaCoordinate radius:radius];
+    
+    [self.mapView addOverlay: outerCircle];
 }
 
 #pragma mark - MKMapViewDelegate
@@ -134,33 +152,9 @@ static CLLocationDistance radius = 400;
         self.region = [[CLCircularRegion alloc] initWithCenter:location2D
                                                         radius:radius
                                                     identifier:@"theRegion"];
-      
-        [self.locationManager startMonitoringForRegion:self.region];
+        
+        [[LocationManager sharedInstance] startMonitoringForRegion:self.region];
     }
-}
-
-#pragma mark - CLLocationManagerDelegate
-
-- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-    
-    [self.locationManager stopMonitoringForRegion:self.region];
-    
-    MKPointAnnotation *annotation = [self getAnnotationFromMapView:self.mapView];
-    
-    CLLocationDistance meters = [self distanceToPoint: annotation pointNow:manager.location];
-    
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
-    
-    notification.fireDate = [NSDate date];
-    notification.timeZone = [NSTimeZone defaultTimeZone];
-    
-    notification.soundName = UILocalNotificationDefaultSoundName;
-    notification.alertAction = @"Let's do this";
-    notification.alertBody = [NSString stringWithFormat:@"Meters to Final Point %.0f", meters];
-    
-    [[UIApplication sharedApplication]scheduleLocalNotification:notification];
 }
 
 #pragma mark - UIGestureRecognizerDelegate
@@ -169,7 +163,7 @@ static CLLocationDistance radius = 400;
     
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         
-        [self.locationManager stopMonitoringForRegion:self.region];
+        [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
         
         for (id annotat in self.mapView.annotations) {
             
@@ -196,15 +190,18 @@ static CLLocationDistance radius = 400;
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
     
-    [self.locationManager stopUpdatingLocation];
-    [self.locationManager stopMonitoringForRegion:self.region];
-    [self.locationManager stopMonitoringSignificantLocationChanges];
+    [[LocationManager sharedInstance] stopUpdatingLocation];
+    [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
+    [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     
     exit(0);
 }
 
 
-
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 
 @end

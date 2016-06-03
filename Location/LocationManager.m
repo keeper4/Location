@@ -7,8 +7,12 @@
 //
 
 #import "LocationManager.h"
+#import <MapKit/MKPointAnnotation.h>
+
+NSString * const invokeLocalNotification = @"invokeLocalNotification";
 
 @interface LocationManager ()
+
 @end
 
 @implementation LocationManager
@@ -29,14 +33,29 @@
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         self.locationManager.distanceFilter = kCLDistanceFilterNone; // meters
         self.locationManager.delegate = self;
+        self.locationManager.allowsBackgroundLocationUpdates = true;
+        
+        [self.locationManager requestAlwaysAuthorization];
     }
     return self;
 }
 
-- (void)startUpdatingLocation {
+#pragma mark - PrivateMethods
+
+
+
+
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
     
-    [self.locationManager startUpdatingLocation];
+    [self.locationManager stopMonitoringForRegion:region];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:invokeLocalNotification object:self];
 }
+
+#pragma systemMathods
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     NSLog(@"Location service failed with error %@", error);
@@ -44,32 +63,38 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray*)locations {
     CLLocation *location = [locations lastObject];
-
+    
     self.currentLocation = location;
 }
 
-#pragma mark - CLLocationManagerDelegate
-
-- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+- (void)startUpdatingLocation {
     
-//    [self.locationManager stopMonitoringForRegion:region];
-//    
-//    MKPointAnnotation *annotation = [self getAnnotationFromMapView:self.mapView];
-//    
-//    CLLocationDistance meters = [self distanceToPoint: annotation pointNow:manager.location];
-//    
-//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-//    
-//    UILocalNotification *notification = [[UILocalNotification alloc] init];
-//    
-//    notification.fireDate = [NSDate date];
-//    notification.timeZone = [NSTimeZone defaultTimeZone];
-//    
-//    notification.soundName = UILocalNotificationDefaultSoundName;
-//    notification.alertAction = @"Let's do this";
-//    notification.alertBody = [NSString stringWithFormat:@"Meters to Final Point %.0f", meters];
-//    
-//    [[UIApplication sharedApplication]scheduleLocalNotification:notification];
+    [self.locationManager startUpdatingLocation];
 }
+
+- (void)stopUpdatingLocation {
+    
+    [self.locationManager stopUpdatingLocation];
+}
+
+- (void)startMonitoringSignificantLocationChanges {
+    
+    [self.locationManager startMonitoringSignificantLocationChanges];
+}
+
+- (void)stopMonitoringSignificantLocationChanges {
+    [self.locationManager stopMonitoringSignificantLocationChanges];
+}
+
+- (void)startMonitoringForRegion:(CLCircularRegion *)regoin {
+    
+    [self.locationManager startMonitoringForRegion:regoin];
+}
+
+- (void)stopMonitoringForRegion:(CLCircularRegion *)regoin {
+    
+    [self.locationManager stopMonitoringForRegion:regoin];
+}
+
 
 @end
