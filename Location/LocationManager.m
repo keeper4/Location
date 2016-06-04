@@ -10,6 +10,7 @@
 #import <MapKit/MKPointAnnotation.h>
 
 NSString * const invokeLocalNotification = @"invokeLocalNotification";
+NSString * const locationChangesNotification = @"locationChangesNotification";
 
 @interface LocationManager ()
 
@@ -47,6 +48,14 @@ NSString * const invokeLocalNotification = @"invokeLocalNotification";
 
 
 #pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    self.currentLocation = newLocation;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:invokeLocalNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:locationChangesNotification object:self];
+}
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
     

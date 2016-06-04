@@ -10,10 +10,20 @@
 #import <MapKit/MapKit.h>
 #import "LocationManager.h"
 
+typedef enum {
+    TransportTypeWalk,
+    TransportTypeCar,
+    TransportTypeCityBus,
+    TransportTypeSpeedTrain
+} TransportType;
+
 @interface ACMapController () <CLLocationManagerDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) CLCircularRegion *region;
 @property (strong, nonatomic) UILongPressGestureRecognizer *longPressGesture;
+@property (assign, nonatomic) BOOL flagEnter;
+@property (assign, nonatomic) UIBackgroundTaskIdentifier bgTask;
+@property (assign, nonatomic) UIApplication *app;
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
@@ -23,7 +33,12 @@
 
 @implementation ACMapController
 
-static CLLocationDistance radius = 400;
+static CLLocationDistance radiusForWalk = 200;
+static CLLocationDistance radiusForCar  = 500;
+static CLLocationDistance radiusForCityBus = 500;
+static CLLocationDistance radiusForSpeedTrain = 500;
+
+static CLLocationDistance radius;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,9 +64,18 @@ static CLLocationDistance radius = 400;
                                                 name:invokeLocalNotification
                                               object:nil];
     
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(locationChanges)
+                                                name:locationChangesNotification
+                                              object:nil];
+    
+    self.flagEnter = YES;
+    
+    radius = [self gerRadius];
+    
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
                                           initWithTarget:self
-                                                  action:@selector(handleLongPress:)];
+                                          action:@selector(handleLongPress:)];
     lpgr.delegate = self;
     
     [self.mapView addGestureRecognizer:lpgr];
@@ -71,6 +95,19 @@ static CLLocationDistance radius = 400;
     [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     
     [[LocationManager sharedInstance] startUpdatingLocation];
+}
+
+- (NSUInteger)gerRadius {
+    
+    switch (self.segmentIndex) {
+        case 0:  return radiusForWalk;
+        case 1:  return radiusForCar;
+        case 2:  return radiusForCityBus;
+        case 3:  return radiusForSpeedTrain;
+            
+        default: break;
+    }
+    return 500;
 }
 
 - (void)youInRegionNotification {
@@ -98,12 +135,7 @@ static CLLocationDistance radius = 400;
     
     CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.coordinate.latitude longitude:finishPoint.coordinate.longitude];
     
-    double lat = [LocationManager sharedInstance].locationManager.location.coordinate.latitude;
-    double lon = [LocationManager sharedInstance].locationManager.location.coordinate.longitude;
-    
-    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
-    
-    CLLocationDistance meters = [endPoint distanceFromLocation:userLocation];
+    CLLocationDistance meters = [endPoint distanceFromLocation:[LocationManager sharedInstance].currentLocation];
     
     return meters;
 }
@@ -129,6 +161,70 @@ static CLLocationDistance radius = 400;
     MKCircle *outerCircle = [MKCircle circleWithCenterCoordinate:cuestaCoordinate radius:radius];
     
     [self.mapView addOverlay: outerCircle];
+}
+
+- (void)locationChanges {
+    
+    MKPointAnnotation *annotation = [self getAnnotationFromMapView:self.mapView];
+    
+    CLLocationDistance meters = [self distanceToPoint: annotation];
+    
+    if (self.flagEnter) {
+        
+        self.app = [UIApplication sharedApplication];
+        self.bgTask = [self.app beginBackgroundTaskWithExpirationHandler:^{
+            self.bgTask = UIBackgroundTaskInvalid;
+        }];
+        
+        if (meters < 400 && self.segmentIndex == TransportTypeWalk) {
+            self.flagEnter = NO;
+            [self enableLocationWithTimerSecond:9];
+        }
+        
+        if (meters < 3000 && self.segmentIndex == TransportTypeCar) {
+            self.flagEnter = NO;
+            // NSLog(@"ENTER - TransportTypeCar");
+            
+            [self enableLocationWithTimerSecond:45];
+        }
+        
+        if (meters < 2000 && self.segmentIndex == TransportTypeCityBus) {
+            self.flagEnter = NO;
+            [self enableLocationWithTimerSecond:50];
+        }
+        
+        if (meters < 3000 && self.segmentIndex == TransportTypeSpeedTrain) {
+            self.flagEnter = NO;
+            [self enableLocationWithTimerSecond:60];
+        }
+    }
+}
+
+- (void)enableLocationWithTimerSecond:(NSUInteger)timer {
+    
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void){
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timer * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [[LocationManager sharedInstance] startUpdatingLocation];
+            //  NSLog(@"beginBG called1");
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [[LocationManager sharedInstance] stopUpdatingLocation];
+                [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
+                //   NSLog(@"beginBG called2");
+                
+                if (self.bgTask != UIBackgroundTaskInvalid) {
+                    [self enableLocationWithTimerSecond:timer];
+                } else {
+                    [self.app endBackgroundTask:self.bgTask];
+                }
+            });
+        });
+    });
+    
+    //   NSLog(@"beginBG called3");
 }
 
 #pragma mark - MKMapViewDelegate
@@ -165,6 +261,8 @@ static CLLocationDistance radius = 400;
 -(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
     
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        
+        self.bgTask = UIBackgroundTaskInvalid;
         
         [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
         

@@ -9,12 +9,14 @@
 #import <CoreLocation/CoreLocation.h>
 
 extern NSString * const invokeLocalNotification;
+extern NSString * const locationChangesNotification;
 
 @interface LocationManager : NSObject <CLLocationManagerDelegate>
 
 + (LocationManager *)sharedInstance;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) CLLocation *currentLocation;
 
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;

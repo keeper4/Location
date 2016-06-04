@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B8721FA406FDBEB52879BEAE /* libPods-Location.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD319E9E92901CB99C8F66 /* libPods-Location.a */; };
 		DE3732261D01BF8300CB3BC9 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DE3732251D01BF8300CB3BC9 /* LocationManager.m */; };
+		DE59239F1D03325C0023093D /* ACSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE59239E1D03325C0023093D /* ACSettingsViewController.m */; };
 		DECFDFEA1CFEC761006C6F4A /* ACMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DECFDFE91CFEC761006C6F4A /* ACMapController.m */; };
 		DECFDFEC1CFED5EF006C6F4A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECFDFEB1CFED5EF006C6F4A /* MapKit.framework */; };
 		DEE07C6C1CF8B0EC0021E5C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C6B1CF8B0EC0021E5C1 /* main.m */; };
@@ -23,6 +24,8 @@
 		518FD85217F6CFDE8186E958 /* Pods-Location.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Location/Pods-Location.debug.xcconfig"; sourceTree = "<group>"; };
 		DE3732241D01BF8300CB3BC9 /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		DE3732251D01BF8300CB3BC9 /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		DE59239D1D03325C0023093D /* ACSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACSettingsViewController.h; sourceTree = "<group>"; };
+		DE59239E1D03325C0023093D /* ACSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACSettingsViewController.m; sourceTree = "<group>"; };
 		DECFDFE81CFEC761006C6F4A /* ACMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACMapController.h; sourceTree = "<group>"; };
 		DECFDFE91CFEC761006C6F4A /* ACMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACMapController.m; sourceTree = "<group>"; };
 		DECFDFEB1CFED5EF006C6F4A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -82,6 +85,8 @@
 			children = (
 				DEE07C6D1CF8B0EC0021E5C1 /* AppDelegate.h */,
 				DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */,
+				DE59239D1D03325C0023093D /* ACSettingsViewController.h */,
+				DE59239E1D03325C0023093D /* ACSettingsViewController.m */,
 				DECFDFE81CFEC761006C6F4A /* ACMapController.h */,
 				DECFDFE91CFEC761006C6F4A /* ACMapController.m */,
 				DE3732241D01BF8300CB3BC9 /* LocationManager.h */,
@@ -234,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE59239F1D03325C0023093D /* ACSettingsViewController.m in Sources */,
 				DE3732261D01BF8300CB3BC9 /* LocationManager.m in Sources */,
 				DECFDFEA1CFEC761006C6F4A /* ACMapController.m in Sources */,
 				DEE07C6F1CF8B0EC0021E5C1 /* AppDelegate.m in Sources */,

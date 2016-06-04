@@ -40,10 +40,10 @@
             </objects>
             <point key="canvasLocation" x="1955" y="238"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="V2J-zs-LSw">
             <objects>
-                <viewController id="fBD-XG-v3q" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ACSettingsViewController" id="fBD-XG-v3q" customClass="ACSettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FSN-Sd-nyn"/>
                         <viewControllerLayoutGuide type="bottom" id="44j-ae-AAl"/>
@@ -70,6 +70,9 @@
                                     <segment title="Car"/>
                                     <segment title="Speed Train" width="84"/>
                                 </segments>
+                                <connections>
+                                    <action selector="transportSettingControl:" destination="fBD-XG-v3q" eventType="valueChanged" id="dnp-yh-2dh"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
