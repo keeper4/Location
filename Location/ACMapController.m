@@ -7,13 +7,11 @@
 //
 
 #import "ACMapController.h"
-#import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "LocationManager.h"
 
 @interface ACMapController () <CLLocationManagerDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLCircularRegion *region;
 @property (strong, nonatomic) UILongPressGestureRecognizer *longPressGesture;
 
@@ -26,7 +24,6 @@
 @implementation ACMapController
 
 static CLLocationDistance radius = 400;
-//static NSUInteger filterMetrs = 50;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,8 +49,9 @@ static CLLocationDistance radius = 400;
                                                 name:invokeLocalNotification
                                               object:nil];
     
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                       action:@selector(handleLongPress:)];
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+                                          initWithTarget:self
+                                                  action:@selector(handleLongPress:)];
     lpgr.delegate = self;
     
     [self.mapView addGestureRecognizer:lpgr];
@@ -100,7 +98,12 @@ static CLLocationDistance radius = 400;
     
     CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.coordinate.latitude longitude:finishPoint.coordinate.longitude];
     
-    CLLocationDistance meters = [endPoint distanceFromLocation:[[LocationManager sharedInstance] currentLocation]];
+    double lat = [LocationManager sharedInstance].locationManager.location.coordinate.latitude;
+    double lon = [LocationManager sharedInstance].locationManager.location.coordinate.longitude;
+    
+    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+    
+    CLLocationDistance meters = [endPoint distanceFromLocation:userLocation];
     
     return meters;
 }
@@ -174,6 +177,7 @@ static CLLocationDistance radius = 400;
         }
         
         CGPoint point = [gestureRecognizer locationInView:self.mapView];
+        
         CLLocationCoordinate2D locCoord = [self.mapView convertPoint:point toCoordinateFromView:self.mapView];
         
         MKPointAnnotation *dropPin = [[MKPointAnnotation alloc] init];
@@ -194,9 +198,15 @@ static CLLocationDistance radius = 400;
     [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
     [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     
-    exit(0);
+    exit(1);
 }
 
+#pragma mark - Segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)dealloc {
     

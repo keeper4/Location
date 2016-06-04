@@ -31,7 +31,7 @@ NSString * const invokeLocalNotification = @"invokeLocalNotification";
     if(self != nil) {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        self.locationManager.distanceFilter = kCLDistanceFilterNone; // meters
+        self.locationManager.distanceFilter = kCLDistanceFilterNone;
         self.locationManager.delegate = self;
         self.locationManager.allowsBackgroundLocationUpdates = true;
         
@@ -53,18 +53,6 @@ NSString * const invokeLocalNotification = @"invokeLocalNotification";
     [self.locationManager stopMonitoringForRegion:region];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:invokeLocalNotification object:self];
-}
-
-#pragma systemMathods
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"Location service failed with error %@", error);
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray*)locations {
-    CLLocation *location = [locations lastObject];
-    
-    self.currentLocation = location;
 }
 
 - (void)startUpdatingLocation {
@@ -96,5 +84,8 @@ NSString * const invokeLocalNotification = @"invokeLocalNotification";
     [self.locationManager stopMonitoringForRegion:regoin];
 }
 
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"Location service failed with error %@", error);
+}
 
 @end

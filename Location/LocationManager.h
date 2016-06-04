@@ -15,7 +15,6 @@ extern NSString * const invokeLocalNotification;
 + (LocationManager *)sharedInstance;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
-@property (strong, nonatomic) CLLocation *currentLocation;
 
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;
