@@ -63,11 +63,11 @@
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qPw-34-eFS">
-                                <rect key="frame" x="4" y="125" width="312" height="29"/>
+                                <rect key="frame" x="-6" y="125" width="333" height="29"/>
                                 <segments>
                                     <segment title="Walk/Cycle"/>
-                                    <segment title="City Bus"/>
                                     <segment title="Car"/>
+                                    <segment title="City Bus"/>
                                     <segment title="Speed Train" width="84"/>
                                 </segments>
                                 <connections>

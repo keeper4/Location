@@ -178,7 +178,7 @@ static CLLocationDistance radius;
         
         if (meters < 400 && self.segmentIndex == TransportTypeWalk) {
             self.flagEnter = NO;
-            [self enableLocationWithTimerSecond:9];
+            [self enableLocationWithTimerSecond:90];
         }
         
         if (meters < 3000 && self.segmentIndex == TransportTypeCar) {
