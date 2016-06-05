@@ -53,7 +53,6 @@ NSString * const locationChangesNotification = @"locationChangesNotification";
     
     self.currentLocation = newLocation;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:invokeLocalNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotificationName:locationChangesNotification object:self];
 }
 

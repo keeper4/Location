@@ -17,8 +17,6 @@
 @implementation ACSettingsViewController
 
 - (IBAction)transportSettingControl:(UISegmentedControl *)sender {
-    NSLog(@"%lu", (unsigned long)sender.selectedSegmentIndex);
-    
     
     switch (sender.selectedSegmentIndex) {
         case TransportTypeWalk:       self.segmentIndex = 0; break;

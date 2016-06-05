@@ -33,10 +33,10 @@ typedef enum {
 
 @implementation ACMapController
 
-static CLLocationDistance radiusForWalk = 200;
-static CLLocationDistance radiusForCar  = 500;
-static CLLocationDistance radiusForCityBus = 500;
-static CLLocationDistance radiusForSpeedTrain = 500;
+static CLLocationDistance radiusForWalk = 250;
+static CLLocationDistance radiusForCar  = 600;
+static CLLocationDistance radiusForCityBus = 600;
+static CLLocationDistance radiusForSpeedTrain = 600;
 
 static CLLocationDistance radius;
 
@@ -126,7 +126,7 @@ static CLLocationDistance radius;
     notification.soundName = UILocalNotificationDefaultSoundName;
     notification.alertAction = @"Let's do this";
     
-    notification.alertBody = [NSString stringWithFormat:@"Meters to Final Point %.0f", meters];
+    notification.alertBody = [NSString stringWithFormat:@"didEnterRegion: distans to Pin %.0f", meters];
     
     [[UIApplication sharedApplication]scheduleLocalNotification:notification];
 }
@@ -171,33 +171,40 @@ static CLLocationDistance radius;
     
     if (self.flagEnter) {
         
-        self.app = [UIApplication sharedApplication];
-        self.bgTask = [self.app beginBackgroundTaskWithExpirationHandler:^{
-            self.bgTask = UIBackgroundTaskInvalid;
-        }];
-        
-        if (meters < 400 && self.segmentIndex == TransportTypeWalk) {
-            self.flagEnter = NO;
-            [self enableLocationWithTimerSecond:90];
+        if (meters < 600 && self.segmentIndex == TransportTypeWalk) {
+
+            [self createBgTaskWithTimerSecond:30];
         }
         
-        if (meters < 3000 && self.segmentIndex == TransportTypeCar) {
-            self.flagEnter = NO;
-            // NSLog(@"ENTER - TransportTypeCar");
+        if (meters < 3500 && self.segmentIndex == TransportTypeCar) {
+
+            [self createBgTaskWithTimerSecond:20];
+        }
+        
+        if (meters < 2500 && self.segmentIndex == TransportTypeCityBus) {
+
+            [self createBgTaskWithTimerSecond:20];
+        }
+        
+        if (meters < 3500 && self.segmentIndex == TransportTypeSpeedTrain) {
             
-            [self enableLocationWithTimerSecond:45];
-        }
-        
-        if (meters < 2000 && self.segmentIndex == TransportTypeCityBus) {
-            self.flagEnter = NO;
-            [self enableLocationWithTimerSecond:50];
-        }
-        
-        if (meters < 3000 && self.segmentIndex == TransportTypeSpeedTrain) {
-            self.flagEnter = NO;
-            [self enableLocationWithTimerSecond:60];
+            [self createBgTaskWithTimerSecond:30];
+            
         }
     }
+}
+
+- (void)createBgTaskWithTimerSecond:(NSUInteger)second {
+    
+    self.flagEnter = NO;
+    
+    self.app = [UIApplication sharedApplication];
+    self.bgTask = [self.app beginBackgroundTaskWithExpirationHandler:^{
+        
+        self.bgTask = UIBackgroundTaskInvalid;
+    }];
+    
+    [self enableLocationWithTimerSecond:second];
 }
 
 - (void)enableLocationWithTimerSecond:(NSUInteger)timer {
