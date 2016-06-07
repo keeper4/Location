@@ -87,9 +87,9 @@ NSString * const locationChangesNotification = @"locationChangesNotification";
     [self.locationManager startMonitoringForRegion:regoin];
 }
 
-- (void)stopMonitoringForRegion:(CLCircularRegion *)regoin {
+- (void)stopMonitoringForRegion:(CLCircularRegion *)region {
     
-    [self.locationManager stopMonitoringForRegion:regoin];
+    [self.locationManager stopMonitoringForRegion:region];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {

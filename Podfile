@@ -4,6 +4,5 @@
 # use_frameworks!
 
 target 'Location' do
-pod 'AFNetworking', '~> 3.1'
 end
 

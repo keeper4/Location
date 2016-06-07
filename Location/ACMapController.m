@@ -9,6 +9,7 @@
 #import "ACMapController.h"
 #import <MapKit/MapKit.h>
 #import "LocationManager.h"
+@import GoogleMaps;
 
 typedef enum {
     TransportTypeWalk,
@@ -17,15 +18,15 @@ typedef enum {
     TransportTypeSpeedTrain
 } TransportType;
 
-@interface ACMapController () <CLLocationManagerDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate>
+@interface ACMapController () <CLLocationManagerDelegate, GMSMapViewDelegate>
 
 @property (strong, nonatomic) CLCircularRegion *region;
 @property (strong, nonatomic) UILongPressGestureRecognizer *longPressGesture;
 @property (assign, nonatomic) BOOL flagEnter;
 @property (assign, nonatomic) UIBackgroundTaskIdentifier bgTask;
 @property (assign, nonatomic) UIApplication *app;
-
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) GMSMapView *mapView;
+@property (strong, nonatomic) GMSMarker *marker;
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender;
 
@@ -43,11 +44,21 @@ static CLLocationDistance radius;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.mapView.showsUserLocation = YES;
-    self.mapView.userTrackingMode = MKUserTrackingModeFollow;
+    [[LocationManager sharedInstance] startUpdatingLocation];
+    
+    GMSCameraPosition *camera =
+    [GMSCameraPosition cameraWithLatitude:[LocationManager sharedInstance].locationManager.location.coordinate.latitude
+                                longitude:[LocationManager sharedInstance].locationManager.location.coordinate.longitude
+                                     zoom:15];
+    
+    self.mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
+    self.mapView.myLocationEnabled = YES;
+    self.view = self.mapView;
     self.mapView.delegate = self;
     
-    [[LocationManager sharedInstance] startUpdatingLocation];
+    
+    
+    
     
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(didEnterBackground)
@@ -71,14 +82,8 @@ static CLLocationDistance radius;
     
     self.flagEnter = YES;
     
-    radius = [self gerRadius];
+    radius = [self getRadius];
     
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
-                                          initWithTarget:self
-                                          action:@selector(handleLongPress:)];
-    lpgr.delegate = self;
-    
-    [self.mapView addGestureRecognizer:lpgr];
 }
 
 #pragma mark - private Methods
@@ -97,7 +102,7 @@ static CLLocationDistance radius;
     [[LocationManager sharedInstance] startUpdatingLocation];
 }
 
-- (NSUInteger)gerRadius {
+- (NSUInteger)getRadius {
     
     switch (self.segmentIndex) {
         case 0:  return radiusForWalk;
@@ -110,11 +115,38 @@ static CLLocationDistance radius;
     return 500;
 }
 
+#pragma mark - GMSMapViewDelegate
+
+- (void)mapView:(GMSMapView *)mapView didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
+    
+    [mapView clear];
+    
+    if (self.region) {
+        [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
+    }
+    
+    self.marker = [[GMSMarker alloc] init];
+    self.marker.position = coordinate;
+    self.marker.title = @"Current Location";
+    self.marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
+    self.marker.map = mapView;
+    
+    GMSCircle *geoFenceCircle = [[GMSCircle alloc] init];
+    geoFenceCircle.radius = radius;
+    geoFenceCircle.position = coordinate;
+    geoFenceCircle.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.4];
+    geoFenceCircle.strokeWidth = 2;
+    geoFenceCircle.strokeColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2];
+    geoFenceCircle.map = mapView;
+    
+    self.region = [[CLCircularRegion alloc] initWithCenter:geoFenceCircle.position
+                                                    radius:radius
+                                                identifier:@"theRegion"];
+    
+    [[LocationManager sharedInstance] startMonitoringForRegion:self.region];
+}
+
 - (void)youInRegionNotification {
-    
-    MKPointAnnotation *annotation = [self getAnnotationFromMapView:self.mapView];
-    
-    CLLocationDistance meters = [self distanceToPoint: annotation];
     
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
@@ -126,70 +158,48 @@ static CLLocationDistance radius;
     notification.soundName = UILocalNotificationDefaultSoundName;
     notification.alertAction = @"Let's do this";
     
-    notification.alertBody = [NSString stringWithFormat:@"didEnterRegion: distans to Pin %.0f", meters];
+    CLLocationDistance meters = [self distanceToPoint: self.marker];
+    
+    notification.alertBody = [NSString stringWithFormat:@"didEnterRegion:distans to Pin %.0f", meters];
     
     [[UIApplication sharedApplication]scheduleLocalNotification:notification];
 }
 
-- (double)distanceToPoint:(MKPointAnnotation *)finishPoint {
+- (double)distanceToPoint:(GMSMarker *)finishPoint {
     
-    CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.coordinate.latitude longitude:finishPoint.coordinate.longitude];
+    CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.position.latitude longitude:finishPoint.position.longitude];
     
-    CLLocationDistance meters = [endPoint distanceFromLocation:[LocationManager sharedInstance].currentLocation];
+    CLLocationDistance meters = [endPoint distanceFromLocation:[LocationManager sharedInstance].locationManager.location];
     
     return meters;
 }
 
-- (MKPointAnnotation *)getAnnotationFromMapView:(MKMapView *)mapView {
-    
-    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    
-    for (id annotat in mapView.annotations) {
-        
-        if ([annotat isKindOfClass:[MKPointAnnotation class]]) {
-            
-            annotation = annotat;
-        }
-    }
-    return annotation;
-}
-
-- (void)drawCircularOverlayCuestaCoordinate:(CLLocationCoordinate2D)cuestaCoordinate {
-    
-    [self.mapView removeOverlays: [self.mapView overlays]];
-    
-    MKCircle *outerCircle = [MKCircle circleWithCenterCoordinate:cuestaCoordinate radius:radius];
-    
-    [self.mapView addOverlay: outerCircle];
-}
-
 - (void)locationChanges {
     
-    MKPointAnnotation *annotation = [self getAnnotationFromMapView:self.mapView];
+    CLLocationDistance meters = [self distanceToPoint: self.marker];
     
-    CLLocationDistance meters = [self distanceToPoint: annotation];
+    NSLog(@"%f", meters);
     
     if (self.flagEnter) {
         
         if (meters < 600 && self.segmentIndex == TransportTypeWalk) {
-
+            
             [self createBgTaskWithTimerSecond:30];
         }
         
         if (meters < 3500 && self.segmentIndex == TransportTypeCar) {
-
+            
             [self createBgTaskWithTimerSecond:20];
         }
         
         if (meters < 2500 && self.segmentIndex == TransportTypeCityBus) {
-
+            
             [self createBgTaskWithTimerSecond:20];
         }
         
         if (meters < 3500 && self.segmentIndex == TransportTypeSpeedTrain) {
             
             [self createBgTaskWithTimerSecond:30];
-            
         }
     }
 }
@@ -234,67 +244,6 @@ static CLLocationDistance radius;
     //   NSLog(@"beginBG called3");
 }
 
-#pragma mark - MKMapViewDelegate
-
-- (MKOverlayRenderer*)mapView:(MKMapView*)mapView rendererForOverlay:(id <MKOverlay>)overlay {
-    
-    MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc]initWithCircle:overlay];
-    circleRenderer.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.2];
-    circleRenderer.strokeColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
-    circleRenderer.lineWidth = 3;
-    
-    return circleRenderer;
-}
-
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray<MKAnnotationView *> *)views {
-    
-    if (mapView.overlays.count != 0) {
-        
-        MKPointAnnotation *annotation = [self getAnnotationFromMapView:mapView];
-        
-        CLLocationCoordinate2D location2D =
-        CLLocationCoordinate2DMake(annotation.coordinate.latitude, annotation.coordinate.longitude);
-        
-        self.region = [[CLCircularRegion alloc] initWithCenter:location2D
-                                                        radius:radius
-                                                    identifier:@"theRegion"];
-        
-        [[LocationManager sharedInstance] startMonitoringForRegion:self.region];
-    }
-}
-
-#pragma mark - UIGestureRecognizerDelegate
-
--(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
-    
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        
-        self.bgTask = UIBackgroundTaskInvalid;
-        
-        [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
-        
-        for (id annotat in self.mapView.annotations) {
-            
-            if ([annotat isKindOfClass:[MKPointAnnotation class]]) {
-                
-                [self.mapView removeAnnotation:annotat];
-            }
-        }
-        
-        CGPoint point = [gestureRecognizer locationInView:self.mapView];
-        
-        CLLocationCoordinate2D locCoord = [self.mapView convertPoint:point toCoordinateFromView:self.mapView];
-        
-        MKPointAnnotation *dropPin = [[MKPointAnnotation alloc] init];
-        
-        dropPin.coordinate = locCoord;
-        
-        [self.mapView addAnnotation:dropPin];
-        
-        [self drawCircularOverlayCuestaCoordinate:locCoord];
-    }
-}
-
 #pragma mark - Action
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
@@ -306,12 +255,12 @@ static CLLocationDistance radius;
     exit(1);
 }
 
-#pragma mark - Segue
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+//#pragma mark - Segue
+//
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
 
 - (void)dealloc {
     
