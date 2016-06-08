@@ -56,10 +56,6 @@ static CLLocationDistance radius;
     self.view = self.mapView;
     self.mapView.delegate = self;
     
-    
-    
-    
-    
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(didEnterBackground)
                                                 name:UIApplicationDidEnterBackgroundNotification

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+@import GoogleMaps;
 
 @interface AppDelegate ()
 
@@ -16,6 +17,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+   
+    ///google key
+    [GMSServices provideAPIKey:@"AIzaSyCtsvgiKypwUuzXgXxDKlcTuXxUF6GhN7M"];
     
     ///ios 9 only
     if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
