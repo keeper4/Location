@@ -17,6 +17,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+   
+    ///google key
+    [GMSServices provideAPIKey:@"AIzaSyCtsvgiKypwUuzXgXxDKlcTuXxUF6GhN7M"];
     
     ///google key
     [GMSServices provideAPIKey:@"AIzaSyCtsvgiKypwUuzXgXxDKlcTuXxUF6GhN7M"];
