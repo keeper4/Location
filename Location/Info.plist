@@ -63,12 +63,11 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-</array>
-<key>LSApplicationQueriesSchemes</key>
-<array>
-    <string>googlechromes</string>
-    <string>comgooglemaps</string>
-</array>
+    </array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>googlechromes</string>
+        <string>comgooglemaps</string>
+    </array>
 </dict>
 </plist>

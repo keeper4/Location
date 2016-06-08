@@ -7,8 +7,8 @@
 //
 
 #import "ACMapController.h"
-#import <MapKit/MapKit.h>
 #import "LocationManager.h"
+
 @import GoogleMaps;
 
 typedef enum {
@@ -55,11 +55,7 @@ static CLLocationDistance radius;
     self.mapView.myLocationEnabled = YES;
     self.view = self.mapView;
     self.mapView.delegate = self;
-    
-    
-    
-    
-    
+
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(didEnterBackground)
                                                 name:UIApplicationDidEnterBackgroundNotification

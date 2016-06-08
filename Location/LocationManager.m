@@ -7,7 +7,6 @@
 //
 
 #import "LocationManager.h"
-#import <MapKit/MKPointAnnotation.h>
 
 NSString * const invokeLocalNotification = @"invokeLocalNotification";
 NSString * const locationChangesNotification = @"locationChangesNotification";
