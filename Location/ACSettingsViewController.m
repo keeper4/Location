@@ -16,6 +16,12 @@
 
 @implementation ACSettingsViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.navigationController.navigationBar.hidden = YES;
+}
+
 - (IBAction)transportSettingControl:(UISegmentedControl *)sender {
     
     switch (sender.selectedSegmentIndex) {

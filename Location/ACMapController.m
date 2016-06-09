@@ -27,6 +27,7 @@ typedef enum {
 @property (assign, nonatomic) UIApplication *app;
 @property (strong, nonatomic) GMSMapView *mapView;
 @property (strong, nonatomic) GMSMarker *marker;
+@property (strong, nonatomic) NSString *typeTransportTitle;
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender;
 
@@ -35,14 +36,18 @@ typedef enum {
 @implementation ACMapController
 
 static CLLocationDistance radiusForWalk = 250;
-static CLLocationDistance radiusForCar  = 600;
-static CLLocationDistance radiusForCityBus = 600;
-static CLLocationDistance radiusForSpeedTrain = 600;
+static CLLocationDistance radiusForCar  = 700;
+static CLLocationDistance radiusForCityBus = 700;
+static CLLocationDistance radiusForSpeedTrain = 700;
 
 static CLLocationDistance radius;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    radius = [self getRadius];
+    self.navigationController.navigationBar.hidden = NO;
+    self.navigationItem.title = self.typeTransportTitle;
     
     [[LocationManager sharedInstance] startUpdatingLocation];
     
@@ -55,7 +60,7 @@ static CLLocationDistance radius;
     self.mapView.myLocationEnabled = YES;
     self.view = self.mapView;
     self.mapView.delegate = self;
-
+    
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(didEnterBackground)
                                                 name:UIApplicationDidEnterBackgroundNotification
@@ -78,7 +83,6 @@ static CLLocationDistance radius;
     
     self.flagEnter = YES;
     
-    radius = [self getRadius];
     
 }
 
@@ -101,10 +105,10 @@ static CLLocationDistance radius;
 - (NSUInteger)getRadius {
     
     switch (self.segmentIndex) {
-        case 0:  return radiusForWalk;
-        case 1:  return radiusForCar;
-        case 2:  return radiusForCityBus;
-        case 3:  return radiusForSpeedTrain;
+        case 0: self.typeTransportTitle = @"Walk"; return radiusForWalk;
+        case 1: self.typeTransportTitle = @"Car"; return radiusForCar;
+        case 2: self.typeTransportTitle = @"City Bus"; return radiusForCityBus;
+        case 3: self.typeTransportTitle = @"Speed Train"; return radiusForSpeedTrain;
             
         default: break;
     }
@@ -121,11 +125,18 @@ static CLLocationDistance radius;
         [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
     }
     
-    self.marker = [[GMSMarker alloc] init];
-    self.marker.position = coordinate;
-    self.marker.title = @"Current Location";
-    self.marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
-    self.marker.map = mapView;
+    GMSGeocoder *geocoder = [[GMSGeocoder alloc] init];
+    [geocoder reverseGeocodeCoordinate:coordinate completionHandler:^(GMSReverseGeocodeResponse *response, NSError *error) {
+        
+        GMSAddress *address = [response firstResult];
+        
+        self.marker = [[GMSMarker alloc] init];
+        self.marker.position = coordinate;
+        self.marker.title = address.thoroughfare;
+        self.marker.snippet = address.locality;
+        self.marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
+        self.marker.map = mapView;
+    }];
     
     GMSCircle *geoFenceCircle = [[GMSCircle alloc] init];
     geoFenceCircle.radius = radius;
@@ -166,7 +177,7 @@ static CLLocationDistance radius;
     CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.position.latitude longitude:finishPoint.position.longitude];
     
     CLLocationDistance meters = [endPoint distanceFromLocation:[LocationManager sharedInstance].locationManager.location];
-    
+
     return meters;
 }
 
