@@ -20,10 +20,7 @@
    
     ///google key
     [GMSServices provideAPIKey:@"AIzaSyCtsvgiKypwUuzXgXxDKlcTuXxUF6GhN7M"];
-    
-    ///google key
-    [GMSServices provideAPIKey:@"AIzaSyCtsvgiKypwUuzXgXxDKlcTuXxUF6GhN7M"];
-    
+
     ///ios 9 only
     if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
         

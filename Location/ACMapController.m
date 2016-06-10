@@ -8,6 +8,7 @@
 
 #import "ACMapController.h"
 #import "LocationManager.h"
+#import "ACFavoriteViewController.h"
 
 @import GoogleMaps;
 
@@ -30,7 +31,6 @@ typedef enum {
 @property (strong, nonatomic) NSString *typeTransportTitle;
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender;
-
 @end
 
 @implementation ACMapController
@@ -133,7 +133,7 @@ static CLLocationDistance radius;
         self.marker = [[GMSMarker alloc] init];
         self.marker.position = coordinate;
         self.marker.title = address.thoroughfare;
-        self.marker.snippet = address.locality;
+        self.marker.snippet = [NSString stringWithFormat:@"%.f m.",[self distanceToPoint: self.marker]];
         self.marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
         self.marker.map = mapView;
     }];
@@ -262,12 +262,13 @@ static CLLocationDistance radius;
     exit(1);
 }
 
-//#pragma mark - Segue
-//
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
+#pragma mark - Segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    ACFavoriteViewController *vc = segue.destinationViewController;
+    vc.marker = self.marker;
+}
 
 - (void)dealloc {
     

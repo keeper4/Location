@@ -16,6 +16,12 @@
 		DEE07C751CF8B0EC0021E5C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C731CF8B0EC0021E5C1 /* Main.storyboard */; };
 		DEE07C771CF8B0EC0021E5C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */; };
 		DEE07C7A1CF8B0EC0021E5C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEE07C781CF8B0EC0021E5C1 /* LaunchScreen.storyboard */; };
+		DEF82F7E1D099F96008ECBDA /* ACFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF82F7D1D099F96008ECBDA /* ACFavoriteViewController.m */; };
+		DEF82F831D0B050C008ECBDA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEF82F821D0B050C008ECBDA /* CoreData.framework */; };
+		DEF82F861D0B0563008ECBDA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DEF82F841D0B0563008ECBDA /* Model.xcdatamodeld */; };
+		DEF82F8C1D0B0641008ECBDA /* ACMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF82F8A1D0B0641008ECBDA /* ACMarker.m */; };
+		DEF82F901D0B072C008ECBDA /* ACDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF82F8F1D0B072C008ECBDA /* ACDataManager.m */; };
+		DEF82F971D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF82F961D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +41,16 @@
 		DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEE07C791CF8B0EC0021E5C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DEE07C7B1CF8B0EC0021E5C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEF82F7C1D099F96008ECBDA /* ACFavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACFavoriteViewController.h; sourceTree = "<group>"; };
+		DEF82F7D1D099F96008ECBDA /* ACFavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACFavoriteViewController.m; sourceTree = "<group>"; };
+		DEF82F821D0B050C008ECBDA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DEF82F851D0B0563008ECBDA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		DEF82F891D0B0641008ECBDA /* ACMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACMarker.h; sourceTree = "<group>"; };
+		DEF82F8A1D0B0641008ECBDA /* ACMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACMarker.m; sourceTree = "<group>"; };
+		DEF82F8E1D0B072C008ECBDA /* ACDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACDataManager.h; sourceTree = "<group>"; };
+		DEF82F8F1D0B072C008ECBDA /* ACDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACDataManager.m; sourceTree = "<group>"; };
+		DEF82F951D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ACMarker+CoreDataProperties.h"; sourceTree = "<group>"; };
+		DEF82F961D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ACMarker+CoreDataProperties.m"; sourceTree = "<group>"; };
 		F3FD319E9E92901CB99C8F66 /* libPods-Location.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Location.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -43,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEF82F831D0B050C008ECBDA /* CoreData.framework in Frameworks */,
 				B8721FA406FDBEB52879BEAE /* libPods-Location.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,12 +99,8 @@
 			children = (
 				DEE07C6D1CF8B0EC0021E5C1 /* AppDelegate.h */,
 				DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */,
-				DE59239D1D03325C0023093D /* ACSettingsViewController.h */,
-				DE59239E1D03325C0023093D /* ACSettingsViewController.m */,
-				DECFDFE81CFEC761006C6F4A /* ACMapController.h */,
-				DECFDFE91CFEC761006C6F4A /* ACMapController.m */,
-				DE3732241D01BF8300CB3BC9 /* LocationManager.h */,
-				DE3732251D01BF8300CB3BC9 /* LocationManager.m */,
+				DEF82F8D1D0B064C008ECBDA /* Model */,
+				DEF82F911D0B0805008ECBDA /* Controller */,
 				DEE07C731CF8B0EC0021E5C1 /* Main.storyboard */,
 				DEE07C761CF8B0EC0021E5C1 /* Assets.xcassets */,
 				DEE07C781CF8B0EC0021E5C1 /* LaunchScreen.storyboard */,
@@ -105,9 +118,47 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DEF82F8D1D0B064C008ECBDA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DEF82F951D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.h */,
+				DEF82F961D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.m */,
+				DEF82F891D0B0641008ECBDA /* ACMarker.h */,
+				DEF82F8A1D0B0641008ECBDA /* ACMarker.m */,
+				DEF82F981D0B26E0008ECBDA /* Manager */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		DEF82F911D0B0805008ECBDA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				DE59239D1D03325C0023093D /* ACSettingsViewController.h */,
+				DE59239E1D03325C0023093D /* ACSettingsViewController.m */,
+				DECFDFE81CFEC761006C6F4A /* ACMapController.h */,
+				DECFDFE91CFEC761006C6F4A /* ACMapController.m */,
+				DEF82F7C1D099F96008ECBDA /* ACFavoriteViewController.h */,
+				DEF82F7D1D099F96008ECBDA /* ACFavoriteViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		DEF82F981D0B26E0008ECBDA /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				DE3732241D01BF8300CB3BC9 /* LocationManager.h */,
+				DE3732251D01BF8300CB3BC9 /* LocationManager.m */,
+				DEF82F8E1D0B072C008ECBDA /* ACDataManager.h */,
+				DEF82F8F1D0B072C008ECBDA /* ACDataManager.m */,
+				DEF82F841D0B0563008ECBDA /* Model.xcdatamodeld */,
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
 		EF4D20047390C386433A33A1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DEF82F821D0B050C008ECBDA /* CoreData.framework */,
 				F3FD319E9E92901CB99C8F66 /* libPods-Location.a */,
 			);
 			name = Frameworks;
@@ -236,9 +287,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE59239F1D03325C0023093D /* ACSettingsViewController.m in Sources */,
+				DEF82F971D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.m in Sources */,
 				DE3732261D01BF8300CB3BC9 /* LocationManager.m in Sources */,
+				DEF82F901D0B072C008ECBDA /* ACDataManager.m in Sources */,
+				DEF82F861D0B0563008ECBDA /* Model.xcdatamodeld in Sources */,
+				DEF82F7E1D099F96008ECBDA /* ACFavoriteViewController.m in Sources */,
 				DECFDFEA1CFEC761006C6F4A /* ACMapController.m in Sources */,
 				DEE07C6F1CF8B0EC0021E5C1 /* AppDelegate.m in Sources */,
+				DEF82F8C1D0B0641008ECBDA /* ACMarker.m in Sources */,
 				DEE07C6C1CF8B0EC0021E5C1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,6 +455,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DEF82F841D0B0563008ECBDA /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DEF82F851D0B0563008ECBDA /* Model.xcdatamodel */,
+			);
+			currentVersion = DEF82F851D0B0563008ECBDA /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = DEE07C5F1CF8B0EC0021E5C1 /* Project object */;
 }
