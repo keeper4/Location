@@ -99,6 +99,7 @@
 			children = (
 				DEE07C6D1CF8B0EC0021E5C1 /* AppDelegate.h */,
 				DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */,
+				DEF82F981D0B26E0008ECBDA /* Manager */,
 				DEF82F8D1D0B064C008ECBDA /* Model */,
 				DEF82F911D0B0805008ECBDA /* Controller */,
 				DEE07C731CF8B0EC0021E5C1 /* Main.storyboard */,
@@ -125,7 +126,6 @@
 				DEF82F961D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.m */,
 				DEF82F891D0B0641008ECBDA /* ACMarker.h */,
 				DEF82F8A1D0B0641008ECBDA /* ACMarker.m */,
-				DEF82F981D0B26E0008ECBDA /* Manager */,
 			);
 			name = Model;
 			sourceTree = "<group>";

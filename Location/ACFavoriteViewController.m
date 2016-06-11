@@ -7,10 +7,13 @@
 //
 
 #import "ACFavoriteViewController.h"
+#import <CoreData/CoreData.h>
 #import "ACDataManager.h"
 #import "ACMarker.h"
 
-@interface ACFavoriteViewController () <UITableViewDataSource, UITableViewDelegate>
+
+@interface ACFavoriteViewController () <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate>
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *namePointTextField;
 @property (strong, nonatomic) NSMutableArray *favoriteMarkersArray;
@@ -37,7 +40,7 @@
 
 - (void)saveMarker {
     
-    if (self.marker != nil) {
+    if (self.marker.snippet !=  nil && self.namePointTextField.text != nil) {
         
         [[ACDataManager sharedManager] addMarker:self.marker namePointTextField:self.namePointTextField.text];
     }
@@ -64,7 +67,7 @@
     ACMarker *marker = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.textLabel.text = marker.name;
-    cell.detailTextLabel.text = marker.title;
+    cell.detailTextLabel.text = marker.snippet;
     
     return cell;
 }

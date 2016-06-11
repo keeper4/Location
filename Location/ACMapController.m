@@ -19,7 +19,7 @@ typedef enum {
     TransportTypeSpeedTrain
 } TransportType;
 
-@interface ACMapController () <CLLocationManagerDelegate, GMSMapViewDelegate>
+@interface ACMapController () <CLLocationManagerDelegate, GMSMapViewDelegate,UIApplicationDelegate>
 
 @property (strong, nonatomic) CLCircularRegion *region;
 @property (strong, nonatomic) UILongPressGestureRecognizer *longPressGesture;
@@ -87,6 +87,8 @@ static CLLocationDistance radius;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    
+    
     if (self.marker != nil && self.marker.snippet != nil) {
         [self drowMarkerWithCoordinate:self.marker.position];
     } else {
@@ -104,6 +106,8 @@ static CLLocationDistance radius;
 }
 
 - (void)willEnterForeground {
+    
+    [self checkNotification];
     
     [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     
@@ -136,7 +140,7 @@ static CLLocationDistance radius;
         
         GMSAddress *address = [response firstResult];
         
-       // self.marker = [[GMSMarker alloc] init];
+        // self.marker = [[GMSMarker alloc] init];
         self.marker.position = coordinate;
         self.marker.title = [NSString stringWithFormat:@"%.f m.",[self distanceToPoint: self.marker]];
         self.marker.snippet = address.thoroughfare;
@@ -162,7 +166,7 @@ static CLLocationDistance radius;
 #pragma mark - GMSMapViewDelegate
 
 - (void)mapView:(GMSMapView *)mapView didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
- 
+    
     [self drowMarkerWithCoordinate:coordinate];
 }
 
@@ -190,7 +194,7 @@ static CLLocationDistance radius;
     CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.position.latitude longitude:finishPoint.position.longitude];
     
     CLLocationDistance meters = [endPoint distanceFromLocation:[LocationManager sharedInstance].locationManager.location];
-
+    
     return meters;
 }
 
@@ -273,6 +277,48 @@ static CLLocationDistance radius;
     [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     
     exit(1);
+}
+
+#pragma mark - LocalNotification
+
+- (void)checkNotification {
+    
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(currentUserNotificationSettings)]) {
+        
+        UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+        
+        if (grantedSettings.types == UIUserNotificationTypeNone) {
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Notification Services Disable!"
+                                                                           message:@"We can't send you alert, when you reach your destination. Please change your Notification settings. Settings > myLocation > Notification > Always"
+                                                                    preferredStyle:(UIAlertControllerStyleAlert)];
+            
+            
+            
+            UIAlertAction* noButton = [UIAlertAction
+                                       actionWithTitle:@"Exit"
+                                       style:UIAlertActionStyleDefault
+                                       handler:^(UIAlertAction * action)
+                                       {
+                                           [[LocationManager sharedInstance] stopUpdatingLocation];
+                                           [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
+                                           [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
+                                           
+                                           exit(2);
+                                       }];
+            
+            [alert addAction:noButton];
+            
+            UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+            
+            window.rootViewController = [[UIViewController alloc] init];
+            window.windowLevel = UIWindowLevelAlert + 1;
+            [window makeKeyAndVisible];
+            
+            [window.rootViewController presentViewController:alert animated:YES completion:nil];
+        }
+        
+    }
 }
 
 #pragma mark - Segue

@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GoogleMaps/GMSMarker.h>
-#import <CoreData/CoreData.h>
+@class GMSMarker;
 
-@interface ACFavoriteViewController : UIViewController <NSFetchedResultsControllerDelegate>
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@interface ACFavoriteViewController : UIViewController
 
 @property (strong, nonatomic) GMSMarker *marker;
 

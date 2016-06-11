@@ -8,6 +8,7 @@
 
 #import "ACMapController.h"
 #import "ACSettingsViewController.h"
+#import "LocationManager.h"
 
 @interface ACSettingsViewController ()
 
@@ -20,6 +21,7 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.hidden = YES;
+    [LocationManager sharedInstance];
 }
 
 - (IBAction)transportSettingControl:(UISegmentedControl *)sender {
@@ -40,5 +42,6 @@
     
     vc.segmentIndex = self.segmentIndex;
 }
+
 
 @end
