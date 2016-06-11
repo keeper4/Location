@@ -82,8 +82,16 @@ static CLLocationDistance radius;
                                               object:nil];
     
     self.flagEnter = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    
+    if (self.marker != nil && self.marker.snippet != nil) {
+        [self drowMarkerWithCoordinate:self.marker.position];
+    } else {
+        self.marker = [[GMSMarker alloc] init];
+    }
 }
 
 #pragma mark - private Methods
@@ -115,11 +123,9 @@ static CLLocationDistance radius;
     return 500;
 }
 
-#pragma mark - GMSMapViewDelegate
-
-- (void)mapView:(GMSMapView *)mapView didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
+- (void)drowMarkerWithCoordinate:(CLLocationCoordinate2D)coordinate {
     
-    [mapView clear];
+    [self.mapView clear];
     
     if (self.region) {
         [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
@@ -130,12 +136,12 @@ static CLLocationDistance radius;
         
         GMSAddress *address = [response firstResult];
         
-        self.marker = [[GMSMarker alloc] init];
+       // self.marker = [[GMSMarker alloc] init];
         self.marker.position = coordinate;
-        self.marker.title = address.thoroughfare;
-        self.marker.snippet = [NSString stringWithFormat:@"%.f m.",[self distanceToPoint: self.marker]];
+        self.marker.title = [NSString stringWithFormat:@"%.f m.",[self distanceToPoint: self.marker]];
+        self.marker.snippet = address.thoroughfare;
         self.marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
-        self.marker.map = mapView;
+        self.marker.map = self.mapView;
     }];
     
     GMSCircle *geoFenceCircle = [[GMSCircle alloc] init];
@@ -144,13 +150,20 @@ static CLLocationDistance radius;
     geoFenceCircle.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.4];
     geoFenceCircle.strokeWidth = 2;
     geoFenceCircle.strokeColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2];
-    geoFenceCircle.map = mapView;
+    geoFenceCircle.map = self.mapView;
     
     self.region = [[CLCircularRegion alloc] initWithCenter:geoFenceCircle.position
                                                     radius:radius
                                                 identifier:@"theRegion"];
     
     [[LocationManager sharedInstance] startMonitoringForRegion:self.region];
+}
+
+#pragma mark - GMSMapViewDelegate
+
+- (void)mapView:(GMSMapView *)mapView didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
+ 
+    [self drowMarkerWithCoordinate:coordinate];
 }
 
 - (void)youInRegionNotification {

@@ -29,7 +29,7 @@
     
     self.navigationItem.rightBarButtonItem = saveButton;
     
-   //  [NSFetchedResultsController deleteCacheWithName:nil];
+    //  [NSFetchedResultsController deleteCacheWithName:nil];
     
 }
 
@@ -85,6 +85,47 @@
         
         [[ACDataManager sharedManager] saveContext];
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"Title"
+                                  message:@"Set point on the map?"
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* yesButton = [UIAlertAction
+                                actionWithTitle:@"Yes"
+                                style:UIAlertActionStyleDefault
+                                handler:^(UIAlertAction * action)
+                                {
+                                    //self.marker = [[GMSMarker alloc] init];
+                                    
+                                    ACMarker *marker = [self.fetchedResultsController objectAtIndexPath:indexPath];
+                                    
+                                    self.marker.title = marker.title;
+                                    self.marker.snippet = marker.name;
+                                    
+                                    CLLocationCoordinate2D position;
+                                    position.latitude = [marker.latitude doubleValue];
+                                    position.longitude = [marker.longitude doubleValue];
+                                    
+                                    self.marker.position = position;
+                                }];
+    
+    UIAlertAction* noButton = [UIAlertAction
+                               actionWithTitle:@"No"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                                   //Handel no, thanks button
+                                   
+                               }];
+    
+    [alert addAction:yesButton];
+    [alert addAction:noButton];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
