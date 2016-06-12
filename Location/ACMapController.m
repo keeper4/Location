@@ -242,7 +242,7 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     }
 }
 
-- (void)createBgTaskWithTimerSecond:(NSUInteger)timer {
+- (void)createBgTaskWithTimerSecond:(NSUInteger)timerSeconds {
     
     [[LocationManager sharedInstance] startUpdatingLocation];
     
@@ -261,7 +261,14 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     //    }];
     //
     //    [self bgTaskWithTimer:timer];
+    
+    NSTimer *times = [NSTimer scheduledTimerWithTimeInterval:timerSeconds
+                                                      target:self
+                                                    selector:@selector(updateCurrentLocation)
+                                                    userInfo:nil
+                                                     repeats:YES];
 }
+
 //TODO: optimize the code, make a timer
 //- (void)bgTaskWithTimer:(NSUInteger)timer {
 //
@@ -276,7 +283,15 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
 //    });
 //}
 
-#pragma mark - Action
+#pragma mark - Action methods
+
+- (void)updateCurrentLocation {
+    
+    [[LocationManager sharedInstance] startUpdatingLocation];
+    
+    NSLog(@"beginBG called1");
+    
+}
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
     
