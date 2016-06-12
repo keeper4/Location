@@ -177,6 +177,7 @@
 				DEE07C651CF8B0EC0021E5C1 /* Resources */,
 				AFCCF63A742F153AAD3A45BF /* Embed Pods Frameworks */,
 				CD2759964C46FE3BCC6A6E96 /* Copy Pods Resources */,
+				DEA1206D1D0DCB1D00199879 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -278,6 +279,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Location/Pods-Location-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		DEA1206D1D0DCB1D00199879 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

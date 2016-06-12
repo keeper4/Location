@@ -22,7 +22,6 @@ typedef enum {
 @interface ACMapController () <CLLocationManagerDelegate, GMSMapViewDelegate,UIApplicationDelegate>
 
 @property (strong, nonatomic) CLCircularRegion *region;
-@property (strong, nonatomic) UILongPressGestureRecognizer *longPressGesture;
 @property (assign, nonatomic) BOOL flagEnter;
 @property (assign, nonatomic) UIBackgroundTaskIdentifier bgTask;
 @property (assign, nonatomic) UIApplication *app;
@@ -89,17 +88,16 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
                                               object:nil];
     
     self.flagEnter = YES;
-    self.app = [UIApplication sharedApplication];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    
-    
     if (self.marker != nil && self.marker.snippet != nil) {
+        
         [self drowMarkerWithCoordinate:self.marker.position];
     } else {
+        
         self.marker = [[GMSMarker alloc] init];
     }
 }
@@ -110,7 +108,9 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     
     [[LocationManager sharedInstance] stopUpdatingLocation];
     
-    [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
+    if (self.region) {
+        [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
+    }
 }
 
 - (void)willEnterForeground {
@@ -141,6 +141,7 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     
     if (self.region) {
         [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
+        self.flagEnter = YES;
     }
     
     GMSGeocoder *geocoder = [[GMSGeocoder alloc] init];
@@ -180,8 +181,11 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
 
 - (void)youInRegionNotification {
     
-    self.bgTask = UIBackgroundTaskInvalid;
-   
+    if (self.app) {
+        [self.app endBackgroundTask:self.bgTask];
+        self.bgTask = UIBackgroundTaskInvalid;
+    }
+    
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     UILocalNotification *notification = [[UILocalNotification alloc] init];
@@ -227,7 +231,7 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
         }
         
         if (meters < metersToEnableCityBus && meters > 0 && self.segmentIndex == TransportTypeCityBus) {
-
+            
             [self createBgTaskWithTimerSecond:20];
         }
         
@@ -240,43 +244,37 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
 
 - (void)createBgTaskWithTimerSecond:(NSUInteger)timer {
     
+    [[LocationManager sharedInstance] startUpdatingLocation];
+    
     self.flagEnter = NO;
     
-    
-    self.bgTask = [self.app beginBackgroundTaskWithExpirationHandler:^{
-        NSLog(@"!!UIBackgroundTaskInvalid!!");
-        self.bgTask = UIBackgroundTaskInvalid;
-    }];
-    
-   // [self enableLocationWithTimerSecond:timer];
+    //    NSLog(@"CREATE BGTASK!");
+    //
+    //
+    //    self.app = [UIApplication sharedApplication];
+    //
+    //    self.bgTask = [self.app beginBackgroundTaskWithName:@"MyTask" expirationHandler:^{
+    //        // Clean up any unfinished task business by marking where you
+    //        // stopped or ending the task outright.
+    //        [self.app endBackgroundTask:self.bgTask];
+    //        self.bgTask = UIBackgroundTaskInvalid;
+    //    }];
+    //
+    //    [self bgTaskWithTimer:timer];
 }
-
-- (void)enableLocationWithTimerSecond:(NSUInteger)timer {
-    
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^(void){
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timer * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [[LocationManager sharedInstance] startUpdatingLocation];
-              NSLog(@"beginBG called1");
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [[LocationManager sharedInstance] stopUpdatingLocation];
-               // [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
-                   NSLog(@"beginBG called2");
-                
-                if (self.bgTask != UIBackgroundTaskInvalid) {
-                   // [self enableLocationWithTimerSecond:timer];
-                } else {
-                    [self.app endBackgroundTask:self.bgTask];
-                }
-            });
-        });
-    });
-    
-       NSLog(@"beginBG called3");
-}
+//TODO: optimize the code, make a timer
+//- (void)bgTaskWithTimer:(NSUInteger)timer {
+//
+//
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//
+//        [[LocationManager sharedInstance] startUpdatingLocation];
+//
+//        NSLog(@"beginBG called1");
+//        [self.app endBackgroundTask:self.bgTask];
+//        self.bgTask = UIBackgroundTaskInvalid;
+//    });
+//}
 
 #pragma mark - Action
 

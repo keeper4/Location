@@ -24,5 +24,4 @@ extern NSString * const locationChangesNotification;
 - (void)stopMonitoringSignificantLocationChanges;
 - (void)startMonitoringForRegion:(CLCircularRegion *)regoin;
 - (void)stopMonitoringForRegion:(CLCircularRegion *)regoin;
-
 @end
