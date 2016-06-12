@@ -122,6 +122,7 @@
 		DEF82F8D1D0B064C008ECBDA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DEF82F841D0B0563008ECBDA /* Model.xcdatamodeld */,
 				DEF82F951D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.h */,
 				DEF82F961D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.m */,
 				DEF82F891D0B0641008ECBDA /* ACMarker.h */,
@@ -150,7 +151,6 @@
 				DE3732251D01BF8300CB3BC9 /* LocationManager.m */,
 				DEF82F8E1D0B072C008ECBDA /* ACDataManager.h */,
 				DEF82F8F1D0B072C008ECBDA /* ACDataManager.m */,
-				DEF82F841D0B0563008ECBDA /* Model.xcdatamodeld */,
 			);
 			name = Manager;
 			sourceTree = "<group>";

@@ -35,12 +35,19 @@ typedef enum {
 
 @implementation ACMapController
 
+static CLLocationDistance radius;
+
 static CLLocationDistance radiusForWalk = 250;
 static CLLocationDistance radiusForCar  = 700;
 static CLLocationDistance radiusForCityBus = 700;
 static CLLocationDistance radiusForSpeedTrain = 700;
 
-static CLLocationDistance radius;
+static NSUInteger metersToEnableWalr = 600;
+static NSUInteger metersToEnableCar  = 3500;
+static NSUInteger metersToEnableCityBus = 2500;
+static NSUInteger metersToEnableSpeedTrain = 3500;
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -82,6 +89,7 @@ static CLLocationDistance radius;
                                               object:nil];
     
     self.flagEnter = YES;
+    self.app = [UIApplication sharedApplication];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -172,6 +180,8 @@ static CLLocationDistance radius;
 
 - (void)youInRegionNotification {
     
+    self.bgTask = UIBackgroundTaskInvalid;
+   
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     UILocalNotification *notification = [[UILocalNotification alloc] init];
@@ -206,58 +216,58 @@ static CLLocationDistance radius;
     
     if (self.flagEnter) {
         
-        if (meters < 600 && self.segmentIndex == TransportTypeWalk) {
+        if (meters < metersToEnableWalr && meters > 0 && self.segmentIndex == TransportTypeWalk) {
             
             [self createBgTaskWithTimerSecond:30];
         }
         
-        if (meters < 3500 && self.segmentIndex == TransportTypeCar) {
+        if (meters < metersToEnableCar && meters > 0 && self.segmentIndex == TransportTypeCar) {
             
             [self createBgTaskWithTimerSecond:20];
         }
         
-        if (meters < 2500 && self.segmentIndex == TransportTypeCityBus) {
-            
+        if (meters < metersToEnableCityBus && meters > 0 && self.segmentIndex == TransportTypeCityBus) {
+
             [self createBgTaskWithTimerSecond:20];
         }
         
-        if (meters < 3500 && self.segmentIndex == TransportTypeSpeedTrain) {
+        if (meters < metersToEnableSpeedTrain && meters > 0 && self.segmentIndex == TransportTypeSpeedTrain) {
             
             [self createBgTaskWithTimerSecond:30];
         }
     }
 }
 
-- (void)createBgTaskWithTimerSecond:(NSUInteger)second {
+- (void)createBgTaskWithTimerSecond:(NSUInteger)timer {
     
     self.flagEnter = NO;
     
-    self.app = [UIApplication sharedApplication];
+    
     self.bgTask = [self.app beginBackgroundTaskWithExpirationHandler:^{
-        
+        NSLog(@"!!UIBackgroundTaskInvalid!!");
         self.bgTask = UIBackgroundTaskInvalid;
     }];
     
-    [self enableLocationWithTimerSecond:second];
+   // [self enableLocationWithTimerSecond:timer];
 }
 
 - (void)enableLocationWithTimerSecond:(NSUInteger)timer {
     
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void){
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^(void){
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timer * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             [[LocationManager sharedInstance] startUpdatingLocation];
-            //  NSLog(@"beginBG called1");
+              NSLog(@"beginBG called1");
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                 [[LocationManager sharedInstance] stopUpdatingLocation];
-                [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
-                //   NSLog(@"beginBG called2");
+               // [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
+                   NSLog(@"beginBG called2");
                 
                 if (self.bgTask != UIBackgroundTaskInvalid) {
-                    [self enableLocationWithTimerSecond:timer];
+                   // [self enableLocationWithTimerSecond:timer];
                 } else {
                     [self.app endBackgroundTask:self.bgTask];
                 }
@@ -265,7 +275,7 @@ static CLLocationDistance radius;
         });
     });
     
-    //   NSLog(@"beginBG called3");
+       NSLog(@"beginBG called3");
 }
 
 #pragma mark - Action

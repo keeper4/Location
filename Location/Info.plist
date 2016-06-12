@@ -48,8 +48,6 @@
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>location</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

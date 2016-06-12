@@ -32,7 +32,7 @@ NSString * const locationChangesNotification = @"locationChangesNotification";
     if(self != nil) {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        self.locationManager.distanceFilter = kCLDistanceFilterNone;
+        self.locationManager.distanceFilter  = kCLDistanceFilterNone;
         self.locationManager.delegate = self;
         self.locationManager.allowsBackgroundLocationUpdates = true;
         
@@ -50,7 +50,7 @@ NSString * const locationChangesNotification = @"locationChangesNotification";
 #pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
+    NSLog(@"didUpdateToLocation == %@",newLocation);
     self.currentLocation = newLocation;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:locationChangesNotification object:self];
@@ -97,38 +97,8 @@ NSString * const locationChangesNotification = @"locationChangesNotification";
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    if (status == kCLAuthorizationStatusAuthorizedAlways) {
-        
-        
-    } else if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Location Services does not always work!"
-                                                                       message:@"Please change your location settings to Always. Settings > myLocation > Location >Always"
-                                                                preferredStyle:(UIAlertControllerStyleAlert)];
-        
-        
-        
-        UIAlertAction* noButton = [UIAlertAction
-                                   actionWithTitle:@"Exit"
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction * action)
-                                   {
-                                       [[LocationManager sharedInstance] stopUpdatingLocation];
-                                       
-                                       exit(2);
-                                   }];
-        
-        [alert addAction:noButton];
-        
-        UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        
-        window.rootViewController = [[UIViewController alloc] init];
-        window.windowLevel = UIWindowLevelAlert + 1;
-        [window makeKeyAndVisible];
-        
-        [window.rootViewController presentViewController:alert animated:YES completion:nil];
-        
-    } else if (status == kCLAuthorizationStatusDenied) {
+    
+    if (status == kCLAuthorizationStatusDenied) {
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Location Services Disabled!"
                                                                        message:@"Please enable Location. Settings > LocationmyLocation > Always"
