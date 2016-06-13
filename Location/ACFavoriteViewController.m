@@ -102,8 +102,6 @@
                                 style:UIAlertActionStyleDefault
                                 handler:^(UIAlertAction * action)
                                 {
-                                    //self.marker = [[GMSMarker alloc] init];
-                                    
                                     ACMarker *marker = [self.fetchedResultsController objectAtIndexPath:indexPath];
                                     
                                     self.marker.title = marker.title;

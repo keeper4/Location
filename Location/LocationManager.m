@@ -31,7 +31,7 @@ NSString * const locationChangesNotification = @"locationChangesNotification";
     self = [super init];
     if(self != nil) {
         self.locationManager = [[CLLocationManager alloc] init];
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         self.locationManager.distanceFilter  = kCLDistanceFilterNone;
         self.locationManager.delegate = self;
         self.locationManager.allowsBackgroundLocationUpdates = true;
@@ -50,8 +50,11 @@ NSString * const locationChangesNotification = @"locationChangesNotification";
 #pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    NSLog(@"didUpdateToLocation == %@",newLocation);
-    self.currentLocation = newLocation;
+ //   NSLog(@"didUpdateToLocation == %@",newLocation);
+   
+    if (self.inBackground) {
+        [self.locationManager stopUpdatingLocation];
+    }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:locationChangesNotification object:self];
 }
