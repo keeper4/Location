@@ -15,10 +15,6 @@
 
 @implementation AppDelegate
 
-- (void)applicationShouldRequestHealthAuthorization:(UIApplication *)application {
-    NSLog(@"applicationShouldRequestHealthAuthorization");
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     ///google key

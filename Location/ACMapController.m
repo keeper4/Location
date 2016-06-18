@@ -114,6 +114,8 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     if (self.region) {
         [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
     }
+    
+//TODO: Invoc LocalNotification after 5 sec with long custum soung
 }
 
 - (void)willEnterForeground {
@@ -130,9 +132,9 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
 - (NSUInteger)getRadius {
     
     switch (self.segmentIndex) {
-        case 0: self.typeTransportTitle = @"Walk"; return radiusForWalk;
-        case 1: self.typeTransportTitle = @"Car"; return radiusForCar;
-        case 2: self.typeTransportTitle = @"City Bus"; return radiusForCityBus;
+        case 0: self.typeTransportTitle = @"Walk";        return radiusForWalk;
+        case 1: self.typeTransportTitle = @"Car";         return radiusForCar;
+        case 2: self.typeTransportTitle = @"City Bus";    return radiusForCityBus;
         case 3: self.typeTransportTitle = @"Speed Train"; return radiusForSpeedTrain;
             
         default: break;
@@ -189,13 +191,11 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
 
 - (void)youInRegionNotification {
     
-    if (self.timer) {
-        [self.app endBackgroundTask:self.bgTask];
-        self.bgTask = UIBackgroundTaskInvalid;
-        [self.timer invalidate];
-        
-        NSLog(@"Remuve Timer and BgTask");
-    }
+    [self.app endBackgroundTask:self.bgTask];
+    self.bgTask = UIBackgroundTaskInvalid;
+    [self.timer invalidate];
+    
+    NSLog(@"Remuve Timer and BgTask");
     
     NSLog(@"!!!!!!!!youInRegion!!!!!!!");
     
@@ -206,7 +206,7 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     notification.fireDate = [NSDate date];
     notification.timeZone = [NSTimeZone defaultTimeZone];
     
-    notification.soundName = @"Old-alarm-clock-ringing";
+    notification.soundName = UILocalNotificationDefaultSoundName;
     notification.alertAction = @"Let's do this";
     
     CLLocationDistance meters = [self distanceToPoint: self.marker];
@@ -227,11 +227,11 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
 
 - (void)locationChanges {
     
-    if (self.flagEnterBgTask) {
+    if (self.flagEnterBgTask && ![self.region containsCoordinate:[LocationManager sharedInstance].curentLocation.coordinate]) {
         
         CLLocationDistance meters = [self distanceToPoint: self.marker];
         
-        NSLog(@"%f", meters);
+        NSLog(@"meters: %f", meters);
         
         if (meters < metersToEnableWalr && meters > 0 && self.segmentIndex == TransportTypeWalk) {
             
