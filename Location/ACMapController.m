@@ -35,24 +35,12 @@ typedef enum {
 
 @implementation ACMapController
 
-static CLLocationDistance radius;
-
-static CLLocationDistance radiusForWalk = 250;
-static CLLocationDistance radiusForCar  = 700;
-static CLLocationDistance radiusForCityBus = 700;
-static CLLocationDistance radiusForSpeedTrain = 700;
-
-static NSUInteger metersToEnableWalr = 600;
-static NSUInteger metersToEnableCar  = 3500;
-static NSUInteger metersToEnableCityBus = 2500;
-static NSUInteger metersToEnableSpeedTrain = 3500;
-
-
+static CLLocationDistance radius    = 700;
+static NSUInteger metersToEnableCar = 3500;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    radius = [self getRadius];
     self.navigationController.navigationBar.hidden = NO;
     self.navigationItem.title = self.typeTransportTitle;
     
@@ -114,8 +102,6 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     if (self.region) {
         [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
     }
-    
-//TODO: Invoc LocalNotification after 5 sec with long custum soung
 }
 
 - (void)willEnterForeground {
@@ -127,19 +113,6 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     
     [[LocationManager sharedInstance] startUpdatingLocation];
-}
-
-- (NSUInteger)getRadius {
-    
-    switch (self.segmentIndex) {
-        case 0: self.typeTransportTitle = @"Walk";        return radiusForWalk;
-        case 1: self.typeTransportTitle = @"Car";         return radiusForCar;
-        case 2: self.typeTransportTitle = @"City Bus";    return radiusForCityBus;
-        case 3: self.typeTransportTitle = @"Speed Train"; return radiusForSpeedTrain;
-            
-        default: break;
-    }
-    return 500;
 }
 
 - (void)drowMarkerWithCoordinate:(CLLocationCoordinate2D)coordinate {
@@ -191,9 +164,11 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
 
 - (void)youInRegionNotification {
     
+    //[self disableLocation];
+    
+    [self.timer invalidate];
     [self.app endBackgroundTask:self.bgTask];
     self.bgTask = UIBackgroundTaskInvalid;
-    [self.timer invalidate];
     
     NSLog(@"Remuve Timer and BgTask");
     
@@ -205,8 +180,7 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     
     notification.fireDate = [NSDate date];
     notification.timeZone = [NSTimeZone defaultTimeZone];
-    
-    notification.soundName = UILocalNotificationDefaultSoundName;
+    notification.soundName = @"alarm.caf";
     notification.alertAction = @"Let's do this";
     
     CLLocationDistance meters = [self distanceToPoint: self.marker];
@@ -218,7 +192,8 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
 
 - (double)distanceToPoint:(GMSMarker *)finishPoint {
     
-    CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.position.latitude longitude:finishPoint.position.longitude];
+    CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.position.latitude
+                                                      longitude:finishPoint.position.longitude];
     
     CLLocationDistance meters = [endPoint distanceFromLocation:[LocationManager sharedInstance].locationManager.location];
     
@@ -233,24 +208,9 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
         
         NSLog(@"meters: %f", meters);
         
-        if (meters < metersToEnableWalr && meters > 0 && self.segmentIndex == TransportTypeWalk) {
-            
-            [self createBgTaskWithTimerSecond:30];
-        }
-        
-        if (meters < metersToEnableCar && meters > 0 && self.segmentIndex == TransportTypeCar) {
+        if (meters < metersToEnableCar && meters > 0) {
             
             [self createBgTaskWithTimerSecond:20];
-        }
-        
-        if (meters < metersToEnableCityBus && meters > 0 && self.segmentIndex == TransportTypeCityBus) {
-            
-            [self createBgTaskWithTimerSecond:20];
-        }
-        
-        if (meters < metersToEnableSpeedTrain && meters > 0 && self.segmentIndex == TransportTypeSpeedTrain) {
-            
-            [self createBgTaskWithTimerSecond:30];
         }
     }
 }
@@ -279,6 +239,13 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
+- (void)disableLocation {
+    
+    [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
+    [[LocationManager sharedInstance] stopUpdatingLocation];
+    [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
+}
+
 #pragma mark - Action methods
 
 - (void)updateCurrentLocation {
@@ -290,9 +257,7 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
     
-    [[LocationManager sharedInstance] stopUpdatingLocation];
-    [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
-    [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
+    [self disableLocation];
     
     exit(1);
 }
@@ -316,10 +281,7 @@ static NSUInteger metersToEnableSpeedTrain = 3500;
                                        style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action)
                                        {
-                                           [[LocationManager sharedInstance] stopUpdatingLocation];
-                                           [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
-                                           [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
-                                           
+                                           [self disableLocation];
                                            exit(2);
                                        }];
             

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xiM-ZM-YsT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wu0-6p-iHw">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -8,7 +8,7 @@
         <!--Map Controller-->
         <scene sceneID="ZKP-e6-OzL">
             <objects>
-                <viewController storyboardIdentifier="ACMapController" id="wUJ-2Z-bKu" customClass="ACMapController" sceneMemberID="viewController">
+                <viewController id="wUJ-2Z-bKu" customClass="ACMapController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Cry-lF-iu1"/>
                         <viewControllerLayoutGuide type="bottom" id="Tb8-Sc-FIn"/>
@@ -37,76 +37,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QhY-PT-agG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1955" y="238"/>
-        </scene>
-        <!--Settings View Controller-->
-        <scene sceneID="V2J-zs-LSw">
-            <objects>
-                <viewController storyboardIdentifier="ACSettingsViewController" id="fBD-XG-v3q" customClass="ACSettingsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="FSN-Sd-nyn"/>
-                        <viewControllerLayoutGuide type="bottom" id="44j-ae-AAl"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ewz-Jl-W4Y">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mK5-x0-acZ">
-                                <rect key="frame" x="119" y="268" width="83" height="31"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Apply">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="wUJ-2Z-bKu" kind="show" identifier="showMapViewSegue" id="DAb-2k-N7y"/>
-                                </connections>
-                            </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qPw-34-eFS">
-                                <rect key="frame" x="3" y="123" width="315" height="29"/>
-                                <segments>
-                                    <segment title="Walk/Cycle"/>
-                                    <segment title="Car"/>
-                                    <segment title="City Bus"/>
-                                    <segment title="Speed Train" width="84"/>
-                                </segments>
-                                <connections>
-                                    <action selector="transportSettingControl:" destination="fBD-XG-v3q" eventType="valueChanged" id="dnp-yh-2dh"/>
-                                </connections>
-                            </segmentedControl>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="oqS-uz-guh"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EtK-dA-X4r" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1500" y="238"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Iaj-ib-rPK">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xiM-ZM-YsT" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jOK-pA-rLM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="fBD-XG-v3q" kind="relationship" relationship="rootViewController" id="Ka2-41-Dd9"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wx0-Tq-EQT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1048" y="238"/>
+            <point key="canvasLocation" x="2767" y="238"/>
         </scene>
         <!--Favorite View Controller-->
         <scene sceneID="I8B-AF-IT9">
             <objects>
-                <viewController storyboardIdentifier="ACFavoriteViewController" id="tCw-yb-CZe" customClass="ACFavoriteViewController" sceneMemberID="viewController">
+                <viewController id="tCw-yb-CZe" customClass="ACFavoriteViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ZDN-ET-S3S"/>
                         <viewControllerLayoutGuide type="bottom" id="MFW-HA-KRm"/>
@@ -145,7 +81,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mbe-ir-uhy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2385" y="238"/>
+            <point key="canvasLocation" x="3221" y="238"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="eS4-f6-hTE">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wu0-6p-iHw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="KIE-aE-Xr5">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="wUJ-2Z-bKu" kind="relationship" relationship="rootViewController" id="XOC-l3-6vf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UEQ-es-SI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2297" y="238"/>
         </scene>
     </scenes>
 </document>

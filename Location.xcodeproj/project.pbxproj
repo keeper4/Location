@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		B8721FA406FDBEB52879BEAE /* libPods-Location.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD319E9E92901CB99C8F66 /* libPods-Location.a */; };
 		DE3732261D01BF8300CB3BC9 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DE3732251D01BF8300CB3BC9 /* LocationManager.m */; };
-		DE59239F1D03325C0023093D /* ACSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE59239E1D03325C0023093D /* ACSettingsViewController.m */; };
+		DE6F641E1D1567110004A664 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = DE6F641D1D1567110004A664 /* alarm.caf */; };
 		DECFDFEA1CFEC761006C6F4A /* ACMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DECFDFE91CFEC761006C6F4A /* ACMapController.m */; };
 		DEE07C6C1CF8B0EC0021E5C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C6B1CF8B0EC0021E5C1 /* main.m */; };
 		DEE07C6F1CF8B0EC0021E5C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE07C6E1CF8B0EC0021E5C1 /* AppDelegate.m */; };
@@ -29,8 +29,7 @@
 		518FD85217F6CFDE8186E958 /* Pods-Location.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Location/Pods-Location.debug.xcconfig"; sourceTree = "<group>"; };
 		DE3732241D01BF8300CB3BC9 /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		DE3732251D01BF8300CB3BC9 /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
-		DE59239D1D03325C0023093D /* ACSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACSettingsViewController.h; sourceTree = "<group>"; };
-		DE59239E1D03325C0023093D /* ACSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACSettingsViewController.m; sourceTree = "<group>"; };
+		DE6F641D1D1567110004A664 /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
 		DECFDFE81CFEC761006C6F4A /* ACMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACMapController.h; sourceTree = "<group>"; };
 		DECFDFE91CFEC761006C6F4A /* ACMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACMapController.m; sourceTree = "<group>"; };
 		DEE07C671CF8B0EC0021E5C1 /* Location.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Location.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +113,7 @@
 		DEE07C6A1CF8B0EC0021E5C1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DE6F641D1D1567110004A664 /* alarm.caf */,
 				DEE07C6B1CF8B0EC0021E5C1 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -134,8 +134,6 @@
 		DEF82F911D0B0805008ECBDA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				DE59239D1D03325C0023093D /* ACSettingsViewController.h */,
-				DE59239E1D03325C0023093D /* ACSettingsViewController.m */,
 				DECFDFE81CFEC761006C6F4A /* ACMapController.h */,
 				DECFDFE91CFEC761006C6F4A /* ACMapController.m */,
 				DEF82F7C1D099F96008ECBDA /* ACFavoriteViewController.h */,
@@ -228,6 +226,7 @@
 			files = (
 				DEE07C7A1CF8B0EC0021E5C1 /* LaunchScreen.storyboard in Resources */,
 				DEE07C771CF8B0EC0021E5C1 /* Assets.xcassets in Resources */,
+				DE6F641E1D1567110004A664 /* alarm.caf in Resources */,
 				DEE07C751CF8B0EC0021E5C1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +299,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE59239F1D03325C0023093D /* ACSettingsViewController.m in Sources */,
 				DEF82F971D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.m in Sources */,
 				DE3732261D01BF8300CB3BC9 /* LocationManager.m in Sources */,
 				DEF82F901D0B072C008ECBDA /* ACDataManager.m in Sources */,
