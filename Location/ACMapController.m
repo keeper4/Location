@@ -29,7 +29,7 @@
 @implementation ACMapController
 
 static CLLocationDistance radius    = 700;
-static NSUInteger metersToEnableCar = 3500;
+static NSUInteger metersToEnableCar = 7000;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -217,7 +217,7 @@ static NSUInteger metersToEnableCar = 3500;
         
         if (meters < metersToEnableCar && meters > 0) {
             
-            [self createBgTaskWithTimerSecond:20];
+            [self createBgTaskWithTimerSecond:18];
         }
     }
 }
