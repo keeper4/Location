@@ -12,13 +12,6 @@
 
 @import GoogleMaps;
 
-typedef enum {
-    TransportTypeWalk,
-    TransportTypeCar,
-    TransportTypeCityBus,
-    TransportTypeSpeedTrain
-} TransportType;
-
 @interface ACMapController () <CLLocationManagerDelegate, GMSMapViewDelegate,UIApplicationDelegate>
 
 @property (strong, nonatomic) CLCircularRegion *region;
@@ -28,9 +21,9 @@ typedef enum {
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) GMSMapView *mapView;
 @property (strong, nonatomic) GMSMarker *marker;
-@property (strong, nonatomic) NSString *typeTransportTitle;
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender;
+- (IBAction)actionShowCurrentLocation:(UIBarButtonItem *)sender;
 @end
 
 @implementation ACMapController
@@ -42,7 +35,6 @@ static NSUInteger metersToEnableCar = 3500;
     [super viewDidLoad];
     
     self.navigationController.navigationBar.hidden = NO;
-    self.navigationItem.title = self.typeTransportTitle;
     
     [[LocationManager sharedInstance] startUpdatingLocation];
     
@@ -101,6 +93,8 @@ static NSUInteger metersToEnableCar = 3500;
     
     if (self.region) {
         [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
+    } else {
+        [self disableLocation];
     }
 }
 
@@ -113,6 +107,8 @@ static NSUInteger metersToEnableCar = 3500;
     [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     
     [[LocationManager sharedInstance] startUpdatingLocation];
+    
+    [self updateCameraPosition];
 }
 
 - (void)drowMarkerWithCoordinate:(CLLocationCoordinate2D)coordinate {
@@ -155,6 +151,15 @@ static NSUInteger metersToEnableCar = 3500;
     [[LocationManager sharedInstance] startMonitoringForRegion:self.region];
 }
 
+- (void)updateCameraPosition {
+    
+    CLLocationCoordinate2D coordinates = [LocationManager sharedInstance].locationManager.location.coordinate;
+    
+    GMSCameraUpdate *updatedCamera = [GMSCameraUpdate setTarget:coordinates zoom:15];
+    
+    [self.mapView animateWithCameraUpdate:updatedCamera];
+}
+
 #pragma mark - GMSMapViewDelegate
 
 - (void)mapView:(GMSMapView *)mapView didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
@@ -163,8 +168,6 @@ static NSUInteger metersToEnableCar = 3500;
 }
 
 - (void)youInRegionNotification {
-    
-    //[self disableLocation];
     
     [self.timer invalidate];
     [self.app endBackgroundTask:self.bgTask];
@@ -188,6 +191,10 @@ static NSUInteger metersToEnableCar = 3500;
     notification.alertBody = [NSString stringWithFormat:@"didEnterRegion:distans to Pin %.0f", meters];
     
     [[UIApplication sharedApplication]scheduleLocalNotification:notification];
+    
+    self.region = nil;
+    
+    [self disableLocation];
 }
 
 - (double)distanceToPoint:(GMSMarker *)finishPoint {
@@ -260,6 +267,11 @@ static NSUInteger metersToEnableCar = 3500;
     [self disableLocation];
     
     exit(1);
+}
+
+- (IBAction)actionShowCurrentLocation:(UIBarButtonItem *)sender {
+    
+    [self updateCameraPosition];
 }
 
 #pragma mark - LocalNotification

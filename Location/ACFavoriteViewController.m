@@ -40,7 +40,7 @@
 
 - (void)saveMarker {
     
-    if (self.marker.snippet !=  nil && self.namePointTextField.text != nil) {
+    if (self.marker.snippet !=  nil && ![self.namePointTextField.text isEqual: @""]) {
         
         [[ACDataManager sharedManager] addMarker:self.marker namePointTextField:self.namePointTextField.text];
     }
