@@ -15,7 +15,6 @@
 @interface ACMapController () <CLLocationManagerDelegate, GMSMapViewDelegate,UIApplicationDelegate>
 
 @property (strong, nonatomic) CLCircularRegion *region;
-@property (assign, nonatomic) BOOL flagEnterBgTask;
 @property (assign, nonatomic) UIBackgroundTaskIdentifier bgTask;
 @property (assign, nonatomic) UIApplication *app;
 @property (strong, nonatomic) NSTimer *timer;
@@ -28,8 +27,7 @@
 
 @implementation ACMapController
 
-static CLLocationDistance radius    = 700;
-static NSUInteger metersToEnableCar = 7000;
+static CLLocationDistance radius = 700;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,13 +60,6 @@ static NSUInteger metersToEnableCar = 7000;
                                             selector:@selector(youInRegionNotification)
                                                 name:invokeLocalNotification
                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(locationChanges)
-                                                name:locationChangesNotification
-                                              object:nil];
-    
-    self.flagEnterBgTask = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -87,24 +78,21 @@ static NSUInteger metersToEnableCar = 7000;
 
 - (void)didEnterBackground {
     
-    [[LocationManager sharedInstance] stopUpdatingLocation];
-    
     [LocationManager sharedInstance].inBackground = YES;
     
-    if (self.region) {
-        [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
-    } else {
-        [self disableLocation];
+    [[LocationManager sharedInstance] stopUpdatingLocation];
+    
+    if (![self.region containsCoordinate:[LocationManager sharedInstance].curentLocation.coordinate]) {
+        
+        [self createBgTaskWithTimerSecond:20];
     }
 }
 
 - (void)willEnterForeground {
     
-    [self checkNotification];
-    
     [LocationManager sharedInstance].inBackground = NO;
     
-    [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
+    [self checkNotification];
     
     [[LocationManager sharedInstance] startUpdatingLocation];
     
@@ -117,7 +105,6 @@ static NSUInteger metersToEnableCar = 7000;
     
     if (self.region) {
         [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
-        self.flagEnterBgTask = YES;
         
         [self.app endBackgroundTask:self.bgTask];
         self.bgTask = UIBackgroundTaskInvalid;
@@ -207,21 +194,6 @@ static NSUInteger metersToEnableCar = 7000;
     return meters;
 }
 
-- (void)locationChanges {
-    
-    if (self.flagEnterBgTask && ![self.region containsCoordinate:[LocationManager sharedInstance].curentLocation.coordinate]) {
-        
-        CLLocationDistance meters = [self distanceToPoint: self.marker];
-        
-        NSLog(@"meters: %f", meters);
-        
-        if (meters < metersToEnableCar && meters > 0) {
-            
-            [self createBgTaskWithTimerSecond:18];
-        }
-    }
-}
-
 - (void)createBgTaskWithTimerSecond:(NSUInteger)timerSeconds {
     
     NSLog(@"CREATE BGTASK!");
@@ -235,8 +207,6 @@ static NSUInteger metersToEnableCar = 7000;
         self.bgTask = UIBackgroundTaskInvalid;
     }];
     
-    self.flagEnterBgTask = NO;
-    
     self.timer = [NSTimer scheduledTimerWithTimeInterval:timerSeconds
                                                   target:self
                                                 selector:@selector(updateCurrentLocation)
@@ -248,7 +218,6 @@ static NSUInteger metersToEnableCar = 7000;
 
 - (void)disableLocation {
     
-    [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     [[LocationManager sharedInstance] stopUpdatingLocation];
     [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
 }
