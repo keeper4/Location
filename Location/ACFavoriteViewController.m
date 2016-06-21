@@ -31,20 +31,16 @@
                                                                                 action:@selector(saveMarker)];
     
     self.navigationItem.rightBarButtonItem = saveButton;
-    
-    //  [NSFetchedResultsController deleteCacheWithName:nil];
-    
 }
 
 #pragma mark - Action
 
 - (void)saveMarker {
     
-    if (self.marker.snippet !=  nil && ![self.namePointTextField.text isEqual: @""]) {
+    if (self.marker.snippet != nil && ![self.namePointTextField.text isEqual: @""]) {
         
         [[ACDataManager sharedManager] addMarker:self.marker namePointTextField:self.namePointTextField.text];
     }
-    
 }
 
 #pragma mark - UITableViewDataSource

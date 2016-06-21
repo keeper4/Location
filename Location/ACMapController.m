@@ -9,6 +9,7 @@
 #import "ACMapController.h"
 #import "LocationManager.h"
 #import "ACFavoriteViewController.h"
+#import "ACInfoViewController.h"
 
 @import GoogleMaps;
 
@@ -28,8 +29,9 @@
 
 @implementation ACMapController
 
-static CLLocationDistance radius    = 700;
-static NSUInteger metersToEnableCar = 7000;
+static CLLocationDistance radius            = 1000;
+static NSUInteger metersToEnableCar         = 7000;
+static NSUInteger bgUpdatesLocationInterval = 35;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -209,7 +211,7 @@ static NSUInteger metersToEnableCar = 7000;
 
 - (void)locationChanges {
     
-    if (self.flagEnterBgTask && ![self.region containsCoordinate:[LocationManager sharedInstance].curentLocation.coordinate]) {
+    if (self.flagEnterBgTask && ![self.region containsCoordinate:[LocationManager sharedInstance].locationManager.location.coordinate]) {
         
         CLLocationDistance meters = [self distanceToPoint: self.marker];
         
@@ -217,7 +219,7 @@ static NSUInteger metersToEnableCar = 7000;
         
         if (meters < metersToEnableCar && meters > 0) {
             
-            [self createBgTaskWithTimerSecond:18];
+            [self createBgTaskWithTimerSecond:bgUpdatesLocationInterval];
         }
     }
 }
@@ -314,8 +316,18 @@ static NSUInteger metersToEnableCar = 7000;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    ACFavoriteViewController *vc = segue.destinationViewController;
-    vc.marker = self.marker;
+    if ([segue.identifier isEqualToString:@"favoriteSegue"]) {
+        
+        ACFavoriteViewController *favoriteVc = segue.destinationViewController;
+        favoriteVc.marker = self.marker;
+        
+    } else if ([segue.identifier isEqualToString:@"infoSegue"]) {
+        
+        ACInfoViewController *infoVc = segue.destinationViewController;
+        infoVc.radius = radius;
+        infoVc.metersToEnableCar = metersToEnableCar;
+        infoVc.bgUpdatesLocationInterval = bgUpdatesLocationInterval;
+    }
 }
 
 - (void)dealloc {

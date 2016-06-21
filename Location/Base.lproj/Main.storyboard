@@ -6,6 +6,37 @@
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
+        <!--Info View Controller-->
+        <scene sceneID="Yix-T5-BNU">
+            <objects>
+                <viewController id="9ya-Fz-9xK" customClass="ACInfoViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eB9-MN-O3d"/>
+                        <viewControllerLayoutGuide type="bottom" id="8Ed-B7-Nvt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="apx-XV-86i">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFG-q8-fxm">
+                                <rect key="frame" x="20" y="204" width="280" height="159"/>
+                                <color key="backgroundColor" red="0.68001067638397217" green="0.92916315793991089" blue="0.7117651104927063" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="infoLable" destination="qFG-q8-fxm" id="ezv-6G-1W2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sE1-7P-tjj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2067" y="942"/>
+        </scene>
         <!--Map Controller-->
         <scene sceneID="ZKP-e6-OzL">
             <objects>
@@ -20,15 +51,23 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="CUp-K0-YIp">
-                        <barButtonItem key="leftBarButtonItem" title="Stop" id="mGa-ol-6DT">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="actionExitBarButton:" destination="wUJ-2Z-bKu" id="I0c-Ix-bhh"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Stop" id="mGa-ol-6DT">
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="actionExitBarButton:" destination="wUJ-2Z-bKu" id="I0c-Ix-bhh"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Info" id="Z1H-8y-a0L">
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <segue destination="9ya-Fz-9xK" kind="show" identifier="infoSegue" id="Ep3-jx-752"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="bookmarks" id="gr8-Ig-FZb">
-                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="tCw-yb-CZe" kind="show" identifier="favoriteSegue" id="oMz-37-yXm"/>
                                 </connections>
@@ -46,7 +85,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QhY-PT-agG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2767" y="238"/>
+            <point key="canvasLocation" x="2067" y="186"/>
         </scene>
         <!--Favorite View Controller-->
         <scene sceneID="I8B-AF-IT9">
@@ -76,7 +115,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name Point:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w1o-X5-7bj">
                                 <rect key="frame" x="20" y="76" width="126" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -90,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mbe-ir-uhy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3221" y="238"/>
+            <point key="canvasLocation" x="2521" y="186"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eS4-f6-hTE">
@@ -109,7 +148,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UEQ-es-SI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2297" y="238"/>
+            <point key="canvasLocation" x="1597" y="186"/>
         </scene>
     </scenes>
 </document>
