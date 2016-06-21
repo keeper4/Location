@@ -1,11 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wu0-6p-iHw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="c7e-6v-a41">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
+        <!--Settings View Controller-->
+        <scene sceneID="kJU-fJ-zJA">
+            <objects>
+                <viewController id="nAg-Vf-Dwu" customClass="ACSettingsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Y6j-ra-a5R"/>
+                        <viewControllerLayoutGuide type="bottom" id="ijT-Uf-nMF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CjB-1C-ews">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="42Z-p3-amu">
+                                <rect key="frame" x="68" y="112" width="184" height="29"/>
+                                <segments>
+                                    <segment title="City Bus"/>
+                                    <segment title="Train"/>
+                                </segments>
+                                <connections>
+                                    <action selector="transportSettingControl:" destination="nAg-Vf-Dwu" eventType="valueChanged" id="gF1-RL-KuG"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PK0-vT-rhX">
+                                <rect key="frame" x="119" y="259" width="83" height="50"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Apply"/>
+                                <connections>
+                                    <segue destination="wUJ-2Z-bKu" kind="show" identifier="mapSugue" id="SU6-cg-R2N"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="i3E-Ra-eba"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="applyButton" destination="PK0-vT-rhX" id="8kM-L3-qYa"/>
+                        <outlet property="typeTransportSegmentControl" destination="42Z-p3-amu" id="YVA-vX-DLp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Aou-q6-X6q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="699" y="54"/>
+        </scene>
         <!--Info View Controller-->
         <scene sceneID="Yix-T5-BNU">
             <objects>
@@ -35,7 +79,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sE1-7P-tjj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2067" y="942"/>
+            <point key="canvasLocation" x="1167" y="810"/>
         </scene>
         <!--Map Controller-->
         <scene sceneID="ZKP-e6-OzL">
@@ -53,13 +97,11 @@
                     <navigationItem key="navigationItem" id="CUp-K0-YIp">
                         <leftBarButtonItems>
                             <barButtonItem title="Stop" id="mGa-ol-6DT">
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="actionExitBarButton:" destination="wUJ-2Z-bKu" id="I0c-Ix-bhh"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Info" id="Z1H-8y-a0L">
-                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="9ya-Fz-9xK" kind="show" identifier="infoSegue" id="Ep3-jx-752"/>
                                 </connections>
@@ -67,13 +109,11 @@
                         </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="bookmarks" id="gr8-Ig-FZb">
-                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="tCw-yb-CZe" kind="show" identifier="favoriteSegue" id="oMz-37-yXm"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="refresh" id="GSM-PV-hi5">
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="actionShowCurrentLocation:" destination="wUJ-2Z-bKu" id="yMg-EM-PPV"/>
                                 </connections>
@@ -85,7 +125,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QhY-PT-agG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2067" y="186"/>
+            <point key="canvasLocation" x="1167" y="54"/>
         </scene>
         <!--Favorite View Controller-->
         <scene sceneID="I8B-AF-IT9">
@@ -129,26 +169,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mbe-ir-uhy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2521" y="186"/>
+            <point key="canvasLocation" x="1621" y="54"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="eS4-f6-hTE">
+        <scene sceneID="qFr-d2-osP">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wu0-6p-iHw" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c7e-6v-a41" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="KIE-aE-Xr5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fw6-2X-WL4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="wUJ-2Z-bKu" kind="relationship" relationship="rootViewController" id="XOC-l3-6vf"/>
+                        <segue destination="nAg-Vf-Dwu" kind="relationship" relationship="rootViewController" id="ujG-UO-asm"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UEQ-es-SI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xat-nM-y7t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1597" y="186"/>
+            <point key="canvasLocation" x="234" y="54"/>
         </scene>
     </scenes>
 </document>

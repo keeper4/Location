@@ -11,7 +11,7 @@
 @interface ACInfoViewController : UIViewController
 
 @property (assign, nonatomic) NSUInteger radius;
-@property (assign, nonatomic) NSUInteger metersToEnableCar;
+@property (assign, nonatomic) NSUInteger metersToEnableTranspotr;
 @property (assign, nonatomic) NSUInteger bgUpdatesLocationInterval;
 
 @end

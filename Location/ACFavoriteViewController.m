@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "ACDataManager.h"
 #import "ACMarker.h"
-
+#import "ACMainColor.h"
 
 @interface ACFavoriteViewController () <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate>
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -25,6 +25,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    ACMainColor *color = [[ACMainColor alloc] init];
+    
+    self.navigationController.navigationBar.backgroundColor = [color mainColor];
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
                                                                                 target:self

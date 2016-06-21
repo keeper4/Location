@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "LocationManager.h"
 @import GoogleMaps;
 
 @interface AppDelegate ()
@@ -26,6 +27,10 @@
         [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+    
+    if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey]) {
+        [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
     }
     
     return YES;

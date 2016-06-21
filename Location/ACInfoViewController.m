@@ -7,6 +7,7 @@
 //
 
 #import "ACInfoViewController.h"
+#import "ACMainColor.h"
 
 @interface ACInfoViewController ()
 
@@ -17,23 +18,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.infoLable.backgroundColor = [self buttonColor];
+    
+    ACMainColor *color = [[ACMainColor alloc] init];
+    
+    self.infoLable.backgroundColor = [color mainColor];
     self.infoLable.clipsToBounds = YES;
     self.infoLable.numberOfLines = 7;
     self.infoLable.layer.cornerRadius = 10;
     [self.infoLable setFont:[UIFont fontWithName:@"Helvetica" size:13.0f]];
     
     
-    self.infoLable.text = [NSString stringWithFormat:@"Radius around Pin = %lu\n\nDistance to the point that runs\nthe exact location = %lu\n\nInterval including the exact\nlocations = %lu sec", (unsigned long)self.radius, (unsigned long)self.metersToEnableCar, (unsigned long)self.bgUpdatesLocationInterval];
-    
-}
-
-- (UIColor *)buttonColor {
-    
-    UIColor *color = [UIColor colorWithRed:0.2 green:0.6 blue:0.2 alpha:0.8];
-    
-    return color;
+    self.infoLable.text = [NSString stringWithFormat:@"Radius around Pin = %lu\n\nDistance to the point that runs\nthe exact location = %lu\n\nInterval including the exact\nlocations = %lu sec", (unsigned long)self.radius, (unsigned long)self.metersToEnableTranspotr, (unsigned long)self.bgUpdatesLocationInterval];
 }
 
 @end

@@ -10,8 +10,14 @@
 #import "LocationManager.h"
 #import "ACFavoriteViewController.h"
 #import "ACInfoViewController.h"
+#import "ACMainColor.h"
 
 @import GoogleMaps;
+
+typedef enum {
+    TransportTypeCityBus,
+    TransportTypeTrain
+} TransportType;
 
 @interface ACMapController () <CLLocationManagerDelegate, GMSMapViewDelegate,UIApplicationDelegate>
 
@@ -23,27 +29,39 @@
 @property (strong, nonatomic) GMSMapView *mapView;
 @property (strong, nonatomic) GMSMarker *marker;
 
+@property (strong, nonatomic) NSString *typeTransportTitle;
+
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender;
 - (IBAction)actionShowCurrentLocation:(UIBarButtonItem *)sender;
 @end
 
 @implementation ACMapController
 
-static CLLocationDistance radius            = 1000;
-static NSUInteger metersToEnableCar         = 7000;
-static NSUInteger bgUpdatesLocationInterval = 35;
+static CGFloat cameraZoom = 14;
+
+static CLLocationDistance radius;
+
+static CLLocationDistance radiusForCityBus            = 700;
+static NSUInteger metersToEnableForCityBus            = 7000;
+static NSUInteger bgUpdatesLocationIntervalForCityBus = 35;
+
+static CLLocationDistance radiusForTrain              = 800;
+static NSUInteger metersToEnableForTrain              = 9000;
+static NSUInteger bgUpdatesLocationIntervalForTrain   = 25;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationController.navigationBar.hidden = NO;
     
+    radius = [self getRadius];
+    
     [[LocationManager sharedInstance] startUpdatingLocation];
     
     GMSCameraPosition *camera =
     [GMSCameraPosition cameraWithLatitude:[LocationManager sharedInstance].locationManager.location.coordinate.latitude
                                 longitude:[LocationManager sharedInstance].locationManager.location.coordinate.longitude
-                                     zoom:15];
+                                     zoom:cameraZoom];
     
     self.mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     self.mapView.myLocationEnabled = YES;
@@ -113,6 +131,20 @@ static NSUInteger bgUpdatesLocationInterval = 35;
     [self updateCameraPosition];
 }
 
+- (NSUInteger)getRadius {
+    
+    self.navigationItem.title = self.typeTransportTitle;
+    
+    switch (self.segmentIndex) {
+
+        case 0: self.typeTransportTitle = @"City Bus";  return radiusForCityBus;
+        case 1: self.typeTransportTitle = @"Train";     return radiusForTrain;
+            
+        default: break;
+    }
+    return 1000;
+}
+
 - (void)drowMarkerWithCoordinate:(CLLocationCoordinate2D)coordinate {
     
     [self.mapView clear];
@@ -134,16 +166,16 @@ static NSUInteger bgUpdatesLocationInterval = 35;
         self.marker.position = coordinate;
         self.marker.title = [NSString stringWithFormat:@"%.f m.",[self distanceToPoint: self.marker]];
         self.marker.snippet = address.thoroughfare;
-        self.marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
+        self.marker.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0]];
         self.marker.map = self.mapView;
     }];
     
     GMSCircle *geoFenceCircle = [[GMSCircle alloc] init];
     geoFenceCircle.radius = radius;
     geoFenceCircle.position = coordinate;
-    geoFenceCircle.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.4];
+    geoFenceCircle.fillColor = [UIColor colorWithRed:0.55 green:0.76 blue:0.29 alpha:0.5];
     geoFenceCircle.strokeWidth = 2;
-    geoFenceCircle.strokeColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2];
+    geoFenceCircle.strokeColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:0.65];
     geoFenceCircle.map = self.mapView;
     
     self.region = [[CLCircularRegion alloc] initWithCenter:geoFenceCircle.position
@@ -157,7 +189,7 @@ static NSUInteger bgUpdatesLocationInterval = 35;
     
     CLLocationCoordinate2D coordinates = [LocationManager sharedInstance].locationManager.location.coordinate;
     
-    GMSCameraUpdate *updatedCamera = [GMSCameraUpdate setTarget:coordinates zoom:15];
+    GMSCameraUpdate *updatedCamera = [GMSCameraUpdate setTarget:coordinates zoom:cameraZoom];
     
     [self.mapView animateWithCameraUpdate:updatedCamera];
 }
@@ -217,9 +249,13 @@ static NSUInteger bgUpdatesLocationInterval = 35;
         
         NSLog(@"meters: %f", meters);
         
-        if (meters < metersToEnableCar && meters > 0) {
+        if (meters < metersToEnableForCityBus && meters > 0 && self.segmentIndex == TransportTypeCityBus) {
             
-            [self createBgTaskWithTimerSecond:bgUpdatesLocationInterval];
+            [self createBgTaskWithTimerSecond:bgUpdatesLocationIntervalForCityBus];
+        }
+        if (meters < metersToEnableForTrain && meters > 0 && self.segmentIndex == TransportTypeTrain) {
+            
+            [self createBgTaskWithTimerSecond:bgUpdatesLocationIntervalForTrain];
         }
     }
 }
@@ -325,8 +361,8 @@ static NSUInteger bgUpdatesLocationInterval = 35;
         
         ACInfoViewController *infoVc = segue.destinationViewController;
         infoVc.radius = radius;
-        infoVc.metersToEnableCar = metersToEnableCar;
-        infoVc.bgUpdatesLocationInterval = bgUpdatesLocationInterval;
+        infoVc.metersToEnableTranspotr = metersToEnableForCityBus;
+        infoVc.bgUpdatesLocationInterval = bgUpdatesLocationIntervalForCityBus;
     }
 }
 

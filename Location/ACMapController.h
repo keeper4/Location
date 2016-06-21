@@ -9,4 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ACMapController : UIViewController
+
+@property (assign, nonatomic) NSUInteger segmentIndex;
+
 @end
