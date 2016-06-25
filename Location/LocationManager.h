@@ -17,6 +17,7 @@ extern NSString * const locationChangesNotification;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (assign, nonatomic) BOOL inBackground;
+@property (assign, nonatomic) BOOL startMonSignifOn;
 
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;

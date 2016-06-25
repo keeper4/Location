@@ -37,6 +37,8 @@ NSString * const locationChangesNotification = @"locationChangesNotification";
         self.locationManager.allowsBackgroundLocationUpdates = true;
         
         [self.locationManager requestAlwaysAuthorization];
+        
+        self.startMonSignifOn = NO;
     }
     return self;
 }

@@ -34,7 +34,7 @@
 
 - (UIColor *)viewBackColor {
     
-    UIColor *color = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1.0];
+    UIColor *color = [UIColor colorWithRed:0.84 green:0.88 blue:0.83 alpha:1.0];
     
     return color;
 }

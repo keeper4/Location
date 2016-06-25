@@ -29,7 +29,7 @@
         [[UIApplication sharedApplication] registerForRemoteNotifications];
     }
     
-    if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey]) {
+    if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey] && [LocationManager sharedInstance].startMonSignifOn) {
         [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
     }
     

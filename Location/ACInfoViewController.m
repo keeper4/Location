@@ -21,6 +21,8 @@
     
     ACMainColor *color = [[ACMainColor alloc] init];
     
+    self.view.backgroundColor = [color viewBackColor];
+    
     self.infoLable.backgroundColor = [color mainColor];
     self.infoLable.clipsToBounds = YES;
     self.infoLable.numberOfLines = 7;

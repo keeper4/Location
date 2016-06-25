@@ -28,6 +28,8 @@
     
     ACMainColor *color = [[ACMainColor alloc] init];
     
+    self.tableView.backgroundColor = [color viewBackColor];
+    
     self.navigationController.navigationBar.backgroundColor = [color mainColor];
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
@@ -65,9 +67,11 @@
     }
     
     ACMarker *marker = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    ACMainColor *color = [[ACMainColor alloc] init];
     
     cell.textLabel.text = marker.name;
     cell.detailTextLabel.text = marker.snippet;
+    cell.backgroundColor = [color viewBackColor];
     
     return cell;
 }
