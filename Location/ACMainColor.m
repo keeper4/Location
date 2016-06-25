@@ -27,7 +27,7 @@
 
 - (UIColor *)segmentControlColor {
     
-    UIColor *color = [UIColor colorWithRed:0.45 green:0.45 blue:0.45 alpha:1.0];
+    UIColor *color = [UIColor colorWithRed:0.86 green:0.93 blue:0.78 alpha:1.0];
     
     return color;
 }

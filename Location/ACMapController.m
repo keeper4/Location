@@ -43,11 +43,11 @@ static CLLocationDistance radius;
 
 static CLLocationDistance radiusForCityBus            = 700;
 static NSUInteger metersToEnableForCityBus            = 7000;
-static NSUInteger bgUpdatesLocationIntervalForCityBus = 35;
+static NSUInteger bgUpdatesLocationIntervalForCityBus = 30;
 
-static CLLocationDistance radiusForTrain              = 800;
-static NSUInteger metersToEnableForTrain              = 9000;
-static NSUInteger bgUpdatesLocationIntervalForTrain   = 25;
+static CLLocationDistance radiusForTrain              = 1000;
+static NSUInteger metersToEnableForTrain              = 15000;
+static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -109,9 +109,9 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 25;
     
     [[LocationManager sharedInstance] stopUpdatingLocation];
     
-    [LocationManager sharedInstance].inBackground = YES;
-    
     if (self.region) {
+        
+        [LocationManager sharedInstance].inBackground = YES;
         [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
         [LocationManager sharedInstance].startMonSignifOn = YES;
     } else {
@@ -134,13 +134,9 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 25;
 
 - (NSUInteger)getRadius {
     
-    self.navigationItem.title = self.typeTransportTitle;
-    
     switch (self.segmentIndex) {
-
-        case 0: self.typeTransportTitle = @"City Bus";  return radiusForCityBus;
-        case 1: self.typeTransportTitle = @"Train";     return radiusForTrain;
-            
+        case 0: self.typeTransportTitle = @"City Bus"; self.navigationItem.title = self.typeTransportTitle; return radiusForCityBus;
+        case 1: self.typeTransportTitle = @"Train";    self.navigationItem.title = self.typeTransportTitle;  return radiusForTrain;
         default: break;
     }
     return 1000;
@@ -299,16 +295,24 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 25;
 
 - (void)updateCurrentLocation {
     
-    [[LocationManager sharedInstance] startUpdatingLocation];
-    
-    NSLog(@"Timer selector FIRE NOW");
+    if (self.region) {
+        [[LocationManager sharedInstance] startUpdatingLocation];
+        NSLog(@"Timer selector FIRE NOW");
+    } else {
+        [self.timer invalidate];
+        [self.app endBackgroundTask:self.bgTask];
+        self.bgTask = UIBackgroundTaskInvalid;
+        NSLog(@"Timer selector Remuve task");
+    }
 }
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
     
-    [self disableLocation];
+    [self.mapView clear];
     
-    exit(1);
+    self.region = nil;
+    
+    [self disableLocation];
 }
 
 - (IBAction)actionShowCurrentLocation:(UIBarButtonItem *)sender {

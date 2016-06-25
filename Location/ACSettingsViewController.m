@@ -25,11 +25,12 @@
     
     ACMainColor *color = [[ACMainColor alloc] init];
     
-    self.navigationController.navigationBar.hidden = NO;
+    self.navigationController.navigationBar.hidden = YES;
     self.navigationController.navigationBar.backgroundColor = [color mainColor];
     self.navigationController.navigationBar.tintColor = [color buttonColor];
     self.applyButton.tintColor = [color buttonColor];
-    self.typeTransportSegmentControl.tintColor = [color segmentControlColor];
+    self.typeTransportSegmentControl.tintColor = [color buttonColor];
+    self.typeTransportSegmentControl.backgroundColor = [color segmentControlColor];
     
     self.view.backgroundColor = [color viewBackColor];
     

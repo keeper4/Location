@@ -18,6 +18,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Group" translatesAutoresizingMaskIntoConstraints="NO" id="qfq-aA-mPI">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="42Z-p3-amu">
                                 <rect key="frame" x="68" y="112" width="184" height="29"/>
                                 <segments>
@@ -29,20 +32,18 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PK0-vT-rhX">
-                                <rect key="frame" x="119" y="259" width="83" height="50"/>
+                                <rect key="frame" x="119" y="177" width="83" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Apply"/>
                                 <connections>
                                     <segue destination="wUJ-2Z-bKu" kind="show" identifier="mapSugue" id="SU6-cg-R2N"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qfq-aA-mPI">
-                                <rect key="frame" x="-5" y="445" width="240" height="128"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="i3E-Ra-eba"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="applyButton" destination="PK0-vT-rhX" id="8kM-L3-qYa"/>
@@ -99,7 +100,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="CUp-K0-YIp">
                         <leftBarButtonItems>
-                            <barButtonItem title="Stop" id="mGa-ol-6DT">
+                            <barButtonItem systemItem="stop" id="mGa-ol-6DT">
                                 <connections>
                                     <action selector="actionExitBarButton:" destination="wUJ-2Z-bKu" id="I0c-Ix-bhh"/>
                                 </connections>
@@ -194,4 +195,7 @@
             <point key="canvasLocation" x="234" y="54"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Group" width="320" height="480"/>
+    </resources>
 </document>

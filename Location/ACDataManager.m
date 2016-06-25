@@ -27,7 +27,7 @@
     return manager;
 }
 
-#pragma mark -
+#pragma mark - Private Method
 
 - (void)addMarker:(GMSMarker *)marker namePointTextField:(NSString *)namePoint {
     
@@ -43,13 +43,6 @@
     
     [self.managedObjectContext save:nil];
 }
-
-
-
-
-
-
-
 
 #pragma mark - Core Data stack
 
@@ -95,7 +88,6 @@
     
     return _persistentStoreCoordinator;
 }
-
 
 - (NSManagedObjectContext *)managedObjectContext {
     // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
