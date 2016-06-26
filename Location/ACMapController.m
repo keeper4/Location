@@ -225,8 +225,6 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     
     [[UIApplication sharedApplication]scheduleLocalNotification:notification];
     
-    self.region = nil;
-    
     [self disableLocation];
 }
 
@@ -288,6 +286,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
     [[LocationManager sharedInstance] stopUpdatingLocation];
     [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
+    self.region = nil;
     [LocationManager sharedInstance].inBackground = NO;
 }
 
@@ -309,8 +308,6 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
     
     [self.mapView clear];
-    
-    self.region = nil;
     
     [self disableLocation];
 }
