@@ -112,9 +112,11 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     if (self.region) {
         
         [LocationManager sharedInstance].inBackground = YES;
-        [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
         [LocationManager sharedInstance].startMonSignifOn = YES;
+        [[LocationManager sharedInstance] startMonitoringSignificantLocationChanges];
+        
     } else {
+        
         [self disableLocation];
     }
 }
@@ -287,7 +289,6 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     [[LocationManager sharedInstance] stopUpdatingLocation];
     [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
     self.region = nil;
-    [LocationManager sharedInstance].inBackground = NO;
 }
 
 #pragma mark - Action methods
@@ -301,7 +302,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
         [self.timer invalidate];
         [self.app endBackgroundTask:self.bgTask];
         self.bgTask = UIBackgroundTaskInvalid;
-        NSLog(@"Timer selector Remuve task");
+        NSLog(@"Timer selector Remove task");
     }
 }
 

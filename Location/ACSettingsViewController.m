@@ -27,9 +27,15 @@
     
     self.navigationController.navigationBar.hidden = YES;
     self.navigationController.navigationBar.backgroundColor = [color mainColor];
-    self.navigationController.navigationBar.tintColor = [color buttonColor];
-    self.applyButton.tintColor = [color buttonColor];
-    self.typeTransportSegmentControl.tintColor = [color buttonColor];
+    self.navigationController.navigationBar.tintColor       = [color buttonColor];
+    
+    self.applyButton.opaque        = NO;
+    self.applyButton.clipsToBounds = YES;
+    self.applyButton.layer.cornerRadius = 10;
+    self.applyButton.tintColor       = [color buttonColor];
+    self.applyButton.backgroundColor = [color segmentControlColor];
+    
+    self.typeTransportSegmentControl.tintColor       = [color buttonColor];
     self.typeTransportSegmentControl.backgroundColor = [color segmentControlColor];
     
     self.view.backgroundColor = [color viewBackColor];

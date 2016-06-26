@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
@@ -18,11 +19,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Group" translatesAutoresizingMaskIntoConstraints="NO" id="qfq-aA-mPI">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Group" translatesAutoresizingMaskIntoConstraints="NO" id="qfq-aA-mPI">
+                                <rect key="frame" x="-4" y="0.0" width="328" height="568"/>
                             </imageView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="42Z-p3-amu">
-                                <rect key="frame" x="68" y="112" width="184" height="29"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="42Z-p3-amu">
+                                <rect key="frame" x="56" y="99" width="208" height="29"/>
                                 <segments>
                                     <segment title="City Bus"/>
                                     <segment title="Train"/>
@@ -31,8 +32,12 @@
                                     <action selector="transportSettingControl:" destination="nAg-Vf-Dwu" eventType="valueChanged" id="gF1-RL-KuG"/>
                                 </connections>
                             </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PK0-vT-rhX">
-                                <rect key="frame" x="119" y="177" width="83" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PK0-vT-rhX">
+                                <rect key="frame" x="119" y="160" width="83" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="83" id="3pi-XA-ICb"/>
+                                    <constraint firstAttribute="height" constant="38" id="fde-Ap-mWR"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Apply"/>
                                 <connections>
@@ -41,6 +46,17 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qfq-aA-mPI" firstAttribute="top" secondItem="CjB-1C-ews" secondAttribute="topMargin" id="4Rj-mx-fWd"/>
+                            <constraint firstItem="qfq-aA-mPI" firstAttribute="leading" secondItem="CjB-1C-ews" secondAttribute="leadingMargin" constant="-20" id="9IN-Ve-b80"/>
+                            <constraint firstItem="PK0-vT-rhX" firstAttribute="top" secondItem="42Z-p3-amu" secondAttribute="bottom" constant="33" id="A37-8h-28l"/>
+                            <constraint firstItem="42Z-p3-amu" firstAttribute="leading" secondItem="qfq-aA-mPI" secondAttribute="leading" constant="60" id="Fs7-AY-Qnr"/>
+                            <constraint firstItem="42Z-p3-amu" firstAttribute="centerX" secondItem="PK0-vT-rhX" secondAttribute="centerX" id="Hce-rr-DDP"/>
+                            <constraint firstItem="42Z-p3-amu" firstAttribute="top" secondItem="Y6j-ra-a5R" secondAttribute="bottom" constant="79" id="KsE-2E-PVF"/>
+                            <constraint firstItem="42Z-p3-amu" firstAttribute="centerX" secondItem="qfq-aA-mPI" secondAttribute="centerX" id="Ogl-eF-06C"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qfq-aA-mPI" secondAttribute="trailing" constant="-20" id="UsW-M7-fj1"/>
+                            <constraint firstItem="ijT-Uf-nMF" firstAttribute="top" secondItem="qfq-aA-mPI" secondAttribute="bottom" id="jZw-x2-4YX"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="i3E-Ra-eba"/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -66,8 +82,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFG-q8-fxm">
-                                <rect key="frame" x="20" y="204" width="280" height="159"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFG-q8-fxm">
+                                <rect key="frame" x="16" y="204" width="288" height="159"/>
                                 <color key="backgroundColor" red="0.68001067638397217" green="0.92916315793991089" blue="0.7117651104927063" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -75,6 +91,12 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qFG-q8-fxm" firstAttribute="centerY" secondItem="apx-XV-86i" secondAttribute="centerY" id="2uK-h2-FGN"/>
+                            <constraint firstItem="qFG-q8-fxm" firstAttribute="centerX" secondItem="apx-XV-86i" secondAttribute="centerX" id="f7l-x5-Ir5"/>
+                            <constraint firstItem="qFG-q8-fxm" firstAttribute="top" secondItem="eB9-MN-O3d" secondAttribute="bottom" constant="140" id="lUB-iz-8gq"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="qFG-q8-fxm" secondAttribute="leading" id="omb-vu-31X"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
