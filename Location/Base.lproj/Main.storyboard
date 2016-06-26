@@ -32,38 +32,38 @@
                                     <action selector="transportSettingControl:" destination="nAg-Vf-Dwu" eventType="valueChanged" id="gF1-RL-KuG"/>
                                 </connections>
                             </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PK0-vT-rhX">
-                                <rect key="frame" x="119" y="160" width="83" height="38"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beta version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3cn-eO-6MP">
+                                <rect key="frame" x="20" y="539" width="280" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="83" id="3pi-XA-ICb"/>
-                                    <constraint firstAttribute="height" constant="38" id="fde-Ap-mWR"/>
+                                    <constraint firstAttribute="height" constant="21" id="7mZ-eS-Guw"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Apply"/>
-                                <connections>
-                                    <segue destination="wUJ-2Z-bKu" kind="show" identifier="mapSugue" id="SU6-cg-R2N"/>
-                                </connections>
-                            </button>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="qfq-aA-mPI" firstAttribute="top" secondItem="CjB-1C-ews" secondAttribute="topMargin" id="4Rj-mx-fWd"/>
                             <constraint firstItem="qfq-aA-mPI" firstAttribute="leading" secondItem="CjB-1C-ews" secondAttribute="leadingMargin" constant="-20" id="9IN-Ve-b80"/>
-                            <constraint firstItem="PK0-vT-rhX" firstAttribute="top" secondItem="42Z-p3-amu" secondAttribute="bottom" constant="33" id="A37-8h-28l"/>
                             <constraint firstItem="42Z-p3-amu" firstAttribute="leading" secondItem="qfq-aA-mPI" secondAttribute="leading" constant="60" id="Fs7-AY-Qnr"/>
-                            <constraint firstItem="42Z-p3-amu" firstAttribute="centerX" secondItem="PK0-vT-rhX" secondAttribute="centerX" id="Hce-rr-DDP"/>
                             <constraint firstItem="42Z-p3-amu" firstAttribute="top" secondItem="Y6j-ra-a5R" secondAttribute="bottom" constant="79" id="KsE-2E-PVF"/>
                             <constraint firstItem="42Z-p3-amu" firstAttribute="centerX" secondItem="qfq-aA-mPI" secondAttribute="centerX" id="Ogl-eF-06C"/>
+                            <constraint firstItem="3cn-eO-6MP" firstAttribute="trailing" secondItem="qfq-aA-mPI" secondAttribute="trailing" constant="-24" id="Sj8-Gq-Asp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="qfq-aA-mPI" secondAttribute="trailing" constant="-20" id="UsW-M7-fj1"/>
+                            <constraint firstItem="3cn-eO-6MP" firstAttribute="bottom" secondItem="qfq-aA-mPI" secondAttribute="bottom" constant="-8" id="VUt-w6-yWS"/>
                             <constraint firstItem="ijT-Uf-nMF" firstAttribute="top" secondItem="qfq-aA-mPI" secondAttribute="bottom" id="jZw-x2-4YX"/>
+                            <constraint firstItem="3cn-eO-6MP" firstAttribute="leading" secondItem="qfq-aA-mPI" secondAttribute="leading" constant="24" id="lid-69-36D"/>
+                            <constraint firstItem="3cn-eO-6MP" firstAttribute="centerX" secondItem="qfq-aA-mPI" secondAttribute="centerX" id="sIR-sB-dpi"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="i3E-Ra-eba"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="applyButton" destination="PK0-vT-rhX" id="8kM-L3-qYa"/>
+                        <outlet property="betaLable" destination="3cn-eO-6MP" id="MEF-nK-BKG"/>
                         <outlet property="typeTransportSegmentControl" destination="42Z-p3-amu" id="YVA-vX-DLp"/>
+                        <segue destination="wUJ-2Z-bKu" kind="show" identifier="ACMapControllerSegue" id="wl1-B8-DOL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aou-q6-X6q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -83,8 +83,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFG-q8-fxm">
-                                <rect key="frame" x="16" y="204" width="288" height="159"/>
+                                <rect key="frame" x="12" y="204" width="296" height="159"/>
                                 <color key="backgroundColor" red="0.68001067638397217" green="0.92916315793991089" blue="0.7117651104927063" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="159" id="vz7-0I-Rxm"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -92,10 +95,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="qFG-q8-fxm" firstAttribute="centerY" secondItem="apx-XV-86i" secondAttribute="centerY" id="2uK-h2-FGN"/>
-                            <constraint firstItem="qFG-q8-fxm" firstAttribute="centerX" secondItem="apx-XV-86i" secondAttribute="centerX" id="f7l-x5-Ir5"/>
-                            <constraint firstItem="qFG-q8-fxm" firstAttribute="top" secondItem="eB9-MN-O3d" secondAttribute="bottom" constant="140" id="lUB-iz-8gq"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="qFG-q8-fxm" secondAttribute="leading" id="omb-vu-31X"/>
+                            <constraint firstItem="qFG-q8-fxm" firstAttribute="centerY" secondItem="apx-XV-86i" secondAttribute="centerY" id="H2E-zF-IK3"/>
+                            <constraint firstItem="qFG-q8-fxm" firstAttribute="leading" secondItem="apx-XV-86i" secondAttribute="leadingMargin" constant="-4" id="JJF-Kd-sPh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qFG-q8-fxm" secondAttribute="trailing" constant="-4" id="d9h-pK-RE9"/>
+                            <constraint firstItem="qFG-q8-fxm" firstAttribute="centerX" secondItem="apx-XV-86i" secondAttribute="centerX" id="k2h-20-TKS"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

@@ -15,7 +15,7 @@
 
 @property (assign, nonatomic) NSUInteger segmentIndex;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *typeTransportSegmentControl;
-@property (weak, nonatomic) IBOutlet UIButton *applyButton;
+@property (weak, nonatomic) IBOutlet UILabel *betaLable;
 @end
 
 @implementation ACSettingsViewController
@@ -23,17 +23,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self lableDataUpdate];
+    
     ACMainColor *color = [[ACMainColor alloc] init];
     
     self.navigationController.navigationBar.hidden = YES;
     self.navigationController.navigationBar.backgroundColor = [color mainColor];
     self.navigationController.navigationBar.tintColor       = [color buttonColor];
     
-    self.applyButton.opaque        = NO;
-    self.applyButton.clipsToBounds = YES;
-    self.applyButton.layer.cornerRadius = 10;
-    self.applyButton.tintColor       = [color buttonColor];
-    self.applyButton.backgroundColor = [color segmentControlColor];
+    [self createButtonApplyWithColorType:color];
     
     self.typeTransportSegmentControl.tintColor       = [color buttonColor];
     self.typeTransportSegmentControl.backgroundColor = [color segmentControlColor];
@@ -43,6 +41,48 @@
     [LocationManager sharedInstance];
     [[LocationManager sharedInstance] stopUpdatingLocation];
 }
+
+#pragma mark - Private method
+
+- (void) createButtonApplyWithColorType:(ACMainColor *)color{
+    
+    UIButton *applyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [applyButton addTarget:self
+                    action:@selector(buttonPress)
+          forControlEvents:UIControlEventTouchUpInside];
+    [applyButton setTitle:@"Apply" forState:UIControlStateNormal];
+    
+    applyButton.titleLabel.font = [UIFont systemFontOfSize:13];
+    
+    CGFloat height = 90.0f;
+    CGFloat widht  = 29.0f;
+    CGFloat y      = (CGRectGetMidY(self.view.frame) - CGRectGetMaxY(self.typeTransportSegmentControl.frame))/2 + CGRectGetMaxY(self.typeTransportSegmentControl.frame) - widht/2;
+    
+    applyButton.frame = CGRectMake(CGRectGetMidX(self.view.frame) - height/2, y, height, widht);
+    
+    applyButton.opaque        = NO;
+    applyButton.clipsToBounds = YES;
+    applyButton.layer.cornerRadius = 10;
+    applyButton.layer.borderWidth  = 1.0f;
+    applyButton.layer.borderColor  = [color buttonColor].CGColor;
+    [applyButton setTitleColor:[color buttonColor] forState:UIControlStateNormal];
+    applyButton.backgroundColor = [color segmentControlColor];
+    
+    [self.view addSubview:applyButton];
+}
+
+- (void)lableDataUpdate {
+    
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc]
+                            initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSCalendarUnit units = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
+    NSDateComponents *components = [calendar components:units fromDate:now];
+    
+    self.betaLable.text = [NSString stringWithFormat:@"Beta. Last bild: %ld/%ld/%ld", (long)[components day],(long)[components month],(long)[components year]];
+}
+
+#pragma mark - Action
 
 - (IBAction)transportSettingControl:(UISegmentedControl *)sender {
     
@@ -55,11 +95,20 @@
     }
 }
 
+- (void)buttonPress {
+    
+    [self performSegueWithIdentifier:@"ACMapControllerSegue" sender:nil];
+}
+
+#pragma mark - Segue
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(nullable id)sender {
     
     ACMapController *vc = segue.destinationViewController;
     
     vc.segmentIndex = self.segmentIndex;
 }
+
+
 
 @end
