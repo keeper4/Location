@@ -118,6 +118,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     } else {
         
         [self disableLocation];
+        exit(2);
     }
 }
 
@@ -138,7 +139,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     
     switch (self.segmentIndex) {
         case 0: self.typeTransportTitle = @"City Bus"; self.navigationItem.title = self.typeTransportTitle; return radiusForCityBus;
-        case 1: self.typeTransportTitle = @"Train";    self.navigationItem.title = self.typeTransportTitle;  return radiusForTrain;
+        case 1: self.typeTransportTitle = @"Train";    self.navigationItem.title = self.typeTransportTitle; return radiusForTrain;
         default: break;
     }
     return 1000;
@@ -186,11 +187,49 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
 
 - (void)updateCameraPosition {
     
-    CLLocationCoordinate2D coordinates = [LocationManager sharedInstance].locationManager.location.coordinate;
+    if (self.region) {
+        
+        double delta = 70;
+        
+        CLLocationCoordinate2D marketLocation = self.marker.position;
+        CLLocationCoordinate2D currentLocation = [LocationManager sharedInstance].locationManager.location.coordinate;
+        
+        GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithCoordinate:marketLocation coordinate:currentLocation];
+        
+        UIEdgeInsets insert = UIEdgeInsetsMake(150, 30, delta, delta);
+        
+        GMSCameraPosition *camera = [self.mapView cameraForBounds:bounds insets:insert];
+        self.mapView.camera = camera;
+        
+    } else {
+        
+        CLLocationCoordinate2D coordinates = [LocationManager sharedInstance].locationManager.location.coordinate;
+        
+        GMSCameraUpdate *updatedCamera = [GMSCameraUpdate setTarget:coordinates zoom:cameraZoom];
+        
+        [self.mapView animateWithCameraUpdate:updatedCamera];
+    }
+}
+
+- (void)updateCurrentLocation {
     
-    GMSCameraUpdate *updatedCamera = [GMSCameraUpdate setTarget:coordinates zoom:cameraZoom];
+    if (self.region) {
+        [[LocationManager sharedInstance] startUpdatingLocation];
+        NSLog(@"Timer selector FIRE NOW");
+    } else {
+        [self.timer invalidate];
+        [self.app endBackgroundTask:self.bgTask];
+        self.bgTask = UIBackgroundTaskInvalid;
+        NSLog(@"Timer selector Remove task");
+    }
+}
+
+- (void)disableLocation {
     
-    [self.mapView animateWithCameraUpdate:updatedCamera];
+    [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
+    [[LocationManager sharedInstance] stopUpdatingLocation];
+    [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
+    self.region = nil;
 }
 
 #pragma mark - GMSMapViewDelegate
@@ -202,11 +241,11 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
 
 - (void)youInRegionNotification {
     
+    [LocationManager sharedInstance].startMonSignifOn = NO;
+    
     [self.timer invalidate];
     [self.app endBackgroundTask:self.bgTask];
     self.bgTask = UIBackgroundTaskInvalid;
-    
-    [LocationManager sharedInstance].startMonSignifOn = NO;
     
     NSLog(@"Remuve Timer and BgTask");
     
@@ -283,28 +322,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
-- (void)disableLocation {
-    
-    [[LocationManager sharedInstance] stopMonitoringSignificantLocationChanges];
-    [[LocationManager sharedInstance] stopUpdatingLocation];
-    [[LocationManager sharedInstance] stopMonitoringForRegion:self.region];
-    self.region = nil;
-}
-
 #pragma mark - Action methods
-
-- (void)updateCurrentLocation {
-    
-    if (self.region) {
-        [[LocationManager sharedInstance] startUpdatingLocation];
-        NSLog(@"Timer selector FIRE NOW");
-    } else {
-        [self.timer invalidate];
-        [self.app endBackgroundTask:self.bgTask];
-        self.bgTask = UIBackgroundTaskInvalid;
-        NSLog(@"Timer selector Remove task");
-    }
-}
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender {
     
