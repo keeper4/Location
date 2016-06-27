@@ -40,6 +40,31 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t42-5B-Gec">
+                                <rect key="frame" x="20" y="520" width="34" height="28"/>
+                                <state key="normal" image="Add List-50"/>
+                                <connections>
+                                    <action selector="actionShowInfo:" destination="nAg-Vf-Dwu" eventType="touchUpInside" id="OHc-nf-tN1"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i0O-rC-JH2">
+                                <rect key="frame" x="20" y="385" width="280" height="25"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhb-Aq-v0t">
+                                <rect key="frame" x="20" y="418" width="280" height="25"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t28-PG-PIz">
+                                <rect key="frame" x="20" y="447" width="280" height="55"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -60,7 +85,10 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="addMarkerInfoLable" destination="bhb-Aq-v0t" id="d29-FX-2Dj"/>
                         <outlet property="betaLable" destination="3cn-eO-6MP" id="MEF-nK-BKG"/>
+                        <outlet property="cancelInfoLable" destination="t28-PG-PIz" id="dIP-jS-4a5"/>
+                        <outlet property="transportInfoLable" destination="i0O-rC-JH2" id="0dQ-OT-eK2"/>
                         <outlet property="typeTransportSegmentControl" destination="42Z-p3-amu" id="YVA-vX-DLp"/>
                         <segue destination="wUJ-2Z-bKu" kind="show" identifier="ACMapControllerSegue" id="wl1-B8-DOL"/>
                     </connections>
