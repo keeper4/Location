@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B8721FA406FDBEB52879BEAE /* libPods-Location.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD319E9E92901CB99C8F66 /* libPods-Location.a */; };
 		DE3732261D01BF8300CB3BC9 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DE3732251D01BF8300CB3BC9 /* LocationManager.m */; };
-		DE5535921D186A0F0069E35B /* ACInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE5535911D186A0F0069E35B /* ACInfoViewController.m */; };
 		DE5535951D19548B0069E35B /* ACSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE5535941D19548B0069E35B /* ACSettingsViewController.m */; };
 		DE5535981D195D140069E35B /* ACMainColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DE5535971D195D140069E35B /* ACMainColor.m */; };
 		DE6F641E1D1567110004A664 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = DE6F641D1D1567110004A664 /* alarm.caf */; };
@@ -32,8 +31,6 @@
 		518FD85217F6CFDE8186E958 /* Pods-Location.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Location/Pods-Location.debug.xcconfig"; sourceTree = "<group>"; };
 		DE3732241D01BF8300CB3BC9 /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		DE3732251D01BF8300CB3BC9 /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
-		DE5535901D186A0F0069E35B /* ACInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACInfoViewController.h; sourceTree = "<group>"; };
-		DE5535911D186A0F0069E35B /* ACInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACInfoViewController.m; sourceTree = "<group>"; };
 		DE5535931D19548B0069E35B /* ACSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACSettingsViewController.h; sourceTree = "<group>"; };
 		DE5535941D19548B0069E35B /* ACSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACSettingsViewController.m; sourceTree = "<group>"; };
 		DE5535961D195D140069E35B /* ACMainColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACMainColor.h; sourceTree = "<group>"; };
@@ -151,8 +148,6 @@
 				DECFDFE91CFEC761006C6F4A /* ACMapController.m */,
 				DEF82F7C1D099F96008ECBDA /* ACFavoriteViewController.h */,
 				DEF82F7D1D099F96008ECBDA /* ACFavoriteViewController.m */,
-				DE5535901D186A0F0069E35B /* ACInfoViewController.h */,
-				DE5535911D186A0F0069E35B /* ACInfoViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -314,7 +309,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE5535921D186A0F0069E35B /* ACInfoViewController.m in Sources */,
 				DEF82F971D0B0D4D008ECBDA /* ACMarker+CoreDataProperties.m in Sources */,
 				DE3732261D01BF8300CB3BC9 /* LocationManager.m in Sources */,
 				DEF82F901D0B072C008ECBDA /* ACDataManager.m in Sources */,

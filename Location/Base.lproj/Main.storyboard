@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Settings View Controller-->
@@ -70,46 +69,6 @@
             </objects>
             <point key="canvasLocation" x="699" y="54"/>
         </scene>
-        <!--Info View Controller-->
-        <scene sceneID="Yix-T5-BNU">
-            <objects>
-                <viewController id="9ya-Fz-9xK" customClass="ACInfoViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="eB9-MN-O3d"/>
-                        <viewControllerLayoutGuide type="bottom" id="8Ed-B7-Nvt"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="apx-XV-86i">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFG-q8-fxm">
-                                <rect key="frame" x="12" y="204" width="296" height="159"/>
-                                <color key="backgroundColor" red="0.68001067638397217" green="0.92916315793991089" blue="0.7117651104927063" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="159" id="vz7-0I-Rxm"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="qFG-q8-fxm" firstAttribute="centerY" secondItem="apx-XV-86i" secondAttribute="centerY" id="H2E-zF-IK3"/>
-                            <constraint firstItem="qFG-q8-fxm" firstAttribute="leading" secondItem="apx-XV-86i" secondAttribute="leadingMargin" constant="-4" id="JJF-Kd-sPh"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="qFG-q8-fxm" secondAttribute="trailing" constant="-4" id="d9h-pK-RE9"/>
-                            <constraint firstItem="qFG-q8-fxm" firstAttribute="centerX" secondItem="apx-XV-86i" secondAttribute="centerX" id="k2h-20-TKS"/>
-                        </constraints>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <connections>
-                        <outlet property="infoLable" destination="qFG-q8-fxm" id="ezv-6G-1W2"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sE1-7P-tjj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1167" y="810"/>
-        </scene>
         <!--Map Controller-->
         <scene sceneID="ZKP-e6-OzL">
             <objects>
@@ -124,30 +83,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="CUp-K0-YIp">
-                        <leftBarButtonItems>
-                            <barButtonItem systemItem="stop" id="mGa-ol-6DT">
-                                <connections>
-                                    <action selector="actionExitBarButton:" destination="wUJ-2Z-bKu" id="I0c-Ix-bhh"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Info" id="Z1H-8y-a0L">
-                                <connections>
-                                    <segue destination="9ya-Fz-9xK" kind="show" identifier="infoSegue" id="Ep3-jx-752"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="bookmarks" id="gr8-Ig-FZb">
-                                <connections>
-                                    <segue destination="tCw-yb-CZe" kind="show" identifier="favoriteSegue" id="oMz-37-yXm"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="refresh" id="GSM-PV-hi5">
-                                <connections>
-                                    <action selector="actionShowCurrentLocation:" destination="wUJ-2Z-bKu" id="yMg-EM-PPV"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" image="Geocaching-50" id="mGa-ol-6DT">
+                            <connections>
+                                <action selector="actionExitBarButton:" destination="wUJ-2Z-bKu" id="I0c-Ix-bhh"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="Add List-50" id="gr8-Ig-FZb">
+                            <connections>
+                                <segue destination="tCw-yb-CZe" kind="show" identifier="favoriteSegue" id="oMz-37-yXm"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -221,6 +166,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Add List-50" width="25" height="25"/>
+        <image name="Geocaching-50" width="25" height="25"/>
         <image name="Group" width="320" height="480"/>
     </resources>
 </document>

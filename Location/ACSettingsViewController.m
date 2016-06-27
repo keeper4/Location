@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self lableDataUpdate];
+    self.betaLable.text = @"Beta version";
     
     ACMainColor *color = [[ACMainColor alloc] init];
     
@@ -48,7 +48,7 @@
     
     UIButton *applyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [applyButton addTarget:self
-                    action:@selector(buttonPress)
+                    action:@selector(showMapController)
           forControlEvents:UIControlEventTouchUpInside];
     [applyButton setTitle:@"Apply" forState:UIControlStateNormal];
     
@@ -71,17 +71,6 @@
     [self.view addSubview:applyButton];
 }
 
-- (void)lableDataUpdate {
-    
-    NSDate *now = [NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc]
-                            initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSCalendarUnit units = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
-    NSDateComponents *components = [calendar components:units fromDate:now];
-    
-    self.betaLable.text = [NSString stringWithFormat:@"Beta. Last bild: %ld/%ld/%ld", (long)[components day],(long)[components month],(long)[components year]];
-}
-
 #pragma mark - Action
 
 - (IBAction)transportSettingControl:(UISegmentedControl *)sender {
@@ -95,7 +84,7 @@
     }
 }
 
-- (void)buttonPress {
+- (void)showMapController {
     
     [self performSegueWithIdentifier:@"ACMapControllerSegue" sender:nil];
 }

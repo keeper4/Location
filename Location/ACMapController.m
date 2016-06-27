@@ -9,7 +9,6 @@
 #import "ACMapController.h"
 #import "LocationManager.h"
 #import "ACFavoriteViewController.h"
-#import "ACInfoViewController.h"
 #import "ACMainColor.h"
 
 @import GoogleMaps;
@@ -19,7 +18,7 @@ typedef enum {
     TransportTypeTrain
 } TransportType;
 
-@interface ACMapController () <CLLocationManagerDelegate, GMSMapViewDelegate,UIApplicationDelegate>
+@interface ACMapController () <GMSMapViewDelegate, UIApplicationDelegate>
 
 @property (strong, nonatomic) CLCircularRegion *region;
 @property (assign, nonatomic) BOOL flagEnterBgTask;
@@ -32,7 +31,6 @@ typedef enum {
 @property (strong, nonatomic) NSString *typeTransportTitle;
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender;
-- (IBAction)actionShowCurrentLocation:(UIBarButtonItem *)sender;
 @end
 
 @implementation ACMapController
@@ -65,6 +63,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     
     self.mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     self.mapView.myLocationEnabled = YES;
+    self.mapView.settings.myLocationButton = YES;
     self.view = self.mapView;
     self.mapView.delegate = self;
     
@@ -167,13 +166,13 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
         self.marker.title = [NSString stringWithFormat:@"%.f m.",[self distanceToPoint: self.marker]];
         self.marker.snippet = address.thoroughfare;
         self.marker.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0]];
-        self.marker.map = self.mapView;
+        self.marker.map  = self.mapView;
     }];
     
     GMSCircle *geoFenceCircle = [[GMSCircle alloc] init];
-    geoFenceCircle.radius = radius;
+    geoFenceCircle.radius   = radius;
     geoFenceCircle.position = coordinate;
-    geoFenceCircle.fillColor = [UIColor colorWithRed:0.55 green:0.76 blue:0.29 alpha:0.5];
+    geoFenceCircle.fillColor   = [UIColor colorWithRed:0.55 green:0.76 blue:0.29 alpha:0.5];
     geoFenceCircle.strokeWidth = 2;
     geoFenceCircle.strokeColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:0.65];
     geoFenceCircle.map = self.mapView;
@@ -255,9 +254,9 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     
-    notification.fireDate = [NSDate date];
-    notification.timeZone = [NSTimeZone defaultTimeZone];
-    notification.soundName = @"alarm.caf";
+    notification.fireDate    = [NSDate date];
+    notification.timeZone    = [NSTimeZone defaultTimeZone];
+    notification.soundName   = @"alarm.caf";
     notification.alertAction = @"Let's do this";
     
     CLLocationDistance meters = [self distanceToPoint: self.marker];
@@ -331,7 +330,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     [self disableLocation];
 }
 
-- (IBAction)actionShowCurrentLocation:(UIBarButtonItem *)sender {
+- (void)showCurrentLocation {
     
     [self updateCameraPosition];
 }
@@ -380,13 +379,6 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
         
         ACFavoriteViewController *favoriteVc = segue.destinationViewController;
         favoriteVc.marker = self.marker;
-        
-    } else if ([segue.identifier isEqualToString:@"infoSegue"]) {
-        
-        ACInfoViewController *infoVc = segue.destinationViewController;
-        infoVc.radius = radius;
-        infoVc.metersToEnableTranspotr = metersToEnableForCityBus;
-        infoVc.bgUpdatesLocationInterval = bgUpdatesLocationIntervalForCityBus;
     }
 }
 
