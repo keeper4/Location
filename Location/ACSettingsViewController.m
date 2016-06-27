@@ -11,14 +11,14 @@
 #import "LocationManager.h"
 #import "ACMainColor.h"
 
-@interface ACSettingsViewController ()
+@interface ACSettingsViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (assign, nonatomic) NSUInteger segmentIndex;
+@property (strong, nonatomic) NSArray *infoTextArray;
+@property (strong, nonatomic) NSArray *infoImageArray;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *typeTransportSegmentControl;
 @property (weak, nonatomic) IBOutlet UILabel *betaLable;
-@property (weak, nonatomic) IBOutlet UILabel *transportInfoLable;
-@property (weak, nonatomic) IBOutlet UILabel *addMarkerInfoLable;
-@property (weak, nonatomic) IBOutlet UILabel *cancelInfoLable;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)actionShowInfo:(UIButton *)sender;
 @end
@@ -28,29 +28,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    ACMainColor *color = [[ACMainColor alloc] init];
-    
     [LocationManager sharedInstance];
     [[LocationManager sharedInstance] stopUpdatingLocation];
+    
+    ACMainColor *color = [[ACMainColor alloc] init];
     
     self.navigationController.navigationBar.hidden = YES;
     self.navigationController.navigationBar.backgroundColor = [color mainColor];
     self.navigationController.navigationBar.tintColor       = [color buttonColor];
+    self.view.backgroundColor = [color viewBackColor];
     
     [self createButtonApplyWithColorType:color];
     
     self.typeTransportSegmentControl.tintColor       = [color buttonColor];
     self.typeTransportSegmentControl.backgroundColor = [color segmentControlColor];
     
-    self.view.backgroundColor = [color viewBackColor];
-    
     self.betaLable.text = @"Beta version";
     
+    [self tableViewSettings];
 }
 
 #pragma mark - Private method
 
-- (void) createButtonApplyWithColorType:(ACMainColor *)color{
+- (void)createButtonApplyWithColorType:(ACMainColor *)color{
     
     UIButton *applyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [applyButton addTarget:self
@@ -77,38 +77,25 @@
     [self.view addSubview:applyButton];
 }
 
-- (void)settingWithLable:(UILabel *)lable text:(NSString *)text numberLines:(NSUInteger)numberLines imageNamed:(NSString *)imageNamed {
+- (void)tableViewSettings {
     
-    if (![imageNamed isEqualToString:@""]) {
-        
-    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+    NSString *transportInfoText = @"Select ""Train"", If speed more than 70 km/h";
+    NSString *addMarkerInfoText = @"Select for add or load favorite Point";
+    NSString *cancelInfoText    = @"Select for removing Map Point if you don't need anymore track region";
     
-    attachment.image = [UIImage imageNamed:imageNamed];
+    self.infoTextArray = @[transportInfoText, addMarkerInfoText, cancelInfoText];
     
-    NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
+    UIImage *transportInfoImage = [UIImage imageNamed:@"Switch On-48"];
+    UIImage *addMarkerInfoImage = [UIImage imageNamed:@"Add List-50"];
+    UIImage *cancelInfoImage    = [UIImage imageNamed:@"Geocaching-50"];
     
-    NSMutableAttributedString *myString= [[NSMutableAttributedString alloc] initWithString:text];
+    self.infoImageArray = @[transportInfoImage, addMarkerInfoImage, cancelInfoImage];
     
-    [myString insertAttributedString:attachmentString atIndex:0];
-    
-    lable.attributedText = myString;
-    
-    } else {
-        lable.text = text;
-    }
-
-    lable.font = [UIFont fontWithName:@"Helvetica" size:13];
-    lable.numberOfLines = numberLines;
-    lable.alpha = 0;
-    lable.textAlignment   = NSTextAlignmentLeft;
-    
-    [UIView animateWithDuration:2
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         lable.alpha = 1;
-                     }
-                     completion:nil];
+    self.tableView.alpha = 0;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.scrollEnabled = NO;
+    self.tableView.allowsSelection = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 #pragma mark - Action
@@ -126,13 +113,25 @@
 
 - (IBAction)actionShowInfo:(UIButton *)sender {
     
-    NSString *transportInfoText = @"Select ""Train"", If speed biggest than 70km/h";
-    NSString *addMarkerInfoText = @" Select for add or load favorite Point";
-    NSString *cancelInfoText    = @" Select for removing Map Point if you don't need anymore track region";
-    
-    [self settingWithLable:self.transportInfoLable text:transportInfoText numberLines:1 imageNamed:@""];
-    [self settingWithLable:self.addMarkerInfoLable text:addMarkerInfoText numberLines:1 imageNamed:@"Add Property-50"];
-    [self settingWithLable:self.cancelInfoLable    text:cancelInfoText    numberLines:2 imageNamed:@"Geocaching-50"];
+    if (self.tableView.alpha == 0) {
+        
+        [UIView animateWithDuration:1.0f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             self.tableView.alpha = 1;
+                         }
+                         completion:nil];
+    } else {
+        
+        [UIView animateWithDuration:1.0f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             self.tableView.alpha = 0;
+                         }
+                         completion:nil];
+    }
 }
 
 #pragma mark - Segue
@@ -149,6 +148,35 @@
     vc.segmentIndex = self.segmentIndex;
 }
 
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return [self.infoTextArray count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *cellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    NSString *text = [self.infoTextArray objectAtIndex:indexPath.row];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.text = text;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    cell.textLabel.numberOfLines = 0;
+    cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:13.0]];
+    cell.backgroundColor = [UIColor clearColor];
+    
+    UIImage *image = [self.infoImageArray objectAtIndex:indexPath.row];
+    
+    cell.imageView.image = image;
+    
+    return cell;
+}
 
 
 

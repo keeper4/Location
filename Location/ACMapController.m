@@ -258,6 +258,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     notification.timeZone    = [NSTimeZone defaultTimeZone];
     notification.soundName   = @"alarm.caf";
     notification.alertAction = @"Let's do this";
+    notification.applicationIconBadgeNumber = 1;
     
     CLLocationDistance meters = [self distanceToPoint: self.marker];
     
