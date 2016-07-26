@@ -31,6 +31,19 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>03853DF8004FCD538DE122EB2387F73D</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>7A96742FFAC6754BBC1ABD7D4638EAF1</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>040163880087CB81A8E4CF9425B899FD</key>
 		<dict>
 			<key>includeInIndex</key>
@@ -41,6 +54,34 @@
 			<string>sourcecode.c.objc</string>
 			<key>path</key>
 			<string>Pods-Location-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0717A53FA3146A1C539652799CFFFCB1</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.plug-in</string>
+			<key>name</key>
+			<string>GoogleMaps.bundle</string>
+			<key>path</key>
+			<string>Subspecs/Maps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>1418B056D31B27EE2CEBA552B5ADFE56</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>03853DF8004FCD538DE122EB2387F73D</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Base</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -70,16 +111,19 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>213B1724C62BE8BC65F92A9BC1A24B5B</key>
+		<key>243FAC914C81DCF02EFAD12598762AD5</key>
 		<dict>
+			<key>children</key>
+			<array>
+				<string>1418B056D31B27EE2CEBA552B5ADFE56</string>
+				<string>6BC99F081C91F80679CFA5DDC6213D57</string>
+			</array>
 			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
+			<string>PBXGroup</string>
 			<key>name</key>
-			<string>GoogleMaps.framework</string>
+			<string>GoogleMaps</string>
 			<key>path</key>
-			<string>Frameworks/GoogleMaps.framework</string>
+			<string>GoogleMaps</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -215,6 +259,19 @@
 			<key>isa</key>
 			<string>XCConfigurationList</string>
 		</dict>
+		<key>3AEC177709F5E2CA8647760385A95C03</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0717A53FA3146A1C539652799CFFFCB1</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Resources</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>3E4E89230EF59BC255123B67864ACF77</key>
 		<dict>
 			<key>isa</key>
@@ -227,19 +284,6 @@
 			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework</string>
 			<key>sourceTree</key>
 			<string>DEVELOPER_DIR</string>
-		</dict>
-		<key>552C04C99B9EC7FD6897DEAA23CA97B2</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>213B1724C62BE8BC65F92A9BC1A24B5B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
 		</dict>
 		<key>56494B105875E7E48804E02A177659A3</key>
 		<dict>
@@ -358,12 +402,26 @@
 		<dict>
 			<key>children</key>
 			<array>
-				<string>AAA2E410E8C08C05E23E73307973F577</string>
+				<string>243FAC914C81DCF02EFAD12598762AD5</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
 			<key>name</key>
 			<string>Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6BC99F081C91F80679CFA5DDC6213D57</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>8B88C91FA4176430C15D1E9BF028871B</string>
+				<string>3AEC177709F5E2CA8647760385A95C03</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Maps</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -404,6 +462,19 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>7A96742FFAC6754BBC1ABD7D4638EAF1</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>GoogleMapsBase.framework</string>
+			<key>path</key>
+			<string>Subspecs/Base/Frameworks/GoogleMapsBase.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>7DB346D0F39D3F0E887471402A8071AB</key>
 		<dict>
 			<key>children</key>
@@ -426,6 +497,20 @@
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
+		<key>8B88C91FA4176430C15D1E9BF028871B</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>9BC0EEC24B7854CA83D1BB6A57028B31</string>
+				<string>BEC993795583B87B1EC31F69AA6F331A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>9A4598529702715B61D886D175E6C9B5</key>
 		<dict>
 			<key>buildConfigurations</key>
@@ -440,18 +525,16 @@
 			<key>isa</key>
 			<string>XCConfigurationList</string>
 		</dict>
-		<key>9E17161130B27DB46F01569D1C6C5443</key>
+		<key>9BC0EEC24B7854CA83D1BB6A57028B31</key>
 		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
-			<string>wrapper.plug-in</string>
+			<string>wrapper.framework</string>
 			<key>name</key>
-			<string>GoogleMaps.bundle</string>
+			<string>GoogleMaps.framework</string>
 			<key>path</key>
-			<string>Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle</string>
+			<string>Subspecs/Maps/Frameworks/GoogleMaps.framework</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -465,22 +548,6 @@
 			<string>PBXGroup</string>
 			<key>name</key>
 			<string>Targets Support Files</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>AAA2E410E8C08C05E23E73307973F577</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>552C04C99B9EC7FD6897DEAA23CA97B2</string>
-				<string>BA6CC55F7C3DC98EA32DB381E76D8A4B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>GoogleMaps</string>
-			<key>path</key>
-			<string>GoogleMaps</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -514,19 +581,6 @@
 			<key>xcLanguageSpecificationIdentifier</key>
 			<string>xcode.lang.ruby</string>
 		</dict>
-		<key>BA6CC55F7C3DC98EA32DB381E76D8A4B</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9E17161130B27DB46F01569D1C6C5443</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Resources</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
 		<key>BC3CA7F9E30CC8F7E2DD044DD34432FC</key>
 		<dict>
 			<key>children</key>
@@ -537,6 +591,19 @@
 			<string>PBXGroup</string>
 			<key>name</key>
 			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BEC993795583B87B1EC31F69AA6F331A</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>GoogleMapsCore.framework</string>
+			<key>path</key>
+			<string>Subspecs/Maps/Frameworks/GoogleMapsCore.framework</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>

@@ -10,9 +10,9 @@
 
 @interface ACMainColor : NSObject
 
-- (UIColor *)mainColor;
-- (UIColor *)buttonColor;
-- (UIColor *)segmentControlColor;
-- (UIColor *)viewBackColor;
++ (UIColor *)mainColor;
++ (UIColor *)buttonColor;
++ (UIColor *)segmentControlColor;
++ (UIColor *)viewBackColor;
 
 @end

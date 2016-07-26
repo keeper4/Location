@@ -10,6 +10,7 @@
 #import "LocationManager.h"
 #import "ACFavoriteViewController.h"
 #import "ACMainColor.h"
+#import "MDDirectionService.h"
 
 @import GoogleMaps;
 
@@ -29,8 +30,10 @@ typedef enum {
 @property (strong, nonatomic) GMSMarker *marker;
 
 @property (strong, nonatomic) NSString *typeTransportTitle;
+@property (weak, nonatomic) IBOutlet UILabel *durationAndDistanceLabel;
 
 - (IBAction)actionExitBarButton:(UIBarButtonItem *)sender;
+
 @end
 
 @implementation ACMapController
@@ -52,6 +55,8 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     
     self.navigationController.navigationBar.hidden = NO;
     
+    [self setupDurationDistanceLabel];
+    
     radius = [self getRadius];
     
     [[LocationManager sharedInstance] startUpdatingLocation];
@@ -61,31 +66,39 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
                                 longitude:[LocationManager sharedInstance].locationManager.location.coordinate.longitude
                                      zoom:cameraZoom];
     
-    self.mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
+    self.mapView = [GMSMapView mapWithFrame:self.view.frame camera:camera];
     self.mapView.myLocationEnabled = YES;
     self.mapView.settings.myLocationButton = YES;
-    self.view = self.mapView;
+    self.mapView.trafficEnabled = YES;
+    self.mapView.buildingsEnabled = YES;
+    self.mapView.settings.compassButton = YES;
+    
+    [self.view addSubview:self.mapView];
+    [self.view bringSubviewToFront:self.durationAndDistanceLabel];
+    
     self.mapView.delegate = self;
     
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(didEnterBackground)
-                                                name:UIApplicationDidEnterBackgroundNotification
-                                              object:nil];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(willEnterForeground)
-                                                name:UIApplicationWillEnterForegroundNotification
-                                              object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(didEnterBackground)
+                               name:UIApplicationDidEnterBackgroundNotification
+                             object:nil];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(youInRegionNotification)
-                                                name:invokeLocalNotification
-                                              object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(willEnterForeground)
+                               name:UIApplicationWillEnterForegroundNotification
+                             object:nil];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(locationChanges)
-                                                name:locationChangesNotification
-                                              object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(youInRegionNotification)
+                               name:invokeLocalNotification
+                             object:nil];
+    
+    [notificationCenter addObserver:self
+                           selector:@selector(locationChanges)
+                               name:locationChangesNotification
+                             object:nil];
     
     self.flagEnterBgTask = YES;
 }
@@ -95,7 +108,8 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     
     if (self.marker != nil && self.marker.snippet != nil) {
         
-        [self drowMarkerWithCoordinate:self.marker.position];
+        [self drawMarkerWithCoordinate:self.marker.position];
+        
     } else {
         
         self.marker = [[GMSMarker alloc] init];
@@ -144,7 +158,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     return 1000;
 }
 
-- (void)drowMarkerWithCoordinate:(CLLocationCoordinate2D)coordinate {
+- (void)drawMarkerWithCoordinate:(CLLocationCoordinate2D)coordinate {
     
     [self.mapView clear];
     
@@ -182,6 +196,43 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
                                                 identifier:@"theRegion"];
     
     [[LocationManager sharedInstance] startMonitoringForRegion:self.region];
+}
+
+
+- (void)getRouteFromCurrentLocationOnMapView:(GMSMapView *)mapView toCoordinate:(CLLocationCoordinate2D)coordinate {
+    
+    CLLocationCoordinate2D currentPosition = mapView.myLocation.coordinate;
+    
+    GMSMarker *marker = [GMSMarker markerWithPosition:coordinate];
+    marker.map = mapView;
+    
+    GMSMarker *markerMyLocation = [GMSMarker markerWithPosition:currentPosition];
+    
+    NSArray *waypoints = [NSArray arrayWithObjects:markerMyLocation, marker, nil];
+    
+    NSString *positionString = [NSString stringWithFormat:@"%f,%f", coordinate.latitude, coordinate.longitude];
+    
+    NSString *myPositionString = [NSString stringWithFormat:@"%f,%f", currentPosition.latitude, currentPosition.longitude];
+    
+    NSArray *waypointStrings = [NSArray arrayWithObjects:myPositionString, positionString, nil];
+    
+    if ([waypoints count] > 1 ) {
+        
+        NSString *sensor = @"false";
+        NSArray *parameters = [NSArray arrayWithObjects:sensor, waypointStrings, nil];
+        
+        NSArray *keys = [NSArray arrayWithObjects:@"sensor", @"waypoints", nil];
+        NSDictionary *query = [NSDictionary dictionaryWithObjects:parameters
+                                                          forKeys:keys];
+        
+        MDDirectionService *mds = [[MDDirectionService alloc] init];
+        
+        SEL selector = @selector(addDirections:);
+        
+        [mds setDirectionsQuery:query
+                   withSelector:selector
+                   withDelegate:self];
+    }
 }
 
 - (void)updateCameraPosition {
@@ -231,12 +282,103 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     self.region = nil;
 }
 
+//- (void)getTravelDuration {
+//
+//    NSString *requestString = @"https://maps.googleapis.com/maps/api/directions/json?origin=sydney,au&destination=perth,au&waypoints=via:-37.81223%2C144.96254%7Cvia:-34.92788%2C138.60008&key=YOUR_API_KEY";
+//}
+
+- (double)distanceToPoint:(GMSMarker *)finishPoint {
+    
+    CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.position.latitude
+                                                      longitude:finishPoint.position.longitude];
+    
+    CLLocationDistance meters = [endPoint distanceFromLocation:[LocationManager sharedInstance].locationManager.location];
+    
+    return meters;
+}
+
+- (void)addDirections:(NSDictionary *)json {
+    
+    NSDictionary *routes = [[json objectForKey:@"routes"] firstObject];
+    
+    NSDictionary *legs = [[routes objectForKey:@"legs"] firstObject];
+    
+    if (legs) {
+        
+        NSDictionary *distance = [legs objectForKey:@"distance"];
+        NSString *distanceText = [distance objectForKey:@"text"];
+        
+        NSDictionary *duration = [legs objectForKey:@"duration"];
+        NSString *durationText = [duration objectForKey:@"text"];
+        
+        [self formateDurationDistanceLabelWithDuration:distanceText distance:durationText];
+    }
+    
+    NSDictionary *route = [routes objectForKey:@"overview_polyline"];
+    NSString *overview_route = [route objectForKey:@"points"];
+    
+    GMSPath *path = [GMSPath pathFromEncodedPath:overview_route];
+    
+    GMSPolyline *polyline = [GMSPolyline polylineWithPath:path];
+    polyline.map = self.mapView;
+}
+
+- (void)formateDurationDistanceLabelWithDuration:(NSString *)duration distance:(NSString *)distance {
+    
+    self.durationAndDistanceLabel.text = [NSString stringWithFormat:@"%@, %@", duration, distance];
+    
+    if (self.durationAndDistanceLabel.text.length > 3) {
+        
+        [self showDurationAndDistanceLabelAnimated:YES];
+        
+    } else {
+        
+        self.durationAndDistanceLabel.alpha = 0.0f;
+    }
+    
+}
+
+- (void)showDurationAndDistanceLabelAnimated:(BOOL)isShowing {
+    
+    [UIView animateWithDuration:0.5
+                          delay:0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         
+                         if (isShowing == YES) {
+                             
+                             self.durationAndDistanceLabel.alpha = 1.0f;
+                             
+                         } else {
+                             
+                             self.durationAndDistanceLabel.alpha = 0.0f;
+                         }
+                         
+                     } completion:nil];
+}
+
+- (void)setupDurationDistanceLabel {
+    
+    self.durationAndDistanceLabel.alpha = 0.0f;
+    
+    self.durationAndDistanceLabel.layer.cornerRadius = 10;
+    self.durationAndDistanceLabel.layer.borderWidth  = 1.0f;
+    self.durationAndDistanceLabel.layer.borderColor  = [ACMainColor buttonColor].CGColor;
+    self.durationAndDistanceLabel.textColor = [ACMainColor buttonColor];
+    self.durationAndDistanceLabel.backgroundColor = [ACMainColor segmentControlColor];
+    
+}
+
 #pragma mark - GMSMapViewDelegate
 
 - (void)mapView:(GMSMapView *)mapView didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
     
-    [self drowMarkerWithCoordinate:coordinate];
+    [self drawMarkerWithCoordinate:coordinate];
+    
+    [self getRouteFromCurrentLocationOnMapView:mapView toCoordinate:coordinate];
 }
+
+#pragma mark - invokeLocalNotification
 
 - (void)youInRegionNotification {
     
@@ -246,7 +388,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     [self.app endBackgroundTask:self.bgTask];
     self.bgTask = UIBackgroundTaskInvalid;
     
-    NSLog(@"Remuve Timer and BgTask");
+    NSLog(@"Remove Timer and BgTask");
     
     NSLog(@"!!!!!!!!youInRegion!!!!!!!");
     
@@ -269,15 +411,7 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     [self disableLocation];
 }
 
-- (double)distanceToPoint:(GMSMarker *)finishPoint {
-    
-    CLLocation *endPoint = [[CLLocation alloc] initWithLatitude:finishPoint.position.latitude
-                                                      longitude:finishPoint.position.longitude];
-    
-    CLLocationDistance meters = [endPoint distanceFromLocation:[LocationManager sharedInstance].locationManager.location];
-    
-    return meters;
-}
+#pragma mark - locationChangesNotification
 
 - (void)locationChanges {
     
@@ -329,6 +463,8 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
     [self.mapView clear];
     
     [self disableLocation];
+    
+    [self showDurationAndDistanceLabelAnimated:NO];
 }
 
 - (void)showCurrentLocation {
@@ -382,6 +518,8 @@ static NSUInteger bgUpdatesLocationIntervalForTrain   = 20;
         favoriteVc.marker = self.marker;
     }
 }
+
+#pragma mark - Deallocation
 
 - (void)dealloc {
     

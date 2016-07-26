@@ -4,6 +4,6 @@
 # use_frameworks!
 
 target 'Location' do
-pod 'GoogleMaps', '~> 1.13'
+pod 'GoogleMaps', '~> 2.0'
 end
 

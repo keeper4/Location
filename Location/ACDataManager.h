@@ -23,4 +23,5 @@
 - (void)addMarker:(GMSMarker *)marker namePointTextField:(NSString *)namePoint;
 
 + (ACDataManager*)sharedManager;
+
 @end

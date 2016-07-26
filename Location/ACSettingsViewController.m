@@ -31,26 +31,28 @@
     [LocationManager sharedInstance];
     [[LocationManager sharedInstance] stopUpdatingLocation];
     
-    ACMainColor *color = [[ACMainColor alloc] init];
+//    ACMainColor *color = [[ACMainColor alloc] init];
     
     self.navigationController.navigationBar.hidden = YES;
-    self.navigationController.navigationBar.backgroundColor = [color mainColor];
-    self.navigationController.navigationBar.tintColor       = [color buttonColor];
-    self.view.backgroundColor = [color viewBackColor];
+    self.navigationController.navigationBar.backgroundColor = [ACMainColor mainColor];
+    self.navigationController.navigationBar.tintColor       = [ACMainColor buttonColor];
+    self.view.backgroundColor = [ACMainColor viewBackColor];
     
-    [self createButtonApplyWithColorType:color];
+    [self createButtonApplyWithColorType];
     
-    self.typeTransportSegmentControl.tintColor       = [color buttonColor];
-    self.typeTransportSegmentControl.backgroundColor = [color segmentControlColor];
+    self.typeTransportSegmentControl.tintColor       = [ACMainColor buttonColor];
+    self.typeTransportSegmentControl.backgroundColor = [ACMainColor segmentControlColor];
     
-    self.betaLable.text = @"Beta version";
+    NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    
+    self.betaLable.text = [@"Beta version: " stringByAppendingString:version];
     
     [self tableViewSettings];
 }
 
 #pragma mark - Private method
 
-- (void)createButtonApplyWithColorType:(ACMainColor *)color{
+- (void)createButtonApplyWithColorType {
     
     UIButton *applyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [applyButton addTarget:self
@@ -70,9 +72,9 @@
     applyButton.clipsToBounds = YES;
     applyButton.layer.cornerRadius = 10;
     applyButton.layer.borderWidth  = 1.0f;
-    applyButton.layer.borderColor  = [color buttonColor].CGColor;
-    [applyButton setTitleColor:[color buttonColor] forState:UIControlStateNormal];
-    applyButton.backgroundColor = [color segmentControlColor];
+    applyButton.layer.borderColor  = [ACMainColor buttonColor].CGColor;
+    [applyButton setTitleColor:[ACMainColor buttonColor] forState:UIControlStateNormal];
+    applyButton.backgroundColor = [ACMainColor segmentControlColor];
     
     [self.view addSubview:applyButton];
 }

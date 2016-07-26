@@ -26,11 +26,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    ACMainColor *color = [[ACMainColor alloc] init];
+    self.tableView.backgroundColor = [ACMainColor viewBackColor];
     
-    self.tableView.backgroundColor = [color viewBackColor];
-    
-    self.navigationController.navigationBar.backgroundColor = [color mainColor];
+    self.navigationController.navigationBar.backgroundColor = [ACMainColor mainColor];
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
                                                                                 target:self
@@ -61,17 +59,12 @@
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
-                                      reuseIdentifier:CellIdentifier];
-    }
     
     ACMarker *marker = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    ACMainColor *color = [[ACMainColor alloc] init];
     
     cell.textLabel.text = marker.name;
     cell.detailTextLabel.text = marker.snippet;
-    cell.backgroundColor = [color viewBackColor];
+    cell.backgroundColor = [ACMainColor viewBackColor];
     
     return cell;
 }
@@ -95,11 +88,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    UIAlertController * alert=   [UIAlertController
-                                  alertControllerWithTitle:@"Title"
-                                  message:@"Set point on the map?"
-                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:@"Title"
+                                 message:@"Set point on the map?"
+                                 preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* yesButton = [UIAlertAction
                                 actionWithTitle:@"Yes"
@@ -127,8 +122,8 @@
                                    
                                }];
     
-    [alert addAction:yesButton];
     [alert addAction:noButton];
+    [alert addAction:yesButton];
     
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -204,8 +199,5 @@
     
     return _fetchedResultsController;
 }
-
-
-
 
 @end
